@@ -22,6 +22,7 @@ import {
 } from 'src/utilities/validators';
 
 @Component({
+  standalone: false,
   selector: 'app-function-input',
   templateUrl: './function-input.component.html',
   styleUrls: ['./function-input.component.css'],

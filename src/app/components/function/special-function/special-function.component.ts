@@ -29,6 +29,7 @@ import {
 } from 'src/utilities/utilities';
 
 @Component({
+  standalone: false,
   selector: 'app-special-function',
   templateUrl: './special-function.component.html',
   styleUrls: ['./special-function.component.css'],

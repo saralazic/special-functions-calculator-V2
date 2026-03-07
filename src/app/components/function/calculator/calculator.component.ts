@@ -19,6 +19,7 @@ import { ISymbol } from 'src/app/models/symbol';
 import { getE, getPi } from 'src/utilities/utilities';
 
 @Component({
+  standalone: false,
   selector: 'app-calculator',
   templateUrl: './calculator.component.html',
   styleUrls: ['./calculator.component.css'],

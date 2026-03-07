@@ -77,12 +77,12 @@ export function drawGraph(
   };
 
   const layout: Partial<Plotly.Layout> = {
-    title: 'Graph',
+    title: { text: 'Graph' },
     xaxis: {
-      title: 'x',
+      title: { text: 'x' },
     },
     yaxis: {
-      title: 'f(x)',
+      title: { text: 'f(x)' },
     },
     showlegend: false,
     margin: {

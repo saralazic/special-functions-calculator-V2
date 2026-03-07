@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
+  standalone: false,
   selector: 'app-result-display',
   templateUrl: './result-display.component.html',
   styleUrls: ['./result-display.component.css'],

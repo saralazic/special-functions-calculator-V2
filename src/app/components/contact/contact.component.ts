@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs';
 import { LanguageService } from 'src/app/services/language-service/language.service';
 
 @Component({
+  standalone: false,
   selector: 'app-contact',
   templateUrl: './contact.component.html',
   styleUrls: ['./contact.component.css'],

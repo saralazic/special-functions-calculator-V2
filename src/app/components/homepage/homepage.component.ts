@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs';
 import { LanguageService } from 'src/app/services/language-service/language.service';
 
 @Component({
+  standalone: false,
   selector: 'app-homepage',
   templateUrl: './homepage.component.html',
   styleUrls: ['./homepage.component.css'],

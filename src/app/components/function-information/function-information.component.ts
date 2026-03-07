@@ -8,6 +8,7 @@ import { LanguageService } from 'src/app/services/language-service/language.serv
 import { createChosenFunction } from 'src/utilities/utilities';
 
 @Component({
+  standalone: false,
   selector: 'app-function-information',
   templateUrl: './function-information.component.html',
   styleUrls: ['./function-information.component.css'],
