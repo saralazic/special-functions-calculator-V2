@@ -1,16 +1,16 @@
-# See http://help.github.com/ignore-files/ for more about ignoring files.
+# Node
+node_modules/
+npm-debug.log
+yarn-error.log
 
-# Compiled output
+# Build output
+frontend/dist/
+backend/dist/
 /tmp
 /out-tsc
 /bazel-out
 
-# Node
-/node_modules
-npm-debug.log
-yarn-error.log
-
-# Android - should have it's own repo on github
+# Android
 android/
 
 # IDEs and editors
@@ -31,7 +31,7 @@ android/
 .history/*
 
 # Miscellaneous
-/.angular/cache
+frontend/.angular/cache
 .sass-cache/
 /connect.lock
 /coverage
