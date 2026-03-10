@@ -1,7 +1,7 @@
 
 .content {
   display: flex;
-  margin: 72px auto 32px;
+  margin: 32px auto;
   padding: 0 16px;
   max-width: 960px;
   flex-direction: column;
@@ -22,8 +22,9 @@ svg.material-icons:not(:last-child) {
   border-radius: 4px;
   border: 1px solid var(--footer-gray);
   background-color: var(--card-light-gray);
-  height: 45px;
+  min-height: 45px;
   width: 250px;
+  max-width: calc(50% - 32px);
   margin: 0 16px 16px;
   padding: 16px;
   display: flex;
@@ -32,14 +33,14 @@ svg.material-icons:not(:last-child) {
   align-items: center;
   transition: all 0.2s ease-in-out;
   line-height: 24px;
-  font-size: 18px;
+  font-size: clamp(14px, 2.5vw, 18px);
 }
 
 .card-container {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  margin-top: 0px;
+  margin-top: 0;
 }
 
 .card-container .card:not(:last-child) {
@@ -47,8 +48,9 @@ svg.material-icons:not(:last-child) {
 }
 
 .card.card-small {
-  height: 20px;
+  min-height: 20px;
   width: 200px;
+  max-width: 90%;
 }
 
 .card-container .card:not(.highlight-card) {
@@ -71,6 +73,7 @@ svg.material-icons:not(:last-child) {
   border: none;
   width: auto;
   min-width: 50%;
+  max-width: 95%;
   position: relative;
 }
 
@@ -94,13 +97,62 @@ a:hover {
   color: var(--hover-red);
 }
 
-@media screen and (max-width: 1067px) {
-  .card-container > *:not(.circle-link) {
-    height: 16px;
-    margin: 8px 0;
+@media screen and (max-width: 768px) {
+  .card {
+    width: 100%;
+    max-width: 100%;
+    margin: 0 8px 10px;
+    padding: 12px;
+    min-height: 40px;
   }
 
-  .card.highlight-card span {
-    margin-left: 72px;
+  .card.card-small {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .card.highlight-card {
+    min-width: 80%;
+  }
+
+  .card.card.highlight-card span {
+    margin-left: 50px;
+  }
+
+  #rocket {
+    width: 70px;
+    left: -10px;
+    top: -8px;
+  }
+
+  .content {
+    margin: 16px auto;
+    padding: 0 12px;
+  }
+
+  .content h1 {
+    font-size: 1.3rem;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .card {
+    padding: 10px;
+    min-height: 36px;
+  }
+
+  .card.highlight-card {
+    min-width: 90%;
+  }
+
+  .card.card.highlight-card span {
+    margin-left: 40px;
+    font-size: 0.9rem;
+  }
+
+  #rocket {
+    width: 55px;
+    left: -5px;
+    top: -5px;
   }
 }

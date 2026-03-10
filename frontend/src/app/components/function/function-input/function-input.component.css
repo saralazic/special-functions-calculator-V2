@@ -1,12 +1,10 @@
-.icon{
-    width: 20px;
-    height: 20px;
-    position: absolute;
-    right: 2px;
-    cursor: pointer;
-
-  }
-
+.icon {
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  right: 2px;
+  cursor: pointer;
+}
 
 .mat-form-field {
   width: 100%;
@@ -14,10 +12,11 @@
   position: relative;
 }
 
-.container{
+.container {
   align-items: center;
   text-align: center;
   height: max-content;
+  width: 100%;
 }
 
 .center {
@@ -26,10 +25,11 @@
   align-items: center;
   justify-content: center;
   height: 100%;
+  width: 100%;
 }
 
 .custom-mat-button {
-  background-color: var(--burgundy) !important; 
+  background-color: var(--burgundy) !important;
   color: #fff !important;
 }
 
@@ -38,26 +38,27 @@
 }
 
 .custom-mat-button:disabled {
-  background-color: gray !important; 
+  background-color: gray !important;
   color: darkgray !important;
 }
 
-.padding-btn{
+.padding-btn {
   padding-top: 8px;
 }
 
 .custom-mat-form-field {
-  margin-bottom: 0px; 
-}
-
-.custom-mat-input{
-  max-width: 440px;
-  overflow-x: scroll;
+  margin-bottom: 0;
 }
 
 .custom-mat-input {
-  max-width: 440px; 
-  overflow-x: scroll; 
-  scrollbar-width: thick; 
+  max-width: 100%;
+  overflow-x: scroll;
+  scrollbar-width: thick;
   scrollbar-color: var(--burgundy) gray;
+}
+
+@media screen and (max-width: 600px) {
+  .mat-form-field {
+    max-width: 100%;
+  }
 }

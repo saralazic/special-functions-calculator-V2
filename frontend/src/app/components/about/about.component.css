@@ -1,50 +1,65 @@
 .app-container {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  height: 770px;
+  height: calc(100vh - 108px);
+  overflow: hidden;
 }
 
 .left-content {
   display: flex;
   justify-content: center;
-  position: relative; /* Make it relative to enable positioning */
-  overflow: hidden; /* Hide overflowing image */
+  position: relative;
+  overflow: hidden;
 }
 
 .left-content img {
-  max-width: 100%; /* Make the image responsive */
+  max-width: 100%;
   height: auto;
   position: absolute;
   bottom: 0;
-  transition: opacity 0.5s; /* Add a transition for smooth fading */
+  transition: opacity 0.5s;
 }
 
 .inner {
   max-width: 90%;
   text-align: center;
-  font-size: calc(13px + 1vw);
-  margin-top: -30px;
+  font-size: clamp(13px, calc(11px + 0.8vw), 22px);
 }
 
 .right-content {
   display: flex;
   justify-content: center;
-  align-items: center;
-  vertical-align: center;
+  align-items: flex-start;
   text-align: center;
+  padding: 20px;
+  overflow-y: auto;
+}
 
+.right-content .inner {
+  margin: auto 0;
 }
 
 @media screen and (max-width: 768px) {
-  /* Adjust grid layout for smaller screens */
   .app-container {
-    grid-template-columns: 1fr; /* Display in a single column */
+    grid-template-columns: 1fr;
+    height: auto;
+    max-height: calc(100vh - 90px);
+    overflow-y: auto;
+  }
+
+  .left-content {
+    min-height: 250px;
   }
 
   .left-content img {
-    max-height: 100%; /* Make image responsive to height */
+    max-height: 100%;
     width: auto;
     bottom: auto;
-    opacity: 1; /* Ensure image is visible on smaller screens */
+    opacity: 1;
+  }
+
+  .right-content {
+    padding: 16px;
+    overflow-y: visible;
   }
 }

@@ -1,59 +1,55 @@
 .small-sup {
-	font-size: 0.2em  !important;
+  font-size: 0.2em !important;
 }
 
 .table {
-	width: 500px;
-	display: flex;
-	flex-direction: column;
-  }
-  
-  .row {
-	display: flex;
-	width: 100%;
-  }
-  
-  .button-container {
-	flex: 1;
-	display: flex;
-	width: 100%;
-  }
-  
-  .display {
-	border-radius: 0;
-	padding: 0;
-	border: 1px solid darkslategray;
+  width: 500px;
+  display: flex;
+  flex-direction: column;
+}
 
-  }
+.row {
+  display: flex;
+  width: 100%;
+}
 
-  .button {
-	flex: 1;
-	transition: background-color 0.3s;
-	background-color: rgb(240, 225, 196);
-	color: darkslategray;
-	border: 1px solid gray; 
-	cursor: pointer;
-	transition: background-color 0.3s;
-  }
-  
+.button-container {
+  flex: 1;
+  display: flex;
+  width: 100%;
+}
 
-  .rad {
-	font-size: 10px;
-  }
+.display {
+  border-radius: 0;
+  padding: 0;
+  border: 1px solid darkslategray;
+}
 
-  input {
-	flex: 1;
-	height: 40px;
-	width: 100%;
-	min-width: 0; 
-	white-space: nowrap;
-  }
-  
-  input::-webkit-scrollbar {
-	width: 8px; 
-  }
-  
-  input::-webkit-scrollbar-thumb {
-	background-color: black; 
-  }
-  
+.button {
+  flex: 1;
+  transition: background-color 0.3s;
+  background-color: rgb(240, 225, 196);
+  color: darkslategray;
+  border: 1px solid gray;
+  cursor: pointer;
+}
+
+.rad {
+  font-size: 10px;
+}
+
+input {
+  flex: 1;
+  height: 40px;
+  width: 100%;
+  min-width: 0;
+  white-space: nowrap;
+}
+
+input::-webkit-scrollbar {
+  width: 8px;
+}
+
+input::-webkit-scrollbar-thumb {
+  background-color: black;
+}

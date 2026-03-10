@@ -37,16 +37,18 @@ export function drawGraph(
     },
     showlegend: false,
     margin: {
-      r: 50,
+      r: 30,
       b: 50,
       t: 50,
+      l: 50,
     },
     hovermode: 'closest',
-    autosize: false,
+    autosize: true,
   };
   const data = [functionGraph, calculatedValue];
+  const config: Partial<Plotly.Config> = { responsive: true };
 
-  Plotly.newPlot(element, data, layout);
+  Plotly.newPlot(element, data, layout, config);
 }
 
 export function loadTranslationForFunction(
