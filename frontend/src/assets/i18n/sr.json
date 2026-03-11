@@ -35,11 +35,11 @@
   },
   "contact": {
     "title": "Kontaktirajte nas",
+    "subtitle": "Rado ćemo vas čuti",
     "name": "ime i prezime",
     "subject": "naslov",
     "message": "poruka",
     "button": "pošalji",
-    "phone": "broj telefona",
     "success": "Vaša poruka je uspešno poslata, uskoro ćemo vam se javiti"
   },
   "bessel_1":  {

@@ -35,11 +35,11 @@
   },
   "contact": {
     "title": "Contact us",
+    "subtitle": "We'd love to hear from you",
     "name": "full name",
     "subject": "subject",
     "message": "message",
     "button": "submit",
-    "phone": "phone",
     "success": "Your message is sent successfully, we will get back to you soon"
   },
   "bessel_1":{

@@ -14,7 +14,6 @@ export class ContactComponent implements OnInit {
   private subscription?: Subscription;
   contactForm!: FormGroup;
 
-  phoneIconPath = 'assets/icons/phone.svg';
   emailIconPath = 'assets/icons/email.svg';
 
   name?: string;
@@ -22,6 +21,7 @@ export class ContactComponent implements OnInit {
   subject?: string;
   submit?: string;
   contactUs?: string;
+  subtitle?: string;
   response?: string;
 
   showResponse?: boolean;
@@ -56,6 +56,7 @@ export class ContactComponent implements OnInit {
         this.subject = translations.contact.subject;
         this.message = translations.contact.message;
         this.contactUs = translations.contact.title;
+        this.subtitle = translations.contact.subtitle;
         this.submit = translations.contact.button;
         this.response = translations.contact.success;
       });

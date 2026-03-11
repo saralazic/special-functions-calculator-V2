@@ -1,45 +1,41 @@
 <div class="wrapper">
-    <div class="contact-us-container">
-        <div class="form">
-            <h1>{{contactUs}}</h1>
-            <br>
-            <form [formGroup]="contactForm" (ngSubmit)="submitForm()">
-        
-            <div class="form-row">
-                <label for="name">{{name}}</label>
-                <input type="text" id="name" formControlName="name">
-            </div>
-        
-            <div class="form-row">
-                <label for="subject">{{subject}}</label>
-                <input type="text" id="subject" formControlName="subject">
-            </div>
-        
-            <div class="form-row">
-                <label for="message">{{message}}</label>
-                <textarea id="message" formControlName="message"></textarea>
-            </div>
-        
-            <button type="submit" [disabled]="!contactForm.valid">{{submit}}</button>      
-        </form>
-        <div *ngIf = "showResponse" class="response">
-            {{response}}
-        </div>
+  <div class="contact-card">
+    <div class="card-header">
+      <h1>{{ contactUs }}</h1>
+      <p class="subtitle">{{ subtitle }}</p>
+    </div>
 
-            <br>
-            
-            <div class="contact-icons-wrapper">
-                <div class="contact-icons">
-                    <div class="contact-icon">
-                        <img src="{{ phoneIconPath }}" alt="Phone Icon" class="icon">
-                        <span>+381 67 715 99 23</span>
-                      </div>
-                      <div class="contact-icon">
-                        <img src="{{ emailIconPath }}" alt="Email Icon" class="icon">
-                        <span>sara.lazic&#64;outlook.com</span>
-                      </div>
-                </div>
-            </div>
+    <form [formGroup]="contactForm" (ngSubmit)="submitForm()">
+      <div class="form-group">
+        <input type="text" id="name" formControlName="name" placeholder=" ">
+        <label for="name">{{ name }}</label>
+      </div>
+
+      <div class="form-group">
+        <input type="text" id="subject" formControlName="subject" placeholder=" ">
+        <label for="subject">{{ subject }}</label>
+      </div>
+
+      <div class="form-group">
+        <textarea id="message" formControlName="message" placeholder=" "></textarea>
+        <label for="message">{{ message }}</label>
+      </div>
+
+      <button type="submit" [disabled]="!contactForm.valid">
+        <span class="btn-text">{{ submit }}</span>
+        <span class="btn-icon">&#10148;</span>
+      </button>
+    </form>
+
+    <div *ngIf="showResponse" class="response">
+      {{ response }}
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="contact-email">
+      <img src="{{ emailIconPath }}" alt="Email Icon" class="icon">
+      <a href="mailto:sara.lazic&#64;outlook.com">sara.lazic&#64;outlook.com</a>
+    </div>
+  </div>
 </div>
-
-  
