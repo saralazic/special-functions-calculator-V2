@@ -2,7 +2,7 @@
     <div class="info-left">
         <h1>{{ functionName }}</h1>
 
-        <div class="info-columns">
+        <div class="info-columns" [style.font-size]="latexFontSize">
             <div class="info-col">
                 <h3>{{definition}}:</h3>
                 <ng-container *ngIf="useLatex; else definitionImages">

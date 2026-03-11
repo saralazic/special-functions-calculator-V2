@@ -39,6 +39,7 @@ export class FunctionInformationComponent {
   relations = '';
 
   useLatex = false;
+  latexFontSize = '1.05rem';
   latexDefinitions: SafeHtml[] = [];
   latexDomain: SafeHtml = '';
   latexEquation: SafeHtml = '';
@@ -204,6 +205,7 @@ export class FunctionInformationComponent {
         this.styleRel = 65;
         this.styleEqu = 65;
         this.photoStyle = 90;
+        this.latexFontSize = '0.75rem';
         break;
       }
       case FunctionType.GAMMA: {

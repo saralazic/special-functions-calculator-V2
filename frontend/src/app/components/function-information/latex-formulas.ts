@@ -119,6 +119,54 @@ export const HERMITE2_FORMULAS: FormulaData = {
   ],
 };
 
+export const CHEBYSHEV1_FORMULAS: FormulaData = {
+  definitions: [
+    String.raw`T_n(x) = \cos(n\,\arccos(x)), \quad |x| \leq 1`,
+    String.raw`T_n(\cos\varphi) = \cos(n\,\varphi)`,
+    String.raw`T_n(x) = \frac{n}{2}\sum_{m=0}^{\lfloor n/2 \rfloor} (-1)^m \frac{(n-m-1)!}{m!\,(n-2m)!}\,(2x)^{n-2m}`,
+  ],
+  domain: String.raw`|x| \leq 1, \quad n \in \mathbb{N}_0`,
+  equation: String.raw`(1-x^2)\,y'' - x\,y' + \alpha^2\,y = 0`,
+  relations: [
+    String.raw`T_{n+1}(x) = 2x\,T_n(x) - T_{n-1}(x)`,
+    String.raw`T_{n+1}(x) = x\,T_n(x) - \sqrt{(1-x^2)\bigl(1-(T_n(x))^2\bigr)}`,
+    String.raw`(x-1)\left[T_{2n+1}(x)-1\right] = \left[T_{n+1}(x)-T_n(x)\right]^2, \quad n \geqslant 1`,
+    String.raw`T_{2n}(x) = \left(T_n(x)\right)^2 - 1`,
+  ],
+};
+
+export const CHEBYSHEV2_FORMULAS: FormulaData = {
+  definitions: [
+    String.raw`U_n(x) = \frac{\sin\bigl((n+1)x\bigr)}{\sin x}`,
+    String.raw`U_n(\cos\varphi)\,\sin\varphi = \sin\bigl((n+1)\varphi\bigr)`,
+    String.raw`U_n(x) = \sum_{m=0}^{\lfloor n/2 \rfloor} (-1)^m \frac{(n-m)!}{m!\,(n-2m)!}\,(2x)^{n-2m}`,
+  ],
+  domain: String.raw`|x| \leq 1, \quad n \in \mathbb{N}_0`,
+  equation: String.raw`(1-x^2)\,y'' - x\,y' + \alpha^2\,y = 0`,
+  relations: [
+    String.raw`U_{n+2}(x) = 2x\,U_{n+1}(x) - U_n(x)`,
+    String.raw`(1-x^2)\,U'_n(x) = -nx\,U_n(x) + (n+1)\,U_{n-1}(x)`,
+    String.raw`(1-x)^2\,U''_n(x) - 3x\,U'_n(x) + n(n+2)\,U_n(x) = 0`,
+    String.raw`U_n(x) = 2\sum_{k=0}^{\lfloor n/2 \rfloor} T_{2k}(x) - 1`,
+  ],
+};
+
+export const JACOBI_FORMULAS: FormulaData = {
+  definitions: [
+    String.raw`P_n^{(\alpha,\beta)}(x) = \frac{(-1)^n}{2^n\,n!}(1-x)^{-\alpha}(1+x)^{-\beta}\,\frac{d^n}{dx^n}\!\left[(1-x)^{\alpha+n}(1+x)^{\beta+n}\right]`,
+    String.raw`P_n^{(\alpha,\beta)}(x) = \frac{1}{2^n}\sum_{k=0}^{n}\binom{n+\alpha}{k}\binom{n+\beta}{n-k}(x-1)^{n-k}(1+x)^k`,
+    String.raw`(1-x)^\alpha(1+x)^\beta\,P_n^{(\alpha,\beta)}(x) = \frac{(-1)^n}{2^n\,n!}\,\frac{d^n}{dx^n}\!\left[(1-x)^{\alpha+n}(1+x)^{\beta+n}\right]`,
+  ],
+  domain: String.raw`n \in \mathbb{N}_0, \quad x \in \mathbb{R}, \quad \alpha > -1, \quad \beta > -1`,
+  equation: String.raw`(1-x^2)\,y'' + \bigl(\beta-\alpha-(\alpha+\beta+2)x\bigr)\,y' + n(n+\alpha+\beta+1)\,y = 0`,
+  relations: [
+    String.raw`(x+1){P_n^{(\alpha,\beta)}}'(x) = n\,P_n^{(\alpha,\beta)}(x) - (\alpha+n)\,P_n^{(\alpha,\beta+1)}(x)`,
+    String.raw`(x+1){P_n^{(\alpha,\beta)}}'(x) = n\,P_n^{(\alpha,\beta)}(x) + (\beta+n)\,P_{n-1}^{(\alpha,\beta+1)}(x)`,
+    String.raw`{P_n^{(\alpha,\beta)}}'(x) = \frac{1}{2}(1+\alpha+\beta+n)\,P_{n-1}^{(\alpha+1,\beta+1)}(x)`,
+    String.raw`{P_n^{(\alpha,\beta)}}'(x) = \frac{1}{2}\!\left((\beta+n)\,P_n^{(\alpha+1,\beta)}(x) + (\alpha+n)\,P_{n-1}^{(\alpha,\beta+1)}(x)\right)`,
+  ],
+};
+
 export const LATEX_FORMULAS: Record<string, FormulaData> = {
   bessel1: BESSEL1_FORMULAS,
   gamma: GAMMA_FORMULAS,
@@ -127,4 +175,7 @@ export const LATEX_FORMULAS: Record<string, FormulaData> = {
   laguerre: LAGUERRE_FORMULAS,
   hermite1: HERMITE1_FORMULAS,
   hermite2: HERMITE2_FORMULAS,
+  chebyshev1: CHEBYSHEV1_FORMULAS,
+  chebyshev2: CHEBYSHEV2_FORMULAS,
+  jacobi: JACOBI_FORMULAS,
 };

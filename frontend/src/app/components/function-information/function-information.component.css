@@ -26,7 +26,7 @@
 .info-columns {
   display: flex;
   justify-content: center;
-  gap: 72px;
+  gap: 48px;
   width: 100%;
 }
 
@@ -69,7 +69,7 @@
   justify-content: center;
   width: 100%;
   margin: 12px 0;
-  font-size: 1.05rem;
+  font-size: inherit;
 }
 
 @media screen and (max-width: 768px) {
