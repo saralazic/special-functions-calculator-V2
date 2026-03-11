@@ -277,6 +277,12 @@ export class FunctionInputComponent implements OnInit {
     this.currentCalculatedValue = '';
   }
 
+  hideCalculator() {
+    this.shouldShowCalculator = false;
+    this.whereToUseCalculatedValue = null;
+    this.currentCalculatedValue = '';
+  }
+
   onCalculated(value: string): void {
     this.currentCalculatedValue = value;
   }

@@ -21,7 +21,7 @@ body {
 
 .main_center {
   margin-top: 48px;
-  margin-bottom: 48px;
+  margin-bottom: 32px;
   flex: 1;
   min-height: 0;
   overflow-y: auto;
@@ -41,7 +41,7 @@ body {
 @media screen and (max-width: 768px) {
   .main_center {
     margin-top: 46px;
-    margin-bottom: 40px;
+    margin-bottom: 30px;
   }
 }
 
