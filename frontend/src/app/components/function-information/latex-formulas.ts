@@ -55,8 +55,45 @@ export const BETA_FORMULAS: FormulaData = {
   ],
 };
 
+export const LEGENDRE_FORMULAS: FormulaData = {
+  definitions: [
+    String.raw`P_n(x) = \frac{1}{2^n} \sum_{k=0}^{n} \binom{n}{k}^2 (x-1)^{n-k}(x+1)^k`,
+    String.raw`P_n(x) = 2^n \sum_{k=0}^{n} x^k \binom{n}{k} \binom{\frac{n+k-1}{2}}{n}`,
+    String.raw`P_n(x) = \frac{1}{\pi} \int_0^{\pi} \left[x + \sqrt{x^2-1}\,\cos t\right]^n dt, \quad x > 1`,
+  ],
+  domain: String.raw`I = (-1,\, 1)`,
+  equation: String.raw`(1-x^2)\,y''(x) - 2x\,y' + k(k+1)\,y = 0`,
+  relations: [
+    String.raw`P'_{n+1}(x) - P'_{n-1}(x) = (2n+1)\,P_n(x)`,
+    String.raw`P'_{n+1}(x) = (n+1)\,P_n(x) + x\,P'_n(x)`,
+    String.raw`P'_{n-1}(x) = -n\,P_n(x) + x\,P'_n(x)`,
+    String.raw`P'_n(x) = x\,P'_{n-1}(x) + n\,P_{n-1}(x)`,
+    String.raw`(1-x^2)\,P'_n(x) = n\,P_{n-1}(x) - nx\,P_n(x)`,
+    String.raw`(1-x^2)\,P'_n(x) = (n+1)\,x\,P_n(x) - (n+1)\,P_{n+1}(x)`,
+    String.raw`x\,P_n(x) = \frac{n+1}{2n+1}\,P_{n+1}(x) + \frac{n}{2n+1}\,P_{n-1}(x)`,
+  ],
+};
+
+export const LAGUERRE_FORMULAS: FormulaData = {
+  definitions: [
+    String.raw`L_n(x) = \frac{1}{n!}\left(\frac{d}{dx} - 1\right)^n x^n`,
+    String.raw`L_n(x) = \sum_{k=0}^{n} \frac{(-1)^k}{k!} \binom{n}{k} x^k`,
+    String.raw`L_n(x) = \frac{1}{2\pi i} \oint \frac{e^{\frac{-xz}{1-z}}}{(1-z)\,z^{n+1}}\, dz`,
+  ],
+  domain: String.raw`x \in \mathbb{R}, \quad n \in \mathbb{N}`,
+  equation: String.raw`x\,y'' + (1-x)\,y' + \lambda\,y = 0`,
+  relations: [
+    String.raw`(n+1)\,L_{n+1}(x) - (2n+1-x)\,L_n(x) + n\,L_{n-1}(x) = 0`,
+    String.raw`x\,L'_n(x) = n\,L_n(x) - n\,L_{n-1}(x)`,
+    String.raw`L'_n(x) = -\sum_{k=0}^{n-1} L_k(x)`,
+    String.raw`L_n(x+y) = \frac{1}{n!}\!\left(-\frac{1}{4}\right)\!\sum_{j=0}^{n} \binom{n}{j} H_{2j}\!\left(\sqrt{x}\right) H_{2n-2j}\!\left(\sqrt{y}\right)`,
+  ],
+};
+
 export const LATEX_FORMULAS: Record<string, FormulaData> = {
   bessel1: BESSEL1_FORMULAS,
   gamma: GAMMA_FORMULAS,
   beta: BETA_FORMULAS,
+  legendre: LEGENDRE_FORMULAS,
+  laguerre: LAGUERRE_FORMULAS,
 };
