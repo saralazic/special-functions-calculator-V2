@@ -8,6 +8,11 @@
   align-items: center;
 }
 
+.content h1 {
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+
 svg.material-icons {
   height: 30px;
   width: auto;
@@ -75,6 +80,8 @@ svg.material-icons:not(:last-child) {
   min-width: 50%;
   max-width: 95%;
   position: relative;
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
 
 .card.card.highlight-card span {
@@ -85,7 +92,8 @@ svg.material-icons:not(:last-child) {
   width: 95px;
   position: absolute;
   left: -15px;
-  top: -10px;
+  top: 50%;
+  transform: translateY(calc(-50% + 2px));
 }
 
 a, a:visited, a:hover {
@@ -122,7 +130,8 @@ a:hover {
   #rocket {
     width: 70px;
     left: -10px;
-    top: -8px;
+    top: 50%;
+    transform: translateY(-50%);
   }
 
   .content {
@@ -153,6 +162,7 @@ a:hover {
   #rocket {
     width: 55px;
     left: -5px;
-    top: -5px;
+    top: 50%;
+    transform: translateY(-50%);
   }
 }
