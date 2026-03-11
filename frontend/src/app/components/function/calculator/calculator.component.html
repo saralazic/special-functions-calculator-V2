@@ -1,11 +1,12 @@
 <div class="p-1 form-group">
     <form method="POST">
-      <div>
+      <div class="top-bar">
           <div>
              <span *ngIf="getOperator()!='';" [innerHTML]="getOperator()"></span>
               <span *ngIf="getRadians(); else badgeGrads" class="rad">Rad</span>
               <ng-template #badgeGrads><span class="rad">Grad</span></ng-template>
           </div>
+          <button class="close-btn" (click)="close()" type="button">&times;</button>
         </div>
 
 

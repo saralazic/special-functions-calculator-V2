@@ -4,118 +4,187 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-direction: column;
-  text-align: center;
-  padding: 20px 16px;
+  padding: 24px 16px;
 }
 
-.contact-us-container {
+.contact-card {
   width: 100%;
-  max-width: 500px;
-  margin: 0 auto;
-  padding: 20px;
-  background-color: var(--footer-gray);
-  border-radius: 5px;
+  max-width: 460px;
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+  padding: 28px 28px 24px;
+}
+
+.card-header {
   text-align: center;
+  margin-bottom: 20px;
+}
+
+.card-header h1 {
+  font-size: 1.45rem;
+  font-weight: 700;
+  color: var(--burgundy);
+  margin: 0 0 4px;
+}
+
+.subtitle {
+  font-size: 0.85rem;
+  color: #888;
+  margin: 0;
+}
+
+/* Floating-label form groups */
+.form-group {
+  position: relative;
+  margin-bottom: 18px;
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 11px 14px;
+  font-size: 0.9rem;
+  border: 1.5px solid #ddd;
+  border-radius: 8px;
+  background: var(--card-light-gray);
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  box-sizing: border-box;
+}
+
+.form-group textarea {
+  min-height: 80px;
+  resize: vertical;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  border-color: var(--orange);
+  box-shadow: 0 0 0 3px rgba(215, 127, 27, 0.12);
+}
+
+.form-group label {
+  position: absolute;
+  left: 14px;
+  top: 11px;
+  font-size: 0.9rem;
+  color: #999;
+  pointer-events: none;
+  transition: all 0.2s ease;
+  background: transparent;
+  padding: 0 4px;
+}
+
+.form-group input:focus ~ label,
+.form-group input:not(:placeholder-shown) ~ label,
+.form-group textarea:focus ~ label,
+.form-group textarea:not(:placeholder-shown) ~ label {
+  top: -9px;
+  left: 10px;
+  font-size: 0.75rem;
+  color: var(--orange);
+  background: #fff;
+  font-weight: 600;
+}
+
+/* Submit button */
+button[type="submit"] {
+  width: 100%;
+  padding: 11px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #fff;
+  background: linear-gradient(135deg, var(--orange), var(--burgundy));
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 8px;
+  transition: opacity 0.2s, transform 0.15s;
 }
 
-.form {
-  width: 100%;
+button[type="submit"]:hover:not(:disabled) {
+  opacity: 0.92;
+  transform: translateY(-1px);
 }
 
-.form-row {
-  display: flex;
-  flex-direction: row;
-  margin-bottom: 10px;
-  align-items: flex-start;
+button[type="submit"]:active:not(:disabled) {
+  transform: translateY(0);
 }
 
-label {
-  width: 100px;
-  min-width: 70px;
-  font-weight: bold;
-  margin-right: 10px;
-  text-align: right;
-  padding-top: 5px;
-}
-
-input[type="text"],
-input[type="email"],
-textarea {
-  flex: 1;
-  padding: 5px;
-  border: 1px solid #ccc;
-  border-radius: 3px;
-  min-width: 0;
-}
-
-textarea {
-  height: 100px;
-}
-
-button {
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-button:disabled {
-  background-color: #999;
+button[type="submit"]:disabled {
+  background: #ccc;
   cursor: not-allowed;
 }
 
-.contact-icons-wrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 20px;
+.btn-icon {
+  font-size: 1rem;
+  transition: transform 0.2s;
 }
 
-.contact-icons {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+button[type="submit"]:hover:not(:disabled) .btn-icon {
+  transform: translateX(3px);
 }
 
-.contact-icon {
-  display: flex;
-  align-items: center;
-  margin-bottom: 10px;
-}
-
-.icon {
-  width: 24px;
-  height: 24px;
-  margin-right: 8px;
-}
-
+/* Response message */
 .response {
-  margin-top: 20px;
+  text-align: center;
+  margin-top: 12px;
+  padding: 10px 14px;
+  background: #eaf7ec;
+  color: #2e7d32;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 500;
 }
 
+/* Divider */
+.divider {
+  height: 1px;
+  background: #e8e8e8;
+  margin: 18px 0 14px;
+}
+
+/* Email link */
+.contact-email {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.contact-email .icon {
+  width: 18px;
+  height: 18px;
+  opacity: 0.6;
+}
+
+.contact-email a {
+  color: #555;
+  text-decoration: none;
+  font-size: 0.85rem;
+  transition: color 0.2s;
+}
+
+.contact-email a:hover {
+  color: var(--orange);
+}
+
+/* Mobile */
 @media screen and (max-width: 600px) {
   .wrapper {
     padding: 16px 10px;
   }
 
-  .contact-us-container {
-    padding: 14px;
+  .contact-card {
+    padding: 20px 18px 18px;
+    border-radius: 10px;
   }
 
-  .form-row {
-    flex-direction: column;
-  }
-
-  label {
-    width: 100%;
-    text-align: left;
-    margin-right: 0;
-    margin-bottom: 4px;
-    padding-top: 0;
+  .card-header h1 {
+    font-size: 1.3rem;
   }
 }

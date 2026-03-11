@@ -37,6 +37,11 @@ export class CalculatorComponent {
   public operator = '';
 
   @Output() calculated: EventEmitter<string> = new EventEmitter<string>();
+  @Output() closed: EventEmitter<void> = new EventEmitter<void>();
+
+  close(): void {
+    this.closed.emit();
+  }
 
   getLabel(symbol: ISymbol) {
     return symbol.label;

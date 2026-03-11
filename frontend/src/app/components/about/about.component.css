@@ -1,7 +1,7 @@
 .app-container {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  height: calc(100vh - 108px);
+  height: calc(100vh - 80px);
   overflow: hidden;
 }
 

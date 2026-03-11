@@ -38,7 +38,7 @@
 
 
     <div class="center" *ngIf = "shouldShowCalculator">
-        <app-calculator (calculated)="onCalculated($event)"></app-calculator>
+        <app-calculator (calculated)="onCalculated($event)" (closed)="hideCalculator()"></app-calculator>
         <div class="padding-btn">
             <button mat-raised-button (click)="useCalculatedValue()" [disabled]="useCalcValDisabled()" class="custom-mat-button">{{ useCalculatedValueLabel }}</button>
         </div>      

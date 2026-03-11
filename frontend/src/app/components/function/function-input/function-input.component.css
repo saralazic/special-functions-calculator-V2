@@ -31,6 +31,7 @@
 .custom-mat-button {
   background-color: var(--burgundy) !important;
   color: #fff !important;
+  font-family: 'Playfair Display', Georgia, serif !important;
 }
 
 .custom-mat-button:hover {
