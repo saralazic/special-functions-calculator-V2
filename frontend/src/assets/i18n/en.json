@@ -1,6 +1,9 @@
 {
   "header": {
-    "title": "Calculator of some special functions"
+    "title": "Calculator of some special functions",
+    "home": "Home",
+    "about": "About",
+    "contact": "Contact"
   },    
   "homepage": {
     "head_1": "Calculate the value of a special function simply and efficiently!",

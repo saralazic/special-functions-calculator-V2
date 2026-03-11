@@ -1,19 +1,23 @@
-<div class="toolbar" role="banner">
-    <a href="/homepage"><span><h1>{{title}}</h1></span></a>
-      <div class="spacer"></div>
+<nav class="navbar">
+  <a class="nav-brand" href="/homepage">{{title}}</a>
 
-      <button mat-icon-button [matMenuTriggerFor]="languageMenu" class="language-button">
-        <span class="language-icon" [ngStyle]="getLanguageIconStyle()"></span>
-      </button>
-      <mat-menu #languageMenu="matMenu">
-        <button mat-menu-item (click)="setLanguage('en')">
-          <span class="language-icon" [ngStyle]="getLanguageIconStyle('en')"></span>
-          English
-        </button>
-        <button mat-menu-item (click)="setLanguage('sr')">
-          <span class="language-icon" [ngStyle]="getLanguageIconStyle('sr')"></span>
-          Serbian
-        </button>
-      </mat-menu>
-</div>
-  
+  <div class="nav-links">
+    <a href="/homepage" class="nav-link">{{navHome}}</a>
+    <a href="/about" class="nav-link">{{navAbout}}</a>
+    <a href="/contact" class="nav-link">{{navContact}}</a>
+  </div>
+
+  <button mat-icon-button [matMenuTriggerFor]="languageMenu" class="language-button">
+    <span class="language-icon" [ngStyle]="getLanguageIconStyle()"></span>
+  </button>
+  <mat-menu #languageMenu="matMenu">
+    <button mat-menu-item (click)="setLanguage('en')">
+      <span class="language-icon" [ngStyle]="getLanguageIconStyle('en')"></span>
+      English
+    </button>
+    <button mat-menu-item (click)="setLanguage('sr')">
+      <span class="language-icon" [ngStyle]="getLanguageIconStyle('sr')"></span>
+      Serbian
+    </button>
+  </mat-menu>
+</nav>

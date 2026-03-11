@@ -1,6 +1,9 @@
 {
   "header": {
-    "title": "Kalkulator nekih specijalnih funkcija"
+    "title": "Kalkulator nekih specijalnih funkcija",
+    "home": "Početna",
+    "about": "O aplikaciji",
+    "contact": "Kontakt"
   },
   "homepage": {
     "head_1": "Izračunajte vrednost specijalne funkcije jednostavno i efikasno!",

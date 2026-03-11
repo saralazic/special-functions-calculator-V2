@@ -1,79 +1,136 @@
-.toolbar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 60px;
+.navbar {
   display: flex;
   align-items: center;
-  background-color: var(--burgundy);
+  justify-content: space-between;
+  padding: 0 28px;
+  height: 48px;
+  background: var(--burgundy);
   color: white;
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+}
+
+.nav-brand {
+  color: white;
+  text-decoration: none;
+  font-size: clamp(0.82rem, 2vw, 1.05rem);
   font-weight: 600;
-  font-size: large;
-  z-index: 100;
-  padding: 0 8px;
-}
-
-.toolbar img {
-  margin: 0 12px;
-}
-
-.toolbar h1 {
-  font-size: clamp(0.9rem, 3vw, 1.5rem);
   white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  margin: 0;
+  letter-spacing: 0.01em;
+  transition: opacity 0.2s ease;
 }
 
-.spacer {
-  flex: 1;
+.nav-brand:hover {
+  opacity: 0.8;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 50px;
+  padding: 3px 4px;
+  gap: 2px;
+}
+
+.nav-link {
+  color: rgba(255, 255, 255, 0.8);
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 500;
+  padding: 5px 18px;
+  border-radius: 50px;
+  transition: all 0.25s ease;
+}
+
+.nav-link:hover {
+  color: white;
+  background: rgba(255, 255, 255, 0.18);
+}
+
+.nav-link:visited {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.nav-link:visited:hover {
+  color: white;
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
 }
 
 .language-button {
-  width: 50px;
-  height: 50px;
-  min-width: 40px;
+  width: 34px;
+  height: 34px;
+  min-width: 34px;
   border-radius: 50%;
-  margin-right: 6px;
-  margin-top: 6px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: transparent;
-  border: none;
-  outline: none;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   cursor: pointer;
+  transition: background 0.2s ease;
+  padding: 0;
+}
+
+.language-button:hover {
+  background: rgba(255, 255, 255, 0.22);
 }
 
 .language-icon {
-  width: 100%;
-  height: 100%;
+  width: 20px;
+  height: 20px;
   background-repeat: no-repeat;
   background-size: contain;
+  background-position: center;
+  border-radius: 50%;
 }
 
-a {
-  color: white;
-  text-decoration: none;
+@media screen and (max-width: 768px) {
+  .navbar {
+    padding: 0 16px;
+    height: 46px;
+  }
+
+  .nav-brand {
+    font-size: 0.78rem;
+  }
+
+  .nav-link {
+    font-size: 0.78rem;
+    padding: 4px 12px;
+  }
+
+  .nav-links {
+    padding: 2px 3px;
+  }
 }
 
-a:hover {
-  color: #eba9a9e4;
-}
+@media screen and (max-width: 520px) {
+  .navbar {
+    padding: 0 10px;
+    height: 42px;
+  }
 
-body {
-  margin: 0;
-}
+  .nav-brand {
+    font-size: 0.68rem;
+  }
 
-@media screen and (max-width: 600px) {
-  .toolbar {
-    height: 50px;
-    padding: 0 4px;
+  .nav-link {
+    font-size: 0.7rem;
+    padding: 3px 8px;
   }
 
   .language-button {
-    width: 40px;
-    height: 40px;
+    width: 28px;
+    height: 28px;
+    min-width: 28px;
+  }
+
+  .language-icon {
+    width: 16px;
+    height: 16px;
   }
 }
