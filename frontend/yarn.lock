@@ -3295,6 +3295,11 @@ commander@^2.20.0:
   resolved "https://registry.npmjs.org/commander/-/commander-2.20.3.tgz"
   integrity sha512-GpVkmM8vF2vQUkj2LvZmD35JxeJOLCwJ9cUkugyk2nuhbv3+mJvpLYYt+0+USMxE+oj+ey/lJEnhZw75x/OMcQ==
 
+commander@^8.3.0:
+  version "8.3.0"
+  resolved "https://registry.npmjs.org/commander/-/commander-8.3.0.tgz"
+  integrity sha512-OkTL9umf+He2DZkUq8f8J9of7yL6RJKI24dVITBmNfZBmri9zYZQrKkuXiKhyfPSu8tUhnVBB1iKXevvnlR4Ww==
+
 commander@^9.3.0:
   version "9.5.0"
   resolved "https://registry.npmjs.org/commander/-/commander-9.5.0.tgz"
@@ -5648,6 +5653,13 @@ karma@^6.0.0, karma@^6.3.0, karma@^6.4.0, karma@~6.4.0:
     tmp "^0.2.1"
     ua-parser-js "^0.7.30"
     yargs "^16.1.1"
+
+katex@^0.16.38:
+  version "0.16.38"
+  resolved "https://registry.npmjs.org/katex/-/katex-0.16.38.tgz"
+  integrity sha512-cjHooZUmIAUmDsHBN+1n8LaZdpmbj03LtYeYPyuYB7OuloiaeaV6N4LcfjcnHVzGWjVQmKrxxTrpDcmSzEZQwQ==
+  dependencies:
+    commander "^8.3.0"
 
 kdbush@^3.0.0:
   version "3.0.0"
