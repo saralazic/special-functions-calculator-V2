@@ -22,11 +22,13 @@ body {
 .main_center {
   margin-top: 48px;
   margin-bottom: 48px;
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
 }
 
 .middle {
   flex-grow: 1;
-  overflow: auto;
 }
 
 .bottom {

@@ -1,69 +1,25 @@
 <div class="content" role="main">
 
-  <div class="card highlight-card card-small">
+  <div class="highlight-card">
     <app-svg-icon id="rocket" iconName="function-svgrepo-com"></app-svg-icon>
     <span><h2>{{head_1}}</h2></span>
   </div>
 
-  <h1>{{head_2}}</h1>
+  <h1 class="subtitle">{{head_2}}</h1>
 
-  <div class="card-container">
-    <a class="card" rel="noopener"  href="/special-function/bessel1">
-      <span>{{bessel_1}}</span>
-      <svg class="material-icons" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>    
+  <div class="card-grid">
+    <a
+      *ngFor="let fn of functions; let i = index"
+      class="card"
+      [href]="'/special-function/' + fn.route"
+      [style.animation-delay]="(i * 60) + 'ms'"
+    >
+      <span class="card-symbol">{{fn.symbol}}</span>
+      <span class="card-label">{{fn.label}}</span>
+      <svg class="card-arrow" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M5 12h14M12 5l7 7-7 7"/>
+      </svg>
     </a>
-
-    <a class="card" rel="noopener"  href="/special-function/gamma">
-      <span>{{gamma}}</span>
-      <svg class="material-icons" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>    
-    </a>
-
-    <a class="card" rel="noopener"  href="/special-function/beta">
-      <span>{{beta}}</span>
-      <svg class="material-icons" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>    
-    </a>
-
-    <a class="card" rel="noopener" href="/special-function/legendre">
-      <span>{{legendre}}</span>
-      <svg class="material-icons" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
-    </a>
-
-
-    <a class="card" rel="noopener" href="/special-function/laguerre">
-      <span>{{laguerre}}</span>
-      <svg class="material-icons" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>    
-    </a>
-
-
-
-    <a class="card" rel="noopener"  href="/special-function/hermite1">
-      <span>{{hermite_1}}</span>
-      <svg class="material-icons" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>    
-    </a>
-
-    <a class="card" rel="noopener"  href="/special-function/hermite2">
-      <span>{{hermite_2}}</span>
-      <svg class="material-icons" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>    
-    </a>
-
-
-    <a class="card" rel="noopener" href="/special-function/chebyshev1">
-      <span>{{chebyshev_1}}</span>
-      <svg class="material-icons" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
-    </a>
-
-    <a class="card" rel="noopener" href="/special-function/chebyshev2">
-      <span>{{chebyshev_2}}</span>
-      <svg class="material-icons" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
-    </a>
- 
-
-    <a class="card" rel="noopener" href="/special-function/jacobi">
-      <span>{{jacobi}}</span>
-      <svg class="material-icons" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
-    </a>
-
-  
   </div>
-</div>
 
+</div>

@@ -3,6 +3,14 @@ import { Component } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { LanguageService } from 'src/app/services/language-service/language.service';
 
+interface FunctionCard {
+  route: string;
+  translationKey: string;
+  symbol: string;
+  label?: string;
+  category: 'function' | 'polynomial';
+}
+
 @Component({
   standalone: false,
   selector: 'app-homepage',
@@ -12,19 +20,21 @@ import { LanguageService } from 'src/app/services/language-service/language.serv
 export class HomepageComponent {
   private subscription?: Subscription;
 
-  /** TODO: html can be rendered dynamically, it would be much nicer than this, I should refractor this */
   head_1?: string;
   head_2?: string;
-  bessel_1?: string;
-  gamma?: string;
-  beta?: string;
-  laguerre?: string;
-  legendre?: string;
-  jacobi?: string;
-  chebyshev_1?: string;
-  chebyshev_2?: string;
-  hermite_1?: string;
-  hermite_2?: string;
+
+  functions: FunctionCard[] = [
+    { route: 'bessel1', translationKey: 'bessel_1', symbol: 'Jₙ(x)', category: 'function' },
+    { route: 'gamma', translationKey: 'gamma', symbol: 'Γ(x)', category: 'function' },
+    { route: 'beta', translationKey: 'beta', symbol: 'B(x,y)', category: 'function' },
+    { route: 'legendre', translationKey: 'legendre', symbol: 'Pₙ(x)', category: 'polynomial' },
+    { route: 'laguerre', translationKey: 'laguerre', symbol: 'Lₙ(x)', category: 'polynomial' },
+    { route: 'hermite1', translationKey: 'hermite_1', symbol: 'Hₙ(x)', category: 'polynomial' },
+    { route: 'hermite2', translationKey: 'hermite_2', symbol: 'Heₙ(x)', category: 'polynomial' },
+    { route: 'chebyshev1', translationKey: 'chebyshev_1', symbol: 'Tₙ(x)', category: 'polynomial' },
+    { route: 'chebyshev2', translationKey: 'chebyshev_2', symbol: 'Uₙ(x)', category: 'polynomial' },
+    { route: 'jacobi', translationKey: 'jacobi', symbol: 'Pₙᵅᵝ(x)', category: 'polynomial' },
+  ];
 
   constructor(
     private http: HttpClient,
@@ -51,16 +61,9 @@ export class HomepageComponent {
       .subscribe((translations: any) => {
         this.head_1 = translations.homepage.head_1;
         this.head_2 = translations.homepage.head_2;
-        this.bessel_1 = translations.homepage.bessel_1;
-        this.beta = translations.homepage.beta;
-        this.gamma = translations.homepage.gamma;
-        this.laguerre = translations.homepage.laguerre;
-        this.legendre = translations.homepage.legendre;
-        this.jacobi = translations.homepage.jacobi;
-        this.chebyshev_1 = translations.homepage.chebyshev_1;
-        this.chebyshev_2 = translations.homepage.chebyshev_2;
-        this.hermite_1 = translations.homepage.hermite_1;
-        this.hermite_2 = translations.homepage.hermite_2;
+        this.functions.forEach(fn => {
+          fn.label = translations.homepage[fn.translationKey];
+        });
       });
   }
 }

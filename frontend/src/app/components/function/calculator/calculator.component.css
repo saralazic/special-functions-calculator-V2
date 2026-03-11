@@ -6,11 +6,16 @@
   width: 500px;
   display: flex;
   flex-direction: column;
+  gap: 1px;
+  border: 1.5px solid #a07860;
+  border-radius: 6px;
+  padding: 3px;
 }
 
 .row {
   display: flex;
   width: 100%;
+  gap: 1px;
 }
 
 .button-container {
@@ -20,22 +25,53 @@
 }
 
 .display {
-  border-radius: 0;
-  padding: 0;
-  border: 1px solid darkslategray;
+  border-radius: 3px;
+  padding: 0 8px;
+  border: 1px solid #ccc;
+  background: #fff;
+}
+
+.display:focus {
+  outline: none;
+  border-color: var(--burgundy);
 }
 
 .button {
   flex: 1;
-  transition: background-color 0.3s;
-  background-color: rgb(240, 225, 196);
-  color: darkslategray;
-  border: 1px solid gray;
+  transition: background-color 0.15s ease;
+  background-color: #f5e6d8;
+  color: #4a2c1a;
+  border: 1px solid #ddc9b8;
+  border-radius: 3px;
   cursor: pointer;
+  font-weight: 500;
+}
+
+.button:hover {
+  background-color: #edd4c2;
+  border-color: #c9a68e;
+}
+
+.button:active {
+  background-color: #e2c3ac;
+}
+
+.button.clear {
+  background-color: var(--burgundy);
+  color: #fff;
+  border-color: var(--burgundy);
+}
+
+.button.clear:hover {
+  background-color: #6b2006;
 }
 
 .rad {
   font-size: 10px;
+  background: #eee;
+  padding: 1px 5px;
+  border-radius: 3px;
+  color: #666;
 }
 
 input {
