@@ -90,10 +90,41 @@ export const LAGUERRE_FORMULAS: FormulaData = {
   ],
 };
 
+export const HERMITE1_FORMULAS: FormulaData = {
+  definitions: [
+    String.raw`H_n(x) = n!\,\sum_{k=0}^{\lfloor n/2 \rfloor} \frac{(-1)^k}{k!\,(n-2k)!}\,(2x)^{n-2k}`,
+    String.raw`H_n(x) = (-1)^n\, e^{x^2} \frac{d^n}{dx^n}\!\left(e^{-x^2}\right)`,
+    String.raw`H_n(z) = \frac{n!}{2\pi i} \oint e^{-t^2+2tz}\, t^{-n-1}\, dt`,
+  ],
+  domain: String.raw`x \in \mathbb{R}, \quad n \in \mathbb{N}_0`,
+  equation: String.raw`y'' - x\,y' + n\,y = 0`,
+  relations: [
+    String.raw`H_n(-x) = (-1)^n H_n(x)`,
+    String.raw`H_{n+1}(x) = x\,H_n(x) - H'_n(x)`,
+    String.raw`H_{n+1}(x) = 2x\,H_n(x) - H'_n(x)`,
+    String.raw`\sum_{k=0}^{\infty} (-1)^k \frac{H_{2k}(x)}{(2k)!} = e\cos(2x)`,
+    String.raw`\sum_{k=0}^{\infty} (-1)^k \frac{H_{2k+1}(x)}{(2k+1)!} = e\sin(2x)`,
+  ],
+};
+
+export const HERMITE2_FORMULAS: FormulaData = {
+  definitions: [
+    String.raw`\mathit{He}_n(x) = 2^{-\frac{n}{2}}\, H_n\!\left(\frac{x}{\sqrt{2}}\right)`,
+  ],
+  domain: String.raw`x \in \mathbb{R}, \quad n \in \mathbb{N}_0`,
+  equation: String.raw`y'' - 2x\,y' + n\,y = 0`,
+  relations: [
+    String.raw`H'_n(x) = 2n\,H_{n-1}(x)`,
+    String.raw`\mathit{He}_{n+1}(x) = x\,\mathit{He}_n(x) - \mathit{He}'_n(x)`,
+  ],
+};
+
 export const LATEX_FORMULAS: Record<string, FormulaData> = {
   bessel1: BESSEL1_FORMULAS,
   gamma: GAMMA_FORMULAS,
   beta: BETA_FORMULAS,
   legendre: LEGENDRE_FORMULAS,
   laguerre: LAGUERRE_FORMULAS,
+  hermite1: HERMITE1_FORMULAS,
+  hermite2: HERMITE2_FORMULAS,
 };
