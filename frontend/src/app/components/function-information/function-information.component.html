@@ -1,23 +1,50 @@
 <div class="info-wrapper">
     <div class="info-left">
-        <div class="info-left-inner">
-            <h1>{{ functionName }}</h1>
+        <h1>{{ functionName }}</h1>
 
-            <h3>{{definition}}:</h3>
-            <div *ngFor="let definitionUrl of definitionUrls" class="info-img-container">
-                <img src="{{ definitionUrl }}" alt="Photo" [style.max-width.%]="styleDef">
+        <div class="info-columns" [style.font-size]="latexFontSize">
+            <div class="info-col">
+                <h3>{{definition}}:</h3>
+                <ng-container *ngIf="useLatex; else definitionImages">
+                    <div *ngFor="let html of latexDefinitions" class="latex-container" [innerHTML]="html"></div>
+                </ng-container>
+                <ng-template #definitionImages>
+                    <div *ngFor="let definitionUrl of definitionUrls" class="info-img-container">
+                        <img src="{{ definitionUrl }}" alt="Photo" [style.max-width.%]="styleDef">
+                    </div>
+                </ng-template>
+
+                <h3>{{domain}}:</h3>
+                <ng-container *ngIf="useLatex; else domainImage">
+                    <div class="latex-container" [innerHTML]="latexDomain"></div>
+                </ng-container>
+                <ng-template #domainImage>
+                    <div class="info-img-container">
+                        <img src="{{ domainUrl }}" alt="Domain" [style.max-width.%]="styleDomain">
+                    </div>
+                </ng-template>
+
+                <h3 *ngIf="showEquation">{{equation}}:</h3>
+                <ng-container *ngIf="useLatex && showEquation; else equationImage">
+                    <div *ngIf="showEquation" class="latex-container" [innerHTML]="latexEquation"></div>
+                </ng-container>
+                <ng-template #equationImage>
+                    <div *ngIf="showEquation && !useLatex" class="info-img-container">
+                        <img src="{{ equationUrl }}" alt="Equation" [style.max-width.%]="styleEqu">
+                    </div>
+                </ng-template>
             </div>
-            <h3>{{domain}}:</h3>
-            <div class="info-img-container">
-                <img src="{{ domainUrl }}" alt="Domain" [style.max-width.%]="styleDomain">
-            </div>
-            <h3 *ngIf="showEquation">{{equation}}:</h3>
-            <div *ngIf="showEquation" class="info-img-container">
-                <img src="{{ equationUrl }}" alt="Equation" [style.max-width.%]="styleEqu">
-            </div>
-            <h3>{{relations}}:</h3>
-            <div *ngFor="let relationUrl of relationsUrl" class="info-img-container">
-                <img src="{{ relationUrl }}" alt="Photo" [style.max-width.%]="styleRel">
+
+            <div class="info-col">
+                <h3>{{relations}}:</h3>
+                <ng-container *ngIf="useLatex; else relationImages">
+                    <div *ngFor="let html of latexRelations" class="latex-container" [innerHTML]="html"></div>
+                </ng-container>
+                <ng-template #relationImages>
+                    <div *ngFor="let relationUrl of relationsUrl" class="info-img-container">
+                        <img src="{{ relationUrl }}" alt="Photo" [style.max-width.%]="styleRel">
+                    </div>
+                </ng-template>
             </div>
         </div>
     </div>

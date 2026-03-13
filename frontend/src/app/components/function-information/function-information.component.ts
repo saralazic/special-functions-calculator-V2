@@ -1,10 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { FunctionType } from 'src/app/models/enums';
 import { LanguageService } from 'src/app/services/language-service/language.service';
 import { loadTranslationForFunction } from 'src/utilities/utilities';
+import { LATEX_FORMULAS, FormulaData } from './latex-formulas';
+import katex from 'katex';
 
 @Component({
   standalone: false,
@@ -35,10 +38,18 @@ export class FunctionInformationComponent {
   equation = '';
   relations = '';
 
+  useLatex = false;
+  latexFontSize = '1.05rem';
+  latexDefinitions: SafeHtml[] = [];
+  latexDomain: SafeHtml = '';
+  latexEquation: SafeHtml = '';
+  latexRelations: SafeHtml[] = [];
+
   constructor(
     private route: ActivatedRoute,
     private http: HttpClient,
-    private languageService: LanguageService
+    private languageService: LanguageService,
+    private sanitizer: DomSanitizer
   ) {}
 
   ngOnInit(): void {
@@ -47,7 +58,14 @@ export class FunctionInformationComponent {
       this.parameter === FunctionType.BETA ||
       this.parameter === FunctionType.GAMMA
     );
-    this.generatePhotoUrls();
+
+    this.useLatex = !!(this.parameter && LATEX_FORMULAS[this.parameter]);
+    if (this.useLatex && this.parameter) {
+      this.renderLatexFormulas(LATEX_FORMULAS[this.parameter]);
+    } else {
+      this.generatePhotoUrls();
+    }
+
     this.loadStyles();
     this.loadTranslations();
 
@@ -56,6 +74,27 @@ export class FunctionInformationComponent {
       .subscribe(() => {
         this.loadTranslations();
       });
+  }
+
+  private renderLatex(tex: string, displayMode = true): SafeHtml {
+    const html = katex.renderToString(tex, {
+      displayMode,
+      throwOnError: false,
+      output: 'mathml',
+    });
+    return this.sanitizer.bypassSecurityTrustHtml(html);
+  }
+
+  private renderLatexFormulas(formulas: FormulaData): void {
+    this.latexDefinitions = formulas.definitions.map((f) =>
+      this.renderLatex(f)
+    );
+    this.latexDomain = this.renderLatex(formulas.domain);
+    this.latexEquation = this.renderLatex(formulas.equation);
+    this.latexRelations = formulas.relations.map((f) => this.renderLatex(f));
+
+    const baseUrl = '../../../assets/functions';
+    this.graphUrl = `${baseUrl}/graphs/${this.parameter}.png`;
   }
 
   ngOnDestroy() {
@@ -109,7 +148,7 @@ export class FunctionInformationComponent {
         this.styleDomain = 50;
         this.styleRel = 50;
         this.styleEqu = 50;
-        this.photoStyle = 70;
+        this.photoStyle = 80;
         break;
       }
       case FunctionType.HERMITE_PHYSICIST: {
@@ -166,6 +205,7 @@ export class FunctionInformationComponent {
         this.styleRel = 65;
         this.styleEqu = 65;
         this.photoStyle = 90;
+        this.latexFontSize = '0.75rem';
         break;
       }
       case FunctionType.GAMMA: {
