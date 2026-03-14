@@ -5,6 +5,7 @@ import { ContactComponent } from './components/contact/contact.component';
 import { FunctionInformationComponent } from './components/function-information/function-information.component';
 import { HomepageComponent } from './components/homepage/homepage.component';
 import { SpecialFunctionComponent } from './components/function/special-function/special-function.component';
+import { ChatbotComponent } from './components/chatbot/chatbot.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/homepage', pathMatch: 'full' },
@@ -12,6 +13,7 @@ const routes: Routes = [
   { path: 'homepage', component: HomepageComponent },
   { path: 'about', component: AboutComponent },
   { path: 'contact', component: ContactComponent },
+  { path: 'chatbot', component: ChatbotComponent },
   {
     path: 'function-informations/:parameter',
     component: FunctionInformationComponent,
