@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, OnDestroy, ViewChild, ElementRef, AfterViewChecked } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { LanguageService } from 'src/app/services/language-service/language.service';
 import { ChatService, ChatMessage } from 'src/app/services/chat/chat.service';
@@ -30,7 +31,8 @@ export class ChatbotComponent implements OnInit, OnDestroy, AfterViewChecked {
   constructor(
     private http: HttpClient,
     private languageService: LanguageService,
-    private chatService: ChatService
+    private chatService: ChatService,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit() {
@@ -40,6 +42,14 @@ export class ChatbotComponent implements OnInit, OnDestroy, AfterViewChecked {
       .subscribe(() => {
         this.loadTranslations();
       });
+
+    this.route.queryParams.subscribe((params) => {
+      const q = params['q'];
+      if (q && this.messages.length === 0) {
+        this.inputText = q;
+        this.sendMessage();
+      }
+    });
   }
 
   ngOnDestroy() {

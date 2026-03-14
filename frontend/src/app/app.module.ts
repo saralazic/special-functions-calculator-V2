@@ -24,6 +24,7 @@ import { SpecialFunctionComponent } from './components/function/special-function
 import { SvgIconComponent } from './components/svg-icon/svg-icon.component';
 import { ResultDisplayComponent } from './components/function/result-display/result-display.component';
 import { ChatbotComponent } from './components/chatbot/chatbot.component';
+import { ChatWidgetComponent } from './components/chat-widget/chat-widget.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatCardModule } from '@angular/material/card';
 
@@ -42,6 +43,7 @@ import { MatCardModule } from '@angular/material/card';
     FunctionInformationComponent,
     ResultDisplayComponent,
     ChatbotComponent,
+    ChatWidgetComponent,
   ],
   imports: [
     BrowserModule,

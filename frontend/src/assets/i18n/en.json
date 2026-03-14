@@ -98,6 +98,12 @@
     "welcomeMessage": "Welcome to the Math Assistant!",
     "welcomeHint": "I can help you learn about special functions — Bessel, Gamma, Beta, Legendre, and more. Ask me anything or pick a topic below."
   },
+  "chatWidget": {
+    "title": "Math Assistant",
+    "subtitle": "Ask me anything",
+    "placeholder": "Type your question...",
+    "cta": "Ask a question about special functions and get an instant answer on the chat page."
+  },
   "tooltips": {
     "info": "Find out more about this functions",
     "calculator": "Expand calculator to calculate input"
