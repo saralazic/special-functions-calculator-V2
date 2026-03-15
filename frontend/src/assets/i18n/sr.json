@@ -2,6 +2,7 @@
   "header": {
     "title": "Kalkulator nekih specijalnih funkcija",
     "home": "Početna",
+    "chat": "Chat",
     "about": "O aplikaciji",
     "contact": "Kontakt"
   },
@@ -90,10 +91,22 @@
     "buttonCalculateAndDrawGraph": "Izračunaj",
     "clear": "Resetuj"
   },
+  "chatbot": {
+    "title": "Matematički asistent",
+    "subtitle": "Pitajte me o specijalnim funkcijama",
+    "placeholder": "Pitajte o Beselovim, Gama, Beta...",
+    "welcomeMessage": "Dobrodošli u matematičkog asistenta!",
+    "welcomeHint": "Mogu da vam pomognem da saznate više o specijalnim funkcijama — Beselove, Gama, Beta, Ležandrove i druge. Pitajte me bilo šta ili izaberite temu ispod."
+  },
+  "chatWidget": {
+    "title": "Matematički asistent",
+    "subtitle": "Pitajte me bilo šta",
+    "placeholder": "Unesite vaše pitanje...",
+    "cta": "Postavite pitanje o specijalnim funkcijama i dobijte odgovor na stranici za chat."
+  },
   "tooltips": {
     "info": "Saznaj više o ovim funkcijama",
     "calculator": "Otvori kalkulator za izračunavanje ulaznih vrednosti"
-
   }
 }
   

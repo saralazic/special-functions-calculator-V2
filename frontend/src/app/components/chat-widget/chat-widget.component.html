@@ -1,0 +1,39 @@
+<div class="chat-widget" *ngIf="!isOnChatPage">
+  <!-- Popup dialog -->
+  <div class="widget-popup" *ngIf="isOpen">
+    <div class="popup-header">
+      <div class="popup-header-text">
+        <mat-icon class="popup-icon">smart_toy</mat-icon>
+        <div>
+          <span class="popup-title">{{ widgetTitle }}</span>
+          <span class="popup-subtitle">{{ widgetSubtitle }}</span>
+        </div>
+      </div>
+      <button class="close-btn" (click)="close()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+
+    <div class="popup-body">
+      <p class="popup-cta">{{ widgetCta }}</p>
+      <div class="popup-input-row">
+        <input
+          type="text"
+          [(ngModel)]="inputText"
+          (keydown)="onKeyDown($event)"
+          [placeholder]="widgetPlaceholder || 'Ask a question...'"
+          autocomplete="off"
+        />
+        <button class="popup-send" (click)="send()" [disabled]="!inputText.trim()">
+          <mat-icon>arrow_forward</mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Floating bubble -->
+  <button class="bubble-btn" (click)="toggle()" [class.open]="isOpen">
+    <mat-icon *ngIf="!isOpen">chat</mat-icon>
+    <mat-icon *ngIf="isOpen">close</mat-icon>
+  </button>
+</div>

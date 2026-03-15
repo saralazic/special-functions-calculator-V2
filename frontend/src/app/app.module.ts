@@ -23,6 +23,8 @@ import { HeaderComponent } from './components/marginals/header/header.component'
 import { SpecialFunctionComponent } from './components/function/special-function/special-function.component';
 import { SvgIconComponent } from './components/svg-icon/svg-icon.component';
 import { ResultDisplayComponent } from './components/function/result-display/result-display.component';
+import { ChatbotComponent } from './components/chatbot/chatbot.component';
+import { ChatWidgetComponent } from './components/chat-widget/chat-widget.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatCardModule } from '@angular/material/card';
 
@@ -40,6 +42,8 @@ import { MatCardModule } from '@angular/material/card';
     FunctionInputComponent,
     FunctionInformationComponent,
     ResultDisplayComponent,
+    ChatbotComponent,
+    ChatWidgetComponent,
   ],
   imports: [
     BrowserModule,

@@ -12,6 +12,7 @@ import { LanguageService } from 'src/app/services/language-service/language.serv
 export class HeaderComponent {
   title?: string;
   navHome?: string;
+  navChat?: string;
   navAbout?: string;
   navContact?: string;
   private subscription: Subscription;
@@ -42,6 +43,7 @@ export class HeaderComponent {
       .subscribe((translations: any) => {
         this.title = translations.header.title;
         this.navHome = translations.header.home;
+        this.navChat = translations.header.chat;
         this.navAbout = translations.header.about;
         this.navContact = translations.header.contact;
       });
