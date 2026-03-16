@@ -1,10 +1,19 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 import requests
 import json
 from json_stream_parser import parse_stream_json
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # TODO: switch to localhost:4200
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 OLLAMA_URL = "http://127.0.0.1:11434/api/generate"
 
@@ -29,7 +38,4 @@ def chat(request: PromptRequest):
         return {"response": combined_text}
 
     except Exception as e:
-        return {
-            "error": str(e),
-            "raw_response": response.text if "response" in locals() else None,
-        }
+        raise HTTPException(status_code=502, detail=str(e))
