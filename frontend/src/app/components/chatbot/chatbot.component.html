@@ -38,8 +38,13 @@
         <div class="avatar" *ngIf="msg.role === 'assistant'">
           <mat-icon>smart_toy</mat-icon>
         </div>
-        <div class="bubble" [ngClass]="msg.role">
+        <div class="bubble" [ngClass]="msg.role"
+             *ngIf="msg.role === 'user'">
           {{ msg.content }}
+        </div>
+        <div class="bubble markdown-body" [ngClass]="msg.role"
+             *ngIf="msg.role === 'assistant'"
+             [innerHTML]="msg.content | markdown">
         </div>
         <div class="avatar user-avatar" *ngIf="msg.role === 'user'">
           <mat-icon>person</mat-icon>
