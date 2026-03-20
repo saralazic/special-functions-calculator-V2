@@ -29,16 +29,36 @@ def chat(request: PromptRequest):
         print("\n===== NEW REQUEST =====")
         print("User prompt:", request.prompt)
 
-        # 🔹 RAG context
         context = get_context(request.prompt, k_each=2)
         print("Context length:", len(context))
 
-        # 🔹 Build RAG prompt
-        rag_prompt = f"""
-You are a mathematical assistant.
+        # Raw f-string (rf""") allows LaTeX backslashes without Python errors
+        rag_prompt = rf"""
+You are a mathematics expert and scientific assistant.
 
-Use the following context to answer the question.
-If the context is insufficient, say so.
+Answer the user's question clearly and naturally, as if explaining to a student.
+
+DO NOT say phrases like:
+- "according to the provided context"
+- "the document states"
+- "based on the text"
+
+Give a direct explanation.
+
+If the answer contains mathematical notation, you MUST format it using LaTeX.
+
+
+Incorrect: df(x)/dx + (v/x)*f(x)
+Correct: \\[
+\\frac{{df(x)}}{{dx}} + \\frac{{\\nu}}{{x}} f(x)
+\\]
+
+Incorrect: Jv(x)
+Correct: J_{{\\nu}}(x)
+
+If context is insufficient, say you are not sure.
+
+Be concise but informative.
 
 Context:
 {context}
@@ -51,11 +71,15 @@ Answer:
         print("Prompt length:", len(rag_prompt))
         print("Prompt preview:", rag_prompt[:500])
 
-        # 🔹 Ollama payload
+        # Ollama payload using num_predict instead of max_tokens
         payload = {
             "model": "llama3",
             "prompt": rag_prompt,
-            "max_tokens": 400,
+            "stream": False,
+            "options": {
+                "num_predict": 400,
+                "temperature": 0.2,
+            }
         }
 
         print("\nSending request to Ollama...")
@@ -66,7 +90,8 @@ Answer:
 
         response.raise_for_status()
 
-        combined_text = parse_stream_json(response.text)
+        json_resp = response.json()
+        combined_text = json_resp.get("response", "")
         print("Parsed response preview:", combined_text[:500])
 
         print("===== REQUEST SUCCESS =====\n")

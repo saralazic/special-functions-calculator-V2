@@ -4,6 +4,9 @@ import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { LanguageService } from 'src/app/services/language-service/language.service';
 import { ChatService, ChatMessage } from 'src/app/services/chat/chat.service';
+import katex from 'katex';
+// @ts-ignore
+import renderMathInElement from 'katex/dist/contrib/auto-render';
 
 @Component({
   standalone: false,
@@ -60,6 +63,10 @@ export class ChatbotComponent implements OnInit, OnDestroy, AfterViewChecked {
     if (this.shouldScrollToBottom) {
       this.scrollToBottom();
       this.shouldScrollToBottom = false;
+  
+      setTimeout(() => {
+        this.renderMath();
+      });
     }
   }
 
@@ -132,5 +139,21 @@ export class ChatbotComponent implements OnInit, OnDestroy, AfterViewChecked {
     setTimeout(() => {
       this.messageInput?.nativeElement?.focus();
     }, 50);
+  }
+
+  private renderMath() {
+    try {
+      renderMathInElement(this.messagesContainer.nativeElement, {
+        delimiters: [
+          { left: '$$', right: '$$', display: true },
+          { left: '\\[', right: '\\]', display: true },
+          { left: '$', right: '$', display: false },
+          { left: '\\(', right: '\\)', display: false }
+        ],
+        throwOnError: false
+      });
+    } catch (e) {
+      console.error(e);
+    }
   }
 }
