@@ -39,6 +39,16 @@ frontend/.angular/cache
 testem.log
 /typings
 
+# Python
+llm-env/
+__pycache__/
+*.pyc
+.python-version
+
+# Knowledge base indexes (generated/rebuilt from source)
+knowledge_base/faiss_index/
+knowledge_base/faiss_index_latex/
+
 # System files
 .DS_Store
 Thumbs.db

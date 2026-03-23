@@ -1,4 +1,4 @@
-.PHONY: install install-frontend install-backend build build-frontend build-backend dev dev-frontend dev-backend start clean
+.PHONY: install install-frontend install-backend llm-install llm-install-macos llm-run llm-build-kb build build-frontend build-backend dev dev-frontend dev-backend start clean
 
 # ─── Install ────────────────────────────────────────────────
 install: install-backend install-frontend
@@ -8,6 +8,20 @@ install-frontend:
 
 install-backend:
 	cd backend && npm install
+
+# ─── LLM service ─────────────────────────────────────────────
+llm-install:
+	python3 -m pip install -r llm-service/requirements.txt
+
+llm-install-macos:
+	brew bundle --file=llm-service/Brewfile
+
+llm-run:
+	cd llm-service && uvicorn main:app --reload --port 8000
+
+llm-build-kb:
+	python3 llm-service/rag/build_pdf_knowledge_base.py
+	python3 llm-service/rag/build_latex_knowledge_base.py
 
 # ─── Build ──────────────────────────────────────────────────
 build: build-backend build-frontend

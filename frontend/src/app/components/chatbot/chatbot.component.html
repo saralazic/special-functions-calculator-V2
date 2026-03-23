@@ -39,7 +39,7 @@
           <mat-icon>smart_toy</mat-icon>
         </div>
         <div class="bubble" [ngClass]="msg.role">
-          {{ msg.content }}
+          <div [innerHTML]="msg.content"></div>
         </div>
         <div class="avatar user-avatar" *ngIf="msg.role === 'user'">
           <mat-icon>person</mat-icon>
