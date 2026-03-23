@@ -1,17 +1,17 @@
 .chatbot-wrapper {
   width: 100%;
-  height: calc(100vh - 80px);
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 16px;
+  box-sizing: border-box;
 }
 
 .chat-container {
   width: 100%;
   max-width: 720px;
   height: 100%;
-  max-height: 680px;
   background: #fff;
   border-radius: 16px;
   box-shadow: 0 4px 32px rgba(0,0,0,0.1);
@@ -308,14 +308,14 @@
 .send-button mat-icon { font-size: 18px; width: 18px; height: 18px; }
 
 @media screen and (max-width: 768px) {
-  .chatbot-wrapper { padding: 8px; height: calc(100vh - 76px); }
-  .chat-container { max-height: none; height: 100%; border-radius: 12px; }
+  .chatbot-wrapper { padding: 8px; }
+  .chat-container { border-radius: 12px; }
   .bubble { max-width: 85%; }
   .chip { padding: 6px 12px; font-size: 0.75rem; }
 }
 
 @media screen and (max-width: 520px) {
-  .chatbot-wrapper { padding: 4px; height: calc(100vh - 74px); }
+  .chatbot-wrapper { padding: 4px; }
   .chat-container { border-radius: 8px; }
   .chat-header { padding: 10px 12px; gap: 10px; }
   .header-icon { width: 34px; height: 34px; }
