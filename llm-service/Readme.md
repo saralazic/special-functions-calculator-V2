@@ -2,17 +2,14 @@
 
 ## Install dependencies
 
-1. python 
+This service tracks dependencies in files:
+- Python packages: `requirements.txt`
+- macOS/Homebrew packages: `Brewfile`
+
+From project root:
 ```
-brew install python
-```
-2. FastAPI and dependencies
-```
-pip install fastapi uvicorn requests
-```
-3. Ollama
-```
-brew install ollama
+make llm-install-macos
+make llm-install
 ```
 
 ## Run Ollama
@@ -54,32 +51,22 @@ Close chat with next command.
 
 ## Install dependencies for RAG
 
-```
-pip install --upgrade pip setuptools wheel
-pip install langchain langchain-text-splitters langchain-community
-pip install faiss-cpu
-pip install sentence-transformers
-pip install unstructured
-pip install "unstructured[pdf]"
-pip install pdfminer.six
-```
+RAG dependencies are already included in `requirements.txt`.
 
 ## Build knowledge bases:
 
 This two python scripts are intended to process pdf and latex files from literature and fill in vector_db which will be knowledge base for calculator.
 ```
-python llm-service/rag/build_pdf_knowledge_base.py
-
-python llm-service/rag/build_latex_knowledge_base.py
+make llm-build-kb
 ```
 
 ## Run minimal FastAPI server for LLM
 
 Script <b>main.py</b> is a minimal FastAPI server for LLM. It uses helper function defined in <b>json_stream_parser.py</b> in order to process LLM response (JSON stream) and creates a readable text (which is later processed additionaly in the frontend component into a nicer format). It also uses helper for forming context out of knowledge base(s).
 
-Run the server from llm-service folder:
+Run the server from project root:
 ```
-uvicorn main:app --reload --port 8000
+make llm-run
 ```
 
 and than in a new terminal test it with a curl. Example:
