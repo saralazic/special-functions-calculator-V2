@@ -12,6 +12,16 @@ export interface ChatResponse {
   reply: string;
 }
 
+export interface ModelOption {
+  id: string;
+  label: string;
+}
+
+export const AVAILABLE_MODELS: ModelOption[] = [
+  { id: 'llama', label: 'Llama 3' },
+  { id: 'qwen', label: 'Qwen 2.5' },
+];
+
 @Injectable({
   providedIn: 'root',
 })
@@ -20,11 +30,11 @@ export class ChatService {
 
   constructor(private http: HttpClient) {}
 
-  sendMessage(message: string): Observable<ChatResponse> {
+  sendMessage(message: string, model: string): Observable<ChatResponse> {
     return this.http
       .post<{ response?: string; error?: string }>(this.baseUrl, {
         prompt: message,
-        model: 'qwen'
+        model,
       })
       .pipe(
         map((res) => ({

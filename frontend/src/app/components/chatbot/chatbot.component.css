@@ -23,11 +23,100 @@
 .chat-header {
   display: flex;
   align-items: center;
-  gap: 12px;
+  justify-content: space-between;
   padding: 16px 20px;
   background: linear-gradient(135deg, var(--burgundy), #a83010);
   color: white;
   flex-shrink: 0;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.model-selector {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(255,255,255,0.13);
+  border: 1px solid rgba(255,255,255,0.22);
+  border-radius: 20px;
+  padding: 5px 10px 5px 14px;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+  user-select: none;
+}
+
+.model-selector:hover {
+  background: rgba(255,255,255,0.24);
+  border-color: rgba(255,255,255,0.35);
+}
+
+.model-label {
+  font-size: 0.78rem;
+  font-weight: 500;
+  white-space: nowrap;
+  letter-spacing: 0.01em;
+}
+
+.model-chevron {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+  transition: transform 0.2s ease;
+  opacity: 0.8;
+}
+
+.model-chevron.open {
+  transform: rotate(180deg);
+}
+
+.model-dropdown {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  min-width: 140px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 8px 28px rgba(0,0,0,0.15), 0 2px 8px rgba(0,0,0,0.08);
+  padding: 4px;
+  z-index: 50;
+  animation: dropIn 0.15s ease;
+}
+
+@keyframes dropIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.model-option {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 8px 14px;
+  border: none;
+  background: transparent;
+  border-radius: 7px;
+  font-size: 0.82rem;
+  font-family: inherit;
+  font-weight: 500;
+  color: #444;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.model-option:hover {
+  background: rgba(215,127,27,0.08);
+  color: var(--burgundy);
+}
+
+.model-option.active {
+  background: linear-gradient(135deg, rgba(131,40,7,0.08), rgba(215,127,27,0.1));
+  color: var(--burgundy);
+  font-weight: 600;
 }
 
 .header-icon {
@@ -233,4 +322,6 @@
   .header-text h1 { font-size: 0.95rem; }
   .messages-area { padding: 14px 10px; }
   .input-area { padding: 8px 10px 10px; }
+  .model-selector { padding: 4px 8px 4px 10px; }
+  .model-label { font-size: 0.72rem; }
 }

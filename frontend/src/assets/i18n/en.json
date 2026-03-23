@@ -96,7 +96,8 @@
     "subtitle": "Ask me about special functions",
     "placeholder": "Ask about Bessel, Gamma, Beta...",
     "welcomeMessage": "Welcome to the Math Assistant!",
-    "welcomeHint": "I can help you learn about special functions — Bessel, Gamma, Beta, Legendre, and more. Ask me anything or pick a topic below."
+    "welcomeHint": "I can help you learn about special functions — Bessel, Gamma, Beta, Legendre, and more. Ask me anything or pick a topic below.",
+    "modelTooltip": "Change model"
   },
   "chatWidget": {
     "title": "Math Assistant",

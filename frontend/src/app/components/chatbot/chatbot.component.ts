@@ -3,7 +3,7 @@ import { Component, OnInit, OnDestroy, ViewChild, ElementRef, AfterViewChecked }
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { LanguageService } from 'src/app/services/language-service/language.service';
-import { ChatService, ChatMessage } from 'src/app/services/chat/chat.service';
+import { ChatService, ChatMessage, AVAILABLE_MODELS, ModelOption } from 'src/app/services/chat/chat.service';
 import katex from 'katex';
 // @ts-ignore
 import renderMathInElement from 'katex/dist/contrib/auto-render';
@@ -22,11 +22,16 @@ export class ChatbotComponent implements OnInit, OnDestroy, AfterViewChecked {
   inputText = '';
   isLoading = false;
 
+  models: ModelOption[] = AVAILABLE_MODELS;
+  selectedModel = AVAILABLE_MODELS[0].id;
+  modelDropdownOpen = false;
+
   title?: string;
   subtitle?: string;
   placeholder?: string;
   welcomeMessage?: string;
   welcomeHint?: string;
+  modelTooltip?: string;
 
   private subscription?: Subscription;
   private shouldScrollToBottom = false;
@@ -80,6 +85,7 @@ export class ChatbotComponent implements OnInit, OnDestroy, AfterViewChecked {
         this.placeholder = translations.chatbot.placeholder;
         this.welcomeMessage = translations.chatbot.welcomeMessage;
         this.welcomeHint = translations.chatbot.welcomeHint;
+        this.modelTooltip = translations.chatbot.modelTooltip;
       });
   }
 
@@ -97,7 +103,7 @@ export class ChatbotComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.isLoading = true;
     this.shouldScrollToBottom = true;
 
-    this.chatService.sendMessage(text).subscribe({
+    this.chatService.sendMessage(text, this.selectedModel).subscribe({
       next: (response) => {
         this.messages.push({
           role: 'assistant',
@@ -119,6 +125,15 @@ export class ChatbotComponent implements OnInit, OnDestroy, AfterViewChecked {
         this.focusInput();
       },
     });
+  }
+
+  get selectedModelLabel(): string {
+    return this.models.find(m => m.id === this.selectedModel)?.label ?? '';
+  }
+
+  selectModel(id: string) {
+    this.selectedModel = id;
+    this.modelDropdownOpen = false;
   }
 
   onKeyDown(event: KeyboardEvent) {

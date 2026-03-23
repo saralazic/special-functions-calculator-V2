@@ -96,7 +96,8 @@
     "subtitle": "Pitajte me o specijalnim funkcijama",
     "placeholder": "Pitajte o Beselovim, Gama, Beta...",
     "welcomeMessage": "Dobrodošli u matematičkog asistenta!",
-    "welcomeHint": "Mogu da vam pomognem da saznate više o specijalnim funkcijama — Beselove, Gama, Beta, Ležandrove i druge. Pitajte me bilo šta ili izaberite temu ispod."
+    "welcomeHint": "Mogu da vam pomognem da saznate više o specijalnim funkcijama — Beselove, Gama, Beta, Ležandrove i druge. Pitajte me bilo šta ili izaberite temu ispod.",
+    "modelTooltip": "Promeni model"
   },
   "chatWidget": {
     "title": "Matematički asistent",
