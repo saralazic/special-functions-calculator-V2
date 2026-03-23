@@ -24,6 +24,7 @@ export class ChatService {
     return this.http
       .post<{ response?: string; error?: string }>(this.baseUrl, {
         prompt: message,
+        model: 'qwen'
       })
       .pipe(
         map((res) => ({

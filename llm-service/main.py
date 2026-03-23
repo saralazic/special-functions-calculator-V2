@@ -16,11 +16,17 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+MODEL_MAP = {
+    "llama": "llama3",
+    "qwen": "qwen2.5:7b"
+}
+
 OLLAMA_URL = "http://127.0.0.1:11434/api/generate"
 
 
 class PromptRequest(BaseModel):
     prompt: str
+    model: str = "llama"
 
 
 @app.post("/chat")
@@ -49,12 +55,12 @@ If the answer contains mathematical notation, you MUST format it using LaTeX.
 
 
 Incorrect: df(x)/dx + (v/x)*f(x)
-Correct: \\[
-\\frac{{df(x)}}{{dx}} + \\frac{{\\nu}}{{x}} f(x)
-\\]
+Correct: \[
+\frac{{df(x)}}{{dx}} + \frac{{\nu}}{{x}} f(x)
+\]
 
 Incorrect: Jv(x)
-Correct: J_{{\\nu}}(x)
+Correct: J_{{\nu}}(x)
 
 If context is insufficient, say you are not sure.
 
@@ -71,9 +77,10 @@ Answer:
         print("Prompt length:", len(rag_prompt))
         print("Prompt preview:", rag_prompt[:500])
 
-        # Ollama payload using num_predict instead of max_tokens
+        model_name = MODEL_MAP.get(request.model, "llama3:8b")
+
         payload = {
-            "model": "llama3",
+            "model": model_name,
             "prompt": rag_prompt,
             "stream": False,
             "options": {

@@ -1,4 +1,4 @@
-.PHONY: install install-frontend install-backend llm-install llm-install-macos llm-run llm-build-kb build build-frontend build-backend dev dev-frontend dev-backend start clean
+.PHONY: install install-frontend install-backend llm-install llm-install-macos llm-run llm-build-kb llm-clean-venv build build-frontend build-backend dev dev-frontend dev-backend start clean
 
 # ─── Install ────────────────────────────────────────────────
 install: install-backend install-frontend
@@ -11,17 +11,22 @@ install-backend:
 
 # ─── LLM service ─────────────────────────────────────────────
 llm-install:
-	python3 -m pip install -r llm-service/requirements.txt
+	python3 -m venv llm-service/.venv
+	llm-service/.venv/bin/python -m pip install --upgrade pip setuptools wheel
+	llm-service/.venv/bin/python -m pip install --no-compile -r llm-service/requirements.txt
 
 llm-install-macos:
 	brew bundle --file=llm-service/Brewfile
 
 llm-run:
-	cd llm-service && uvicorn main:app --reload --port 8000
+	cd llm-service && .venv/bin/uvicorn main:app --reload --port 8000
 
 llm-build-kb:
-	python3 llm-service/rag/build_pdf_knowledge_base.py
-	python3 llm-service/rag/build_latex_knowledge_base.py
+	llm-service/.venv/bin/python llm-service/rag/build_pdf_knowledge_base.py
+	llm-service/.venv/bin/python llm-service/rag/build_latex_knowledge_base.py
+
+llm-clean-venv:
+	rm -rf llm-service/.venv
 
 # ─── Build ──────────────────────────────────────────────────
 build: build-backend build-frontend

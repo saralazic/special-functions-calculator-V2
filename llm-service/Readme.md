@@ -11,6 +11,8 @@ From project root:
 make llm-install-macos
 make llm-install
 ```
+`llm-install-macos` installs `ollama`, `pkg-config`, and `libheif` (needed for `pi-heif` builds on macOS).
+`llm-install` creates `llm-service/.venv` and installs Python dependencies there.
 
 ## Run Ollama
 
@@ -51,7 +53,7 @@ Close chat with next command.
 
 ## Install dependencies for RAG
 
-RAG dependencies are already included in `requirements.txt`.
+RAG dependencies are already included in `requirements.txt` (PDF loading uses `pypdf` via `PyPDFLoader`).
 
 ## Build knowledge bases:
 
