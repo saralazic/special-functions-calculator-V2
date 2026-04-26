@@ -1,5 +1,6 @@
 from langchain_community.vectorstores import FAISS
 from langchain_community.embeddings import SentenceTransformerEmbeddings
+from concurrent.futures import ThreadPoolExecutor
 import os
 
 embedding_model = SentenceTransformerEmbeddings(
@@ -16,15 +17,13 @@ latex_db = FAISS.load_local(LATEX_DB_PATH, embedding_model, allow_dangerous_dese
 
 
 def get_context(query, k_each=2):
-    pdf_results = pdf_db.similarity_search(query, k=k_each)
-    latex_results = latex_db.similarity_search(query, k=k_each)
+    with ThreadPoolExecutor(max_workers=2) as executor:
+        pdf_future = executor.submit(pdf_db.similarity_search, query, k=k_each)
+        latex_future = executor.submit(latex_db.similarity_search, query, k=k_each)
 
-    chunks = []
+        pdf_results = pdf_future.result()
+        latex_results = latex_future.result()
 
-    for d in pdf_results:
-        chunks.append(d.page_content)
-
-    for d in latex_results:
-        chunks.append(d.page_content)
+    chunks = [d.page_content for d in pdf_results + latex_results]
 
     return "\n\n---\n\n".join(chunks)

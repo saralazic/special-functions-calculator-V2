@@ -1,4 +1,3 @@
-# parse_stream_memory.py
 import json
 
 def parse_stream_json(stream_json):

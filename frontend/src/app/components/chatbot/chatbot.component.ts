@@ -23,7 +23,7 @@ export class ChatbotComponent implements OnInit, OnDestroy, AfterViewChecked {
   isLoading = false;
 
   models: ModelOption[] = AVAILABLE_MODELS;
-  selectedModel = AVAILABLE_MODELS[0].id;
+  selectedModel = 'qwen';
   modelDropdownOpen = false;
 
   title?: string;

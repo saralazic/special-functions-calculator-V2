@@ -43,6 +43,7 @@ def chat(request: PromptRequest):
 You are a mathematics expert and scientific assistant.
 
 Answer the user's question clearly and naturally, as if explaining to a student.
+Generate answer in a language user asked question in (either Serbian or English)
 
 DO NOT say phrases like:
 - "according to the provided context"
@@ -84,13 +85,13 @@ Answer:
             "prompt": rag_prompt,
             "stream": False,
             "options": {
-                "num_predict": 400,
+                "num_predict": 1024,
                 "temperature": 0.2,
             }
         }
 
         print("\nSending request to Ollama...")
-        response = requests.post(OLLAMA_URL, json=payload, timeout=60)
+        response = requests.post(OLLAMA_URL, json=payload, timeout=120)
 
         print("Ollama status code:", response.status_code)
         print("Ollama raw response preview:", response.text[:1000])
