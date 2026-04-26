@@ -1,13 +1,30 @@
 <div class="chatbot-wrapper">
   <div class="chat-container">
     <div class="chat-header">
-      <div class="header-icon">
-        <mat-icon>smart_toy</mat-icon>
+      <div class="header-left">
+        <div class="header-icon">
+          <mat-icon>lightbulb</mat-icon>
+        </div>
+        <div class="header-text">
+          <h1>{{ title }}</h1>
+          <p class="subtitle">{{ subtitle }}</p>
+        </div>
       </div>
-      <div class="header-text">
-        <h1>{{ title }}</h1>
-        <p class="subtitle">{{ subtitle }}</p>
+      <!-- Model selector hidden – Qwen is the default model
+      <div class="model-selector" [matTooltip]="modelTooltip || ''" (click)="modelDropdownOpen = !modelDropdownOpen" (mouseleave)="modelDropdownOpen = false">
+        <span class="model-label">{{ selectedModelLabel }}</span>
+        <mat-icon class="model-chevron" [class.open]="modelDropdownOpen">expand_more</mat-icon>
+        <div class="model-dropdown" *ngIf="modelDropdownOpen">
+          <button
+            *ngFor="let m of models"
+            class="model-option"
+            [class.active]="m.id === selectedModel"
+            (click)="selectModel(m.id); $event.stopPropagation()">
+            {{ m.label }}
+          </button>
+        </div>
       </div>
+      -->
     </div>
 
     <div class="messages-area" #messagesContainer>
@@ -36,7 +53,7 @@
 
       <div *ngFor="let msg of messages" class="message-row" [ngClass]="msg.role">
         <div class="avatar" *ngIf="msg.role === 'assistant'">
-          <mat-icon>smart_toy</mat-icon>
+          <mat-icon>lightbulb</mat-icon>
         </div>
         <div class="bubble" [ngClass]="msg.role">
           <div [innerHTML]="msg.content"></div>
@@ -48,7 +65,7 @@
 
       <div *ngIf="isLoading" class="message-row assistant">
         <div class="avatar">
-          <mat-icon>smart_toy</mat-icon>
+          <mat-icon>lightbulb</mat-icon>
         </div>
         <div class="bubble assistant typing">
           <span class="dot"></span>

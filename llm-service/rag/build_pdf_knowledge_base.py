@@ -1,9 +1,8 @@
 import os
 from langchain_text_splitters import RecursiveCharacterTextSplitter
-from langchain_core.documents import Document
 from langchain_community.vectorstores import FAISS
 from langchain_community.embeddings import SentenceTransformerEmbeddings
-from langchain_community.document_loaders import UnstructuredPDFLoader
+from langchain_community.document_loaders import PyPDFLoader
 
 PDF_PATHS = [
     "llm-service/rag/literature/An atlas of functions-192-232.pdf",
@@ -20,10 +19,7 @@ embedding_model = SentenceTransformerEmbeddings(
 )
 
 def load_pdf(file_path):
-    loader = UnstructuredPDFLoader(
-        file_path,
-        mode="elements"  #this mode gives formulas as separate blocks, titles, etc.
-    )
+    loader = PyPDFLoader(file_path)
     return loader.load()
 
 all_documents = []

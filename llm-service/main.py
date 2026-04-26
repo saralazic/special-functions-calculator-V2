@@ -16,11 +16,17 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+MODEL_MAP = {
+    "llama": "llama3",
+    "qwen": "qwen2.5:7b"
+}
+
 OLLAMA_URL = "http://127.0.0.1:11434/api/generate"
 
 
 class PromptRequest(BaseModel):
     prompt: str
+    model: str = "llama"
 
 
 @app.post("/chat")
@@ -37,6 +43,7 @@ def chat(request: PromptRequest):
 You are a mathematics expert and scientific assistant.
 
 Answer the user's question clearly and naturally, as if explaining to a student.
+Generate answer in a language user asked question in (either Serbian or English)
 
 DO NOT say phrases like:
 - "according to the provided context"
@@ -49,12 +56,12 @@ If the answer contains mathematical notation, you MUST format it using LaTeX.
 
 
 Incorrect: df(x)/dx + (v/x)*f(x)
-Correct: \\[
-\\frac{{df(x)}}{{dx}} + \\frac{{\\nu}}{{x}} f(x)
-\\]
+Correct: \[
+\frac{{df(x)}}{{dx}} + \frac{{\nu}}{{x}} f(x)
+\]
 
 Incorrect: Jv(x)
-Correct: J_{{\\nu}}(x)
+Correct: J_{{\nu}}(x)
 
 If context is insufficient, say you are not sure.
 
@@ -71,19 +78,20 @@ Answer:
         print("Prompt length:", len(rag_prompt))
         print("Prompt preview:", rag_prompt[:500])
 
-        # Ollama payload using num_predict instead of max_tokens
+        model_name = MODEL_MAP.get(request.model, "llama3:8b")
+
         payload = {
-            "model": "llama3",
+            "model": model_name,
             "prompt": rag_prompt,
             "stream": False,
             "options": {
-                "num_predict": 400,
+                "num_predict": 1024,
                 "temperature": 0.2,
             }
         }
 
         print("\nSending request to Ollama...")
-        response = requests.post(OLLAMA_URL, json=payload, timeout=60)
+        response = requests.post(OLLAMA_URL, json=payload, timeout=120)
 
         print("Ollama status code:", response.status_code)
         print("Ollama raw response preview:", response.text[:1000])

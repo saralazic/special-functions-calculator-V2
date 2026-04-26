@@ -7,5 +7,4 @@ langchain-community
 langchain-text-splitters
 faiss-cpu
 sentence-transformers
-unstructured[pdf]
-pdfminer.six
+pypdf
