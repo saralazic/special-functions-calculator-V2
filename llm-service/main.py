@@ -27,6 +27,7 @@ OLLAMA_URL = "http://127.0.0.1:11434/api/generate"
 class PromptRequest(BaseModel):
     prompt: str
     model: str = "llama"
+    language: str = "en"
 
 
 @app.post("/chat")
@@ -38,12 +39,16 @@ def chat(request: PromptRequest):
         context = get_context(request.prompt, k_each=2)
         print("Context length:", len(context))
 
+        lang_name = "Serbian" if request.language == "sr" else "English"
+
         # Raw f-string (rf""") allows LaTeX backslashes without Python errors
         rag_prompt = rf"""
 You are a mathematics expert and scientific assistant.
+Your task is to answer user's question based on the provided context. 
+If context is insufficient, say you are not sure, but do not mention the context in your answer, just say you are currently not able to answer the question and apologize.
 
 Answer the user's question clearly and naturally, as if explaining to a student.
-Generate answer in a language user asked question in (either Serbian or English)
+You MUST reply ENTIRELY in {lang_name}. Every word of your answer must be in {lang_name}, regardless of the language of the context or the question.
 
 DO NOT say phrases like:
 - "according to the provided context"
