@@ -1,0 +1,1346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot Evaluation Report</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+        onload="renderMathInElement(document.body, {
+            delimiters: [
+                {left: '$$', right: '$$', display: true},
+                {left: '\\[', right: '\\]', display: true},
+                {left: '$', right: '$', display: false},
+                {left: '\\(', right: '\\)', display: false}
+            ],
+            throwOnError: false
+        });">
+    </script>
+    <style>
+        :root {
+            --bg: #0f1117;
+            --surface: #1a1b26;
+            --card: #1e1f2e;
+            --border: #2a2b3d;
+            --text: #e0e0e0;
+            --text-muted: #888;
+            --accent: #7c3aed;
+            --accent-light: #a78bfa;
+            --success: #22c55e;
+            --error: #ef4444;
+            --question-bg: #252640;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+            padding: 2rem;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        header {
+            text-align: center;
+            padding: 2rem 0 1.5rem;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 2rem;
+        }
+        header h1 {
+            font-size: 1.8rem;
+            color: var(--accent-light);
+            margin-bottom: 0.5rem;
+        }
+        .meta {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+        .meta span {
+            margin: 0 0.75rem;
+        }
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin: 1.5rem 0;
+        }
+        .stat {
+            background: var(--surface);
+            padding: 1rem 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+        }
+        .stat .number {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--accent-light);
+        }
+        .stat .label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .toc {
+            background: var(--surface);
+            border-radius: 10px;
+            padding: 1.5rem 2rem;
+            margin-bottom: 2rem;
+        }
+        .toc h3 {
+            color: var(--accent-light);
+            margin-bottom: 0.75rem;
+        }
+        .toc ol {
+            columns: 2;
+            column-gap: 2rem;
+            padding-left: 1.5rem;
+        }
+        .toc li {
+            margin-bottom: 0.3rem;
+        }
+        .toc a {
+            color: var(--text);
+            text-decoration: none;
+        }
+        .toc a:hover {
+            color: var(--accent-light);
+        }
+        .function-section {
+            margin-bottom: 3rem;
+        }
+        .function-section h2 {
+            font-size: 1.4rem;
+            color: var(--accent-light);
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+        .func-type-code {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+        }
+        .qa-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            margin-bottom: 1.25rem;
+            overflow: hidden;
+        }
+        .question {
+            background: var(--question-bg);
+            padding: 1rem 1.25rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .q-label {
+            color: var(--accent-light);
+            font-weight: 700;
+            min-width: 2rem;
+        }
+        .badge {
+            font-size: 0.7rem;
+            padding: 0.15rem 0.5rem;
+            border-radius: 4px;
+            font-weight: 600;
+            margin-left: auto;
+            text-transform: uppercase;
+        }
+        .badge.success {
+            background: rgba(34,197,94,0.15);
+            color: var(--success);
+        }
+        .badge.error {
+            background: rgba(239,68,68,0.15);
+            color: var(--error);
+        }
+        .answer {
+            padding: 1.25rem;
+            line-height: 1.8;
+        }
+        .answer .katex-display {
+            margin: 1rem 0;
+        }
+        footer {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            padding: 2rem 0;
+            border-top: 1px solid var(--border);
+        }
+        @media print {
+            body { background: #fff; color: #111; padding: 1rem; }
+            .qa-card { border: 1px solid #ccc; break-inside: avoid; }
+            .question { background: #f0f0f0; }
+            .function-section { break-before: page; }
+            :root {
+                --bg: #fff; --surface: #f9f9f9; --card: #fff;
+                --border: #ddd; --text: #111; --text-muted: #666;
+                --accent: #5b21b6; --accent-light: #6d28d9;
+                --question-bg: #f5f3ff;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <header>
+        <h1>Chatbot Evaluation Report</h1>
+        <div class="meta">
+            <span>2026-04-29 20:40:18</span>
+            <span>Model: <strong>qwen</strong></span>
+            <span>Selected language: <strong>sr</strong></span>
+            <span>LLM Service: http://localhost:8000</span>
+        </div>
+    </header>
+
+    <div class="stats">
+        <div class="stat">
+            <div class="number">59</div>
+            <div class="label">Questions</div>
+        </div>
+        <div class="stat">
+            <div class="number">11</div>
+            <div class="label">Functions</div>
+        </div>
+        <div class="stat">
+            <div class="number">59</div>
+            <div class="label">Answered</div>
+        </div>
+        <div class="stat">
+            <div class="number">0</div>
+            <div class="label">Errors</div>
+        </div>
+    </div>
+
+    <div class="toc">
+        <h3>Table of Contents</h3>
+        <ol>
+            <li><a href="#bessel1">Bessel Function of the First Kind</a></li><li><a href="#gamma">Gamma Function</a></li><li><a href="#beta">Beta Function</a></li><li><a href="#laguerre">Laguerre Polynomial</a></li><li><a href="#legendre">Legendre Polynomial</a></li><li><a href="#jacobi">Jacobi Polynomial</a></li><li><a href="#chebyshev1">Chebyshev Polynomial of the First Kind</a></li><li><a href="#chebyshev2">Chebyshev Polynomial of the Second Kind</a></li><li><a href="#hermite1">Physicist&#x27;s Hermite Polynomial</a></li><li><a href="#hermite2">Probabilist&#x27;s Hermite Polynomial</a></li><li><a href="#general">General Questions</a></li>
+        </ol>
+    </div>
+
+    
+        <div class="function-section" id="bessel1">
+            <h2>Bessel Function of the First Kind</h2>
+            <p class="func-type-code">bessel1</p>
+            
+            <div class="qa-card">
+                <div class="question">
+                    <span class="q-label">Q1.</span>
+                    Šta je Beselova funkcija prve vrste?
+                    <span class="badge success">OK</span>
+                </div>
+                <div class="answer">
+                    Beselova funkcija prve vrste, označena sa \(J_{\alpha}(x)\), je jedna od ključnih funkcija u teoriji specijalnih funkcija. Definisana je kao rešenje Beselove diferencijalne jednačine prvog reda. Ova funkcija zauzima važno mesto u matematici i fizici, posebno u problemaima sa simetrijom koja se redukuju na cilindarski oblik.<br>
+<br>
+Beselova funkcija prve vrste može biti definisana kroz redove razvoja. Za pozitivan realan parametar \(\alpha\) i pozitivnu varijablu \(x\), može se napisati kao:<br>
+<br>
+\[ J_{\alpha}(x) = \sum_{m=0}^{\infty} \frac{(-1)^m}{m! \, \Gamma(m+\alpha+1)} \left(\frac{x}{2}\right)^{2m+\alpha}, \]<br>
+<br>
+gde je \(\Gamma\) gamma funkcija.<br>
+<br>
+Beselove funkcije su ključne u mnogim fizikalnim i matematičkim problemima, posebno u teoriji vremenskih signala, elektromagnetizmu i strujama u cilindarskom prostoru.
+                </div>
+            </div>
+            
+            <div class="qa-card">
+                <div class="question">
+                    <span class="q-label">Q2.</span>
+                    Koja je definicija Beselove funkcije prve vrste?
+                    <span class="badge success">OK</span>
+                </div>
+                <div class="answer">
+                    Beselova funkcija prve vrste reda \(\nu\) se definiše kroz rješenje Besselove jednačine prvog reda. Jedan od načina da se ova funkcija definise je kroz generativnu funkciju:<br>
+<br>
+\[<br>
+g(x,t) = \sum_{n=-\infty}^{\infty} J_n(x) t^n<br>
+\]<br>
+<br>
+gdje \(J_n(x)\) predstavlja Beselovu funkciju prve vrste reda \(\nu=n\).
+                </div>
+            </div>
+            
+            <div class="qa-card">
+                <div class="question">
+                    <span class="q-label">Q3.</span>
+                    Koja je praktična primena Beselove funkcije prve vrste?
+                    <span class="badge success">OK</span>
+                </div>
+                <div class="answer">
+                    Praktične primene Beselove funkcije prve vrste su mnogo različite i se pojavljuju u više područjima nauke i tehnologije. Jedna od najvažnijih je u mehaničkoj i elektronskom polju, gde se koriste za opisivanje vibracija i difuzija u cilindričnoj simetriji. Beselove funkcije prve vrste su ključne u teoriji elektromagnetnih valova, u analizi struja u cilindrimskim konduktorema, kao i u opisu termičke difuzije.<br>
+<br>
+U fizici, Beselove funkcije se koriste za rešavanje problema sa simetrijskim oblikom, posebno kugličnim ili cilindričnim. Na primer, u teoriji strujanja električne energije kroz cilindrimski konduktori, Beselove funkcije pomažu u prilagođavanju rešenja diferencijalnim jednačinama.<br>
+<br>
+U matematičkoj fizici i teoriji signala, Beselove funkcije se koriste za analizu struktura koja imaju simetriju oko osi. Na primer, u opisu vibracija rotirajućih tijela ili vrtljenja fluida.<br>
+<br>
+Napokon, u inženjerskim primenama, Beselove funkcije se koriste za modeliranje procesa u kojima postoji cilindrična simetria. Na primer, u geofizičkom eksploraciji za analizu podlogi zemlje ili u inženjerstvu konstrukcija za opisivanje strujanja u cilindrimskim kanalima.<br>
+<br>
+Beselove funkcije prve vrste su ključne i u tehnologijama vezanim za komunikaciju, posebno u analizi antena sa cilindričnom simetrijom.
+                </div>
+            </div>
+            
+            <div class="qa-card">
+                <div class="question">
+                    <span class="q-label">Q4.</span>
+                    Koja je diferencijalna jednačina čije je rešenje Beselova funkcija prve vrste?
+                    <span class="badge success">OK</span>
+                </div>
+                <div class="answer">
+                    Diferencijalna jednačina čije je rešenje Beselova funkcija prve vrste ima oblik:<br>
+<br>
+\[<br>
+x^{2}\frac{d^{2}y}{dx^{2}} + x\frac{dy}{dx} + (x^{2} - \alpha^{2})y = 0<br>
+\]<br>
+<br>
+Ova jednačina se pojavljuje u matematici kao Beselova diferencijalna jednačina prve vrste reda \(\alpha\).
+                </div>
+            </div>
+            
+            <div class="qa-card">
+                <div class="question">
+                    <span class="q-label">Q5.</span>
+                    Koji je matematički izraz za Beselovu funkciju prve vrste?
+                    <span class="badge success">OK</span>
+                </div>
+                <div class="answer">
+                    Beselova funkcija prve vrste, oznaka \(J_{n}(x)\), može biti definisana na više načina. Jedna od te definicija je korišćenje konvolusije koja se zove konvergente red:<br>
+<br>
+\[<br>
+J_{n}(x) = \sum_{m=0}^{\infty} \frac{(-1)^m}{(m+n)! m!} \left(\frac{x}{2}\right)^{2m+n}<br>
+\]<br>
+<br>
+Ovo je direktna definicija koja se koristi za celobrojne vrednosti parametra \(n\).
+                </div>
+            </div>
+            
+            <div class="qa-card">
+                <div class="question">
+                    <span class="q-label">Q6.</span>
+                    Šta je Beselova diferencijalna jednačina?
+                    <span class="badge success">OK</span>
+                </div>
+                <div class="answer">
+                    Beselova diferencijalna jednačina je vrsta linearnih homogenih diferencijalnih jednačina drugog reda. Ona se obično piše u obliku:<br>
+<br>
+\[<br>
+x^2 \frac{d^2 y}{dx^2} + x \frac{dy}{dx} + (x^2 - \nu^2)y = 0<br>
+\]<br>
+<br>
+gdje je \(\nu\) parametar. Ova jednačina je vrlo važna u matematici i fizici, posebno u analizi problema vezanih za rotacije i kugle.
+                </div>
+            </div>
+            
+        </div>
+        
+        <div class="function-section" id="gamma">
+            <h2>Gamma Function</h2>
+            <p class="func-type-code">gamma</p>
+            
+            <div class="qa-card">
+                <div class="question">
+                    <span class="q-label">Q1.</span>
+                    Šta je Gama funkcija?
+                    <span class="badge success">OK</span>
+                </div>
+                <div class="answer">
+                    Gama funkcija je posebna matematička funkcija koja se često koristi u teoriji brojeva, verovatnoćama i integralnim racunalima. Definisana je Eulerovim integralom:<br>
+<br>
+\[<br>
+\Gamma(x) = \int_{0}^{\infty} t^{x - 1} e^{-t} dt<br>
+\]<br>
+<br>
+za pozitivne realne vrednosti x. Gama funkcija ima važnu vezu sa faktorijelim, jer za prirodne brojeve n važi:<br>
+<br>
+\[<br>
+\Gamma(n + 1) = n!<br>
+\]<br>
+<br>
+Gama funkcija takođe može se definisati korišćenjem logaritma:<br>
+<br>
+\[<br>
+\ln(\Gamma(x)) = \int_{0}^{1} \left( \frac{t^x - 1}{t - 1} - x \right) \frac{dt}{\ln t}<br>
+\]<br>
+<br>
+Ima i druga definicije, na primer korišćenjem Laplasove i Fourierove transformacije.
+                </div>
+            </div>
+            
+            <div class="qa-card">
+                <div class="question">
+                    <span class="q-label">Q2.</span>
+                    Koja je definicija Gama funkcije?
+                    <span class="badge success">OK</span>
+                </div>
+                <div class="answer">
+                    Gama funkcija se često definiše kroz Eulerevu integralnu formula:<br>
+<br>
+\[<br>
+\Gamma(x) = \int_{0}^{\infty} t^{x - 1} e^{-t} dt, \quad x &gt; 0.<br>
+\]<br>
+<br>
+Ova definicija omogućava da se Gama funkcija definiše i za kompleksne vrednosti argumenata, uz uvjet da je realni dio veći od nule.
+                </div>
+            </div>
+            
+            <div class="qa-card">
+                <div class="question">
+                    <span class="q-label">Q3.</span>
+                    Koja je diferencijalna jednačina čije je rešenje Gama funkcija?
+                    <span class="badge success">OK</span>
+                </div>
+                <div class="answer">
+                    Izvinjavam se, trenutno nemам dovoljno znanja da odgovorim na ovo pitanje.
+                </div>
+            </div>
+            
+            <div class="qa-card">
+                <div class="question">
+                    <span class="q-label">Q4.</span>
+                    Koji je matematički izraz za Gama funkciju?
+                    <span class="badge success">OK</span>
+                </div>
+                <div class="answer">
+                    Gama funkcija se često definiše Eulerovim integralom prvog vrha:<br>
+<br>
+\[<br>
+\Gamma(x) = \int_{0}^{\infty} t^{x-1} e^{-t} dt, \quad x &gt; 0.<br>
+\]<br>
+<br>
+Ova definicija je jedna od najpoznatijih i najčešće korištene za opisivanje Gama funkcije.
+                </div>
+            </div>
+            
+            <div class="qa-card">
+                <div class="question">
+                    <span class="q-label">Q5.</span>
+                    Šta je Ojlerov integral druge vrste?
+                    <span class="badge success">OK</span>
+                </div>
+                <div class="answer">
+                    Izvinjavam se, trenutno nemam dovoljno znanja da odgovorim na ovo pitanje.
+                </div>
+            </div>
+            
+            <div class="qa-card">
+                <div class="question">
+                    <span class="q-label">Q6.</span>
+                    Navedite neke formule za aproksimaciju Gama funkcije.
+                    <span class="badge success">OK</span>
+                </div>
+                <div class="answer">
+                    Izvinjavam se, trenutno nemам dovoljno znanja da odgovorim na ovo pitanje. Formule za aproksimaciju Gama funkcije su opisane u tekstu, ali ne mogu ih naveli sa većine potrue. Preporučujem vam da pregledate dati tekst i pronađete formule koje se navode.
+                </div>
+            </div>
+            
+        </div>
+        
+        <div class="function-section" id="beta">
+            <h2>Beta Function</h2>
+            <p class="func-type-code">beta</p>
+            
+            <div class="qa-card">
+                <div class="question">
+                    <span class="q-label">Q1.</span>
+                    Šta je Beta funkcija?
+                    <span class="badge success">OK</span>
+                </div>
+                <div class="answer">
+                    Beta funkcija je specifična funkcija koja se često koristi u matematici, posebno u teoriji integrala i kombinatorici. Definisana je kao<br>
+<br>
+\[<br>
+B(x, y) = \int_0^1 t^{x-1}(1-t)^{y-1} dt<br>
+\]<br>
+<br>
+za realne brojeve \( x &gt; 0 \) i \( y &gt; 0 \). Ako jedan od parametara bude pozitivni ceo broj, beta funkcija može se izraziti kroz gamma funkciju:<br>
+<br>
+\[<br>
+B(n, y) = \frac{(n-1)!}{y(y+1)\cdots(y+n-1)}<br>
+\]<br>
+<br>
+za \( n \in \mathbb{N} \). Ovo je važan posebni slučaj beta funkcije.
+                </div>
+            </div>
+            
+            <div class="qa-card">
+                <div class="question">
+                    <span class="q-label">Q2.</span>
+                    Koja je definicija Beta funkcije?
+                    <span class="badge success">OK</span>
+                </div>
+                <div class="answer">
+                    Beta funkcija se definiše Eulerovim integralom prvog reda:<br>
+<br>
+\[<br>
+B(\alpha, \beta) = \int_{0}^{1} t^{\alpha - 1}(1 - t)^{\beta - 1} dt = \frac{\Gamma(\alpha)\Gamma(\beta)}{\Gamma(\alpha + \beta)}<br>
+\]<br>
+<br>
+Ova definicija pokazuje vezu između beta i gamma funkcije.
+                </div>
+            </div>
+            
+            <div class="qa-card">
+                <div class="question">
+                    <span class="q-label">Q3.</span>
+                    Koja je diferencijalna jednačina čije je rešenje Beta funkcija?
+                    <span class="badge success">OK</span>
+                </div>
+                <div class="answer">
+                    Izvinjavam se, trenutno nemам dovoljno znanja da odgovorim na ovo pitanje.
+                </div>
+            </div>
+            
+            <div class="qa-card">
+                <div class="question">
+                    <span class="q-label">Q4.</span>
+                    Koji je matematički izraz za Beta funkciju?
+                    <span class="badge success">OK</span>
+                </div>
+                <div class="answer">
+                    Beta funkcija se definiše kao:<br>
+<br>
+\[<br>
+B(x, y) = \int_{0}^{1} t^{x - 1}(1 - t)^{y - 1} dt<br>
+\]<br>
+<br>
+za pozitivne realne vrednosti \(x\) i \(y\). Ako oba argumenta su pozitivni celi brojevi, onda se beta funkcija može izraziti kroz gamma funkciju kao:<br>
+<br>
+\[<br>
+B(n, m) = \frac{(n - 1)!(m - 1)!}{(n + m - 1)!}<br>
+\]<br>
+<br>
+gde \(n\) i \(m\) su pozitivni celi brojevi.
+                </div>
+            </div>
+            
+            <div class="qa-card">
+                <div class="question">
+                    <span class="q-label">Q5.</span>
+                    Šta je Ojlerov integral prve vrste?
+                    <span class="badge success">OK</span>
+                </div>
+                <div class="answer">
+                    Ojlerov integral prve vrste, poznat i kao beta funkcija, može biti definisan kroz sljedeći Eulerov integral:<br>
+<br>
+\[<br>
+B(x, y) = \int_{0}^{1} t^{x - 1}(1 - t)^{y - 1} dt<br>
+\]<br>
+<br>
+Gdje su \( x \) i \( y \) pozitivni realni brojevi. Ova funkcija je važna u mnogim područjima matematike, posebno pri analizi drugih specialnih funkcija.
+                </div>
+            </div>
+            
+        </div>
+        
+        <div class="function-section" id="laguerre">
+            <h2>Laguerre Polynomial</h2>
+            <p class="func-type-code">laguerre</p>
+            
+            <div class="qa-card">
+                <div class="question">
+                    <span class="q-label">Q1.</span>
+                    Šta je Lagerov polinom?
+                    <span class="badge success">OK</span>
+                </div>
+                <div class="answer">
+                    Laguerreovi polinomi su ortogonalni polinomi definisani na intervalu od 0 do beskonačnosti sa težinskom funkcijom \( e^{-x} \). Ovi polinomi se koriste u raznim znanstvenim problemima, uključujući rešavanje wave-ekvacije. Definicija Laguerreovih polinoma može biti neka od dve forme: \( L_n(x) \) ili \( n!L_n(x) \), ovisno o autoru.<br>
+<br>
+Diferencijalna jednačina za Laguerreove polinome glasi:<br>
+\[<br>
+x\frac{d^2L_n(x)}{dx^2} + (1 - x)\frac{dL_n(x)}{dx} + nL_n(x) = 0<br>
+\]<br>
+<br>
+Konturna formula za Laguerreove polinome je:<br>
+\[<br>
+L_n(x) = \frac{2}{2\pi i}\oint \frac{e^{-xz/(1 - z)}}{(1 - z)z^{n+1}}dz<br>
+\]
+                </div>
+            </div>
+            
+            <div class="qa-card">
+                <div class="question">
+                    <span class="q-label">Q2.</span>
+                    Koja je definicija Lagerovog polinoma?
+                    <span class="badge success">OK</span>
+                </div>
+                <div class="answer">
+                    Laguerrov polinom se definiše kroz Laguerrovu dиференцијалну једначину:<br>
+<br>
+\[ x \frac{d^2 L_n(x)}{dx^2} + (1 - x) \frac{d L_n(x)}{dx} + n L_n(x) = 0. \]<br>
+<br>
+Ова једначина има решења која нису сингуларна ако и само ако \(n\) енотиван цео број.<br>
+<br>
+Другим рачином, Лагерови полиноми могу дефинисати кроз следећу контурну формулу:<br>
+<br>
+\[ L_n(x) = \frac{n!}{2\pi i} \oint \frac{e^{-\frac{xz}{1 - z}}}{(1 - z)z^{n + 1}} dz. \]<br>
+<br>
+Ова формула дозвољава интеграцију по кругу у комплексном равану, где \(z\) премињава између 0 и 1.
+                </div>
+            </div>
+            
+            <div class="qa-card">
+                <div class="question">
+                    <span class="q-label">Q3.</span>
+                    Koja je diferencijalna jednačina čije je rešenje Lagerov polinom?
+                    <span class="badge success">OK</span>
+                </div>
+                <div class="answer">
+                    Diferencijalna jednačina čije je rešenje Lagerevi polinomi glasi:<br>
+<br>
+\[<br>
+y'' - xy' + ny = 0<br>
+\]
+                </div>
+            </div>
+            
+            <div class="qa-card">
+                <div class="question">
+                    <span class="q-label">Q4.</span>
+                    Koji je matematički izraz za Lagerov polinom?
+                    <span class="badge success">OK</span>
+                </div>
+                <div class="answer">
+                    Laguerrov polinom se definiše kroz Lagervu diferencijalnu jednačinu:<br>
+<br>
+\[ x \frac{d^2 L_n(x)}{dx^2} + (1 - x) \frac{d L_n(x)}{dx} + n L_n(x) = 0. \]<br>
+<br>
+Ovaj izraz je matematički definicija Lagervog polinoma.
+                </div>
+            </div>
+            
+            <div class="qa-card">
+                <div class="question">
+                    <span class="q-label">Q5.</span>
+                    Šta je Lagerova diferencijalna jednačina?
+                    <span class="badge success">OK</span>
+                </div>
+                <div class="answer">
+                    Lagerova diferencijalna jednačina je posebni случај diferencijalne jednačine второг reda, koja se može записati u obliku:<br>
+<br>
+\[<br>
+x^2 \frac{d^2 y}{dx^2} + x \frac{dy}{dx} + (x^2 - \nu^2)y = 0<br>
+\]<br>
+<br>
+gdje je \(\nu\) konstanta. Ova jednačina важи за Lagerove funkcije, koje su posebni случај Kummerovih funkcija i specifično se koriste u mnogim problemima iz fizike i matematike.
+                </div>
+            </div>
+            
+            <div class="qa-card">
+                <div class="question">
+                    <span class="q-label">Q6.</span>
+                    Navedite prvih nekoliko Lagerovih polinoma.
+                    <span class="badge success">OK</span>
+                </div>
+                <div class="answer">
+                    Izvinjavam se, trenutno nemам dovoljno znanja da odgovorim na ovo pitanje. Lagervi polinomi su definisani kroz specifične formule i rekurentne relacije, ali bez konkretnih formula ne mogu dati prve nekoliko Lagerovih polinoma sa sigurnošću.
+                </div>
+            </div>
+            
+            <div class="qa-card">
+                <div class="question">
+                    <span class="q-label">Q7.</span>
+                    Koja je težinska funkcija za Lagerove polinome?
+                    <span class="badge success">OK</span>
+                </div>
+                <div class="answer">
+                    Težinsка функција за Laguerove полиноме је \( e^{- x} \).
+                </div>
+            </div>
+            
+        </div>
+        
+        <div class="function-section" id="legendre">
+            <h2>Legendre Polynomial</h2>
+            <p class="func-type-code">legendre</p>
+            
+            <div class="qa-card">
+                <div class="question">
+                    <span class="q-label">Q1.</span>
+                    Šta je Ležandrov polinom?
+                    <span class="badge success">OK</span>
+                </div>
+                <div class="answer">
+                    Ležandrov polinom, označen sa \(P_n(x)\), predstavlja specifičan tip ortogonalnih polinoma. Ovi polinomi imaju važne primene u fizici i inženjeringu, posebno u problemaima s simetrijskim oblikom.<br>
+<br>
+Diferećijalna jednačina za Ležandrove polinome glasi:<br>
+\[<br>
+(1 - x^2) \frac{d^2P_n}{dx^2} - 2x \frac{dP_n}{dx} + n(n+1)P_n = 0<br>
+\]<br>
+<br>
+Ležandrove polinome su ortogonalni u intervalu \([-1, 1]\) sa težećom funkcijom \(w(x) = 1\). Ovo znači da za bilo koja dva različita Ležandrova polinoma \(P_m\) i \(P_n\) važi:<br>
+\[<br>
+\int_{-1}^{1} P_m(x) P_n(x) dx = \frac{2}{2n + 1} \delta_{mn}<br>
+\]<br>
+gde \(\delta_{mn}\) je Kroneckerov delta.<br>
+<br>
+Ležandrovi polinomi se često koriste u raznim fizikalnim i inženjerskim problemima, posebno u problemaima s simetrijskim oblikom.
+                </div>
+            </div>
+            
+            <div class="qa-card">
+                <div class="question">
+                    <span class="q-label">Q2.</span>
+                    Koja je definicija Ležandrovog polinoma?
+                    <span class="badge success">OK</span>
+                </div>
+                <div class="answer">
+                    Ležandrov polinom reda \(n\) se definiše kroz diferencijalnu jednačinu:<br>
+<br>
+\[ (1 - x^2) \frac{d^2P_n(x)}{dx^2} - 2x \frac{dP_n(x)}{dx} + n(n+1)P_n(x) = 0. \]<br>
+<br>
+Ovi polinomi se takođe mogu definisati kroz Rodriguvu formula:<br>
+<br>
+\[ P_n(x) = \frac{1}{n!} \frac{d^n}{dx^n} (x^2 - 1)^n. \]<br>
+<br>
+Ili kroz kontursku integralnu formulu:<br>
+<br>
+\[ P_n(x) = \frac{1}{\pi} \int_{-1}^{1} \frac{(1 - t^2)^{\frac{1}{2}}}{(t - x)} (x + \sqrt{x^2 - 1})^n dt. \]<br>
+<br>
+Ležandrov polinomi imaju važnu svojnost ortogonalnosti u intervalu \([-1, 1]\) sa težinskom funkcijom \(w(x) = 1\):<br>
+<br>
+\[ \int_{-1}^{1} P_m(x)P_n(x) dx = \frac{2}{2n + 1} \delta_{mn}, \]<br>
+<br>
+gde \(\delta_{mn}\) je Kroneckerov delta.
+                </div>
+            </div>
+            
+            <div class="qa-card">
+                <div class="question">
+                    <span class="q-label">Q3.</span>
+                    Koja je diferencijalna jednačina čije je rešenje Ležandrov polinom?
+                    <span class="badge success">OK</span>
+                </div>
+                <div class="answer">
+                    Diferencijalna jednačina čije je rešenje Ležandrov polinom \(\left(P_{n}(x)\right)\) datira od Legendre-ovog diferencijalnog jednačina:<br>
+<br>
+\[<br>
+xy'' + (1 - x)y' + n(n + 1)y = 0<br>
+\]<br>
+<br>
+Ova je jednačina linearna i drugog reda, a Ležandrov polinom \(\left(P_{n}(x)\right)\) je njeno rešenje za neki specifični vrednosti parametra.
+                </div>
+            </div>
+            
+            <div class="qa-card">
+                <div class="question">
+                    <span class="q-label">Q4.</span>
+                    Koji je matematički izraz za Ležandrov polinom?
+                    <span class="badge success">OK</span>
+                </div>
+                <div class="answer">
+                    Matematički izraz za Ležandrov polinom obično zapisujemo kao \(P_n(x)\), gde je \(n\) stepen (или степен) Лежандрова функција, а \(x\) је аргумент.
+                </div>
+            </div>
+            
+            <div class="qa-card">
+                <div class="question">
+                    <span class="q-label">Q5.</span>
+                    Šta je Ležandrova diferencijalna jednačina?
+                    <span class="badge success">OK</span>
+                </div>
+                <div class="answer">
+                    Ležandrovu diferencijalnu jednačinu možemo definisati kroz homogeni linearni diferencijalni izraz drugog reda:<br>
+<br>
+\[<br>
+(1 - x^2)y'' + (\beta - \alpha - (\alpha + \beta + 2)x)y' + n(n + \alpha + \beta + 1)y = 0<br>
+\]<br>
+<br>
+ili ekvivalentno<br>
+<br>
+\[<br>
+\frac{d}{dx}\left[(1 - x)^{\alpha + 1}(1 + x)^{\beta + 1}y'\right] + n(n + \alpha + \beta + 1)(1 - x)^\alpha(1 + x)^\beta y = 0<br>
+\]<br>
+<br>
+Ova jednačina је позната као сингуларна Штурм-Луивилова једначина. Када се \(\alpha\) и \(\beta\) поставију на нулту вредност, ова Jednačina се своди на диференцијалну jednačinu Лежандрових полинома.
+                </div>
+            </div>
+            
+            <div class="qa-card">
+                <div class="question">
+                    <span class="q-label">Q6.</span>
+                    Koja je težinska funkcija za Ležandrov polinom?
+                    <span class="badge success">OK</span>
+                </div>
+                <div class="answer">
+                    Težinsка funkcija za Ležandrove polinome na интервалу \([-1, 1]\) je једнака експоненцијалној функцији \(w(x) = 1\). Ovo значи да при Jednačini ортогоналности не се користи никаква тежинска функција, а Лежандрови полиноми су ортогонални у смислу интеграла:<br>
+<br>
+\[<br>
+\int_{-1}^{1} P_n(x) P_m(x) \, dx = 0 \quad za \, n \neq m<br>
+\]<br>
+<br>
+Ако се користи тежинска функција, као што је показано у датом тексту за Лагерове полиноме, ортогоналност израчунава са помоћу тежинске функције \(w(x) = e^{-x}\), али за Лежандrove полиноме ова функција је једнака 1.
+                </div>
+            </div>
+            
+        </div>
+        
+        <div class="function-section" id="jacobi">
+            <h2>Jacobi Polynomial</h2>
+            <p class="func-type-code">jacobi</p>
+            
+            <div class="qa-card">
+                <div class="question">
+                    <span class="q-label">Q1.</span>
+                    Šta je Jakobijev polinom?
+                    <span class="badge success">OK</span>
+                </div>
+                <div class="answer">
+                    Jakobiјevi полиноми su posebna vrsta ortogonalnih полинома. Definisana су као решење диференцијалне једначине другог реда:<br>
+<br>
+\[<br>
+(1 - x^{2})y'' + (\beta - \alpha - (\alpha + \beta + 2)x)y' + n(n + \alpha + \beta + 1)y = 0<br>
+\]<br>
+<br>
+гde \(\alpha\) и \(\beta\) су параметри који одређују особине ових полинома. Ова једначина је позната као сингуларна Штурм-Луивилова једначина.<br>
+<br>
+Диференцијална једначина може се трансформисати у облик:<br>
+<br>
+\[<br>
+\frac{d}{dx}\lbrack{(1 - x)}^{\alpha + 1}{(1 + x)}^{\beta + 1}y'\rbrack + n(n + \alpha + \beta + 1){(1 - x)}^{\alpha}{(1 + x)}^{\beta}y = 0<br>
+\]<br>
+<br>
+Јакобијеви полиноми су важни у теорији специјалних функција и примењено науци.
+                </div>
+            </div>
+            
+            <div class="qa-card">
+                <div class="question">
+                    <span class="q-label">Q2.</span>
+                    Koja je definicija Jakobijevog polinoma?
+                    <span class="badge success">OK</span>
+                </div>
+                <div class="answer">
+                    Definiciona jednačina za Jakobijeve polinome glasi:<br>
+<br>
+\[<br>
+(1 - x^2) y'' + (\beta - \alpha - (\alpha + \beta + 2)x) y' + n(n + \alpha + \beta + 1) y = 0<br>
+\]<br>
+<br>
+To je homogena linearna diferencijalna jednačina drugog reda.
+                </div>
+            </div>
+            
+            <div class="qa-card">
+                <div class="question">
+                    <span class="q-label">Q3.</span>
+                    Koja je diferencijalna jednačina čije je rešenje Jakobijev polinom?
+                    <span class="badge success">OK</span>
+                </div>
+                <div class="answer">
+                    Diferencijalna jednačina čije je rešenje Jakobijev polinom je:<br>
+<br>
+\[<br>
+(1 - x^2) y'' + (\beta - \alpha - (\alpha + \beta + 2)x) y' + n(n + \alpha + \beta + 1) y = 0.<br>
+\]<br>
+<br>
+Ova jednačina је сингуларна Штурм-Луивилова једначина.
+                </div>
+            </div>
+            
+            <div class="qa-card">
+                <div class="question">
+                    <span class="q-label">Q4.</span>
+                    Koji je matematički izraz za Jakobijev polinom?
+                    <span class="badge success">OK</span>
+                </div>
+                <div class="answer">
+                    Izvinjavam se, trenutno nemam dovoljno znanja da odgovorim na ovo pitanje.
+                </div>
+            </div>
+            
+            <div class="qa-card">
+                <div class="question">
+                    <span class="q-label">Q5.</span>
+                    Koji polinomi su generalizacija Ležandrovih polinoma?
+                    <span class="badge success">OK</span>
+                </div>
+                <div class="answer">
+                    Izvinjavam se, trenutno nemам dovoljno znanja da odgovorim na ovo pitanje.
+                </div>
+            </div>
+            
+            <div class="qa-card">
+                <div class="question">
+                    <span class="q-label">Q6.</span>
+                    Koja je težinska funkcija za Jakobijeve polinome?
+                    <span class="badge success">OK</span>
+                </div>
+                <div class="answer">
+                    Izvinjavam se, trenutno nemam dovoljno znanja da odgovorim na ovo pitanje.
+                </div>
+            </div>
+            
+        </div>
+        
+        <div class="function-section" id="chebyshev1">
+            <h2>Chebyshev Polynomial of the First Kind</h2>
+            <p class="func-type-code">chebyshev1</p>
+            
+            <div class="qa-card">
+                <div class="question">
+                    <span class="q-label">Q1.</span>
+                    Šta je Čebiševljev polinom prve vrste?
+                    <span class="badge success">OK</span>
+                </div>
+                <div class="answer">
+                    Čebiševljevi polinomi prve vrste, oznaka \(T_n(x)\), su specifični tip polinoma koje se često koriste u numeričkoj analizi i teoriji aproksimacija. Ovi polinomi definisanu su na intervalu \([-1, 1]\) i imaju posebne svojstva vezana uz maksimalno određivanje funkcija na tom intervalu.<br>
+<br>
+Definicija Čebiševljevog polinoma prve vrste može se dati kroz rekurzivnu formulu:<br>
+<br>
+\[<br>
+T_{n + 1}(x) = 2xT_n(x) - T_{n - 1}(x), \quad T_0(x) = 1, \quad T_1(x) = x<br>
+\]<br>
+<br>
+Ovi polinomi imaju i drugačije svojstva, na primer:<br>
+<br>
+- Svojstvo ortogonalnosti: \(\int_{-1}^{1}T_m(x)T_n(x)\sqrt{1 - x^2}dx = 0\) za \(m \neq n\).<br>
+- Diferencijalna jednačina koja ih definira je: \((1 - x^2)y'' - xy' + n^2y = 0\).<br>
+<br>
+Čebiševljevi polinomi prve vrste imaju važno mesto u teoriji aproksimacija i numeričkoj analizi zbog svoje optimalne osobine na intervalu \([-1, 1]\).
+                </div>
+            </div>
+            
+            <div class="qa-card">
+                <div class="question">
+                    <span class="q-label">Q2.</span>
+                    Koja je definicija Čebiševljevog polinoma prve vrste?
+                    <span class="badge success">OK</span>
+                </div>
+                <div class="answer">
+                    Izvinjavam se, trenutno nemам dovoljno znanja da odgovorim na ovo pitanje.
+                </div>
+            </div>
+            
+            <div class="qa-card">
+                <div class="question">
+                    <span class="q-label">Q3.</span>
+                    Koja je diferencijalna jednačina čije je rešenje Čebiševljev polinom prve vrste?
+                    <span class="badge success">OK</span>
+                </div>
+                <div class="answer">
+                    Diferencijalna jednačina čije je rešenje Čebiševljev polinom prve vrste \(T_n(x)\) glasi:<br>
+<br>
+\[<br>
+(1 - x^2) \frac{d^2 f}{dx^2} - x \frac{df}{dx} + n^2 f = 0<br>
+\]<br>
+<br>
+Ovo je specifična форма diferencijalne jednačine koja definira Čebiševove polinome prve vrste.
+                </div>
+            </div>
+            
+            <div class="qa-card">
+                <div class="question">
+                    <span class="q-label">Q4.</span>
+                    Koji je matematički izraz za Čebiševljev polinom prve vrste?
+                    <span class="badge success">OK</span>
+                </div>
+                <div class="answer">
+                    Čebiševljevi polinomi prve vrste se obično označavaju sa \(T_n(x)\). Matematički izraz za ovaj tip polinoma nije definisan u datom kontekstu, ali obično se definišu kroz diferencijalnu jednačinu:<br>
+<br>
+\[<br>
+(1 - x^2) \frac{d^2}{dx^2} T_n(x) - x \frac{d}{dx} T_n(x) + n^2 T_n(x) = 0<br>
+\]<br>
+<br>
+ili kroz rekurzivnu definiciju sa početnim vrednostima:<br>
+<br>
+\[<br>
+T_0(x) = 1, \quad T_1(x) = x,<br>
+\]<br>
+\[<br>
+T_{n+1}(x) = 2xT_n(x) - T_{n-1}(x).<br>
+\]<br>
+<br>
+Izvorni izraz za Čebiševljeve polinome prve vrste je \(T_n(x)\).
+                </div>
+            </div>
+            
+            <div class="qa-card">
+                <div class="question">
+                    <span class="q-label">Q5.</span>
+                    Šta je Čebiševljeva diferencijalna jednačina?
+                    <span class="badge success">OK</span>
+                </div>
+                <div class="answer">
+                    Čebiševljeva diferencijalna jednačina je jednaka:<br>
+<br>
+\[<br>
+(1 - x^2) \frac{d^2 f(x)}{dx^2} - x \frac{df(x)}{dx} + n^2 f(x) = 0<br>
+\]<br>
+<br>
+Ovo je opšta oblika diferencijalne jednačine koja čebiševljevi polinomi rješavaju za različite vrednosti parametra \(n\).
+                </div>
+            </div>
+            
+            <div class="qa-card">
+                <div class="question">
+                    <span class="q-label">Q6.</span>
+                    Navedite prvih nekoliko Čebiševljevih polinoma prve vrste.
+                    <span class="badge success">OK</span>
+                </div>
+                <div class="answer">
+                    Izvinjavam se, trenutno nemам dovoljno znanja da odgovorim na ovo pitanje.
+                </div>
+            </div>
+            
+        </div>
+        
+        <div class="function-section" id="chebyshev2">
+            <h2>Chebyshev Polynomial of the Second Kind</h2>
+            <p class="func-type-code">chebyshev2</p>
+            
+            <div class="qa-card">
+                <div class="question">
+                    <span class="q-label">Q1.</span>
+                    Šta je Čebiševljev polinom druge vrste?
+                    <span class="badge success">OK</span>
+                </div>
+                <div class="answer">
+                    Čebiševljevi polinomi druge vrste, označeni sa \(U_n(x)\), su posebni tip specijalnih funkcija. Ovi polinomi se često koriste u numeričkoj analizi i teoriji aproksimacija.<br>
+<br>
+Definicija Čebiševljevih polinoma druge vrste može biti dati kroz rekurentnu relaciju:<br>
+<br>
+\[<br>
+U_{n + 1}(x) = 2xU_n(x) - U_{n - 1}(x), \quad n \geq 1<br>
+\]<br>
+<br>
+sa početnim uslovima \(U_0(x) = 1\) i \(U_1(x) = 2x\).<br>
+<br>
+Ovi polinomi imaju nekoliko važnih особина. Na primer, one su ortogonalni sa težinskom funkcijom \(\frac{1}{\sqrt{1 - x^2}}\) na intervalu \([-1, 1]\):<br>
+<br>
+\[<br>
+\int_{-1}^{1} U_m(x)U_n(x)\frac{1}{\sqrt{1 - x^2}}dx = \begin{cases}<br>
+0 &amp; \text{ako je } m \neq n \\<br>
+\pi &amp; \text{ako je } m = n = 0 \\<br>
+\frac{\pi}{2} &amp; \text{ako je } m = n \neq 0<br>
+\end{cases}<br>
+\]<br>
+<br>
+Takođe, imaju veze sa Čebiševljevim polinomima prve vrste. Na primer, za neki \(x\) i \(n\):<br>
+<br>
+\[<br>
+U_n(x) = T_n(2x - 1)<br>
+\]<br>
+<br>
+gdje je \(T_n(x)\) Čebiševljev polinom prve vrste.<br>
+<br>
+Izvedeni su i неки диференцијални једначини који важе за ове полиноме, али то се може посебно размотрити у другој теми.
+                </div>
+            </div>
+            
+            <div class="qa-card">
+                <div class="question">
+                    <span class="q-label">Q2.</span>
+                    Koja je definicija Čebiševljevog polinoma druge vrste?
+                    <span class="badge success">OK</span>
+                </div>
+                <div class="answer">
+                    Izvinjavam se, trenutno nemам dovoljno znanja da odgovorim na ovo pitanje.
+                </div>
+            </div>
+            
+            <div class="qa-card">
+                <div class="question">
+                    <span class="q-label">Q3.</span>
+                    Koja je diferencijalna jednačina čije je rešenje Čebiševljev polinom druge vrste?
+                    <span class="badge success">OK</span>
+                </div>
+                <div class="answer">
+                    Diferencijalna jednačina čije je rešenje Čebiševljev polinom druge vrste glasi:<br>
+<br>
+\[<br>
+(1 - x^2) f''(x) - xf'(x) + n(n + 1)f(x) = 0<br>
+\]<br>
+<br>
+Ovo se može napisati i u obliku:<br>
+<br>
+\[<br>
+(1 - x^2) \frac{d^2 U_n(x)}{dx^2} - x \frac{d U_n(x)}{dx} + n(n + 1) U_n(x) = 0<br>
+\]<br>
+<br>
+Gde je \(U_n(x)\) polinom druge vrste Čebiševa.
+                </div>
+            </div>
+            
+            <div class="qa-card">
+                <div class="question">
+                    <span class="q-label">Q4.</span>
+                    Koji je matematički izraz za Čebiševljev polinom druge vrste?
+                    <span class="badge success">OK</span>
+                </div>
+                <div class="answer">
+                    Čebiševljevi polinomi druge vrste se obično označavaju sa \(U_n(x)\). Ovi polinomi imaju nekoliko važnih osobina i veze sa prvim vrstom Čebiševljevih polinoma.
+                </div>
+            </div>
+            
+        </div>
+        
+        <div class="function-section" id="hermite1">
+            <h2>Physicist&#x27;s Hermite Polynomial</h2>
+            <p class="func-type-code">hermite1</p>
+            
+            <div class="qa-card">
+                <div class="question">
+                    <span class="q-label">Q1.</span>
+                    Šta je fizički Ermitov polinom?
+                    <span class="badge success">OK</span>
+                </div>
+                <div class="answer">
+                    Fizički Ermitovi polinomi, poimenovani po francuskom matematičaru Charlesu Hermitu (1822-1901), su specifični tip ortogonalnih polinoma koji se koriste u fizičkim primenama. Ovi polinomi često pojavljuju se u rešenjima diferencijalnih jednačina, posebno u kontekstu Schrödingerove jednačine za jednodimenzionalni harmonijski oscilator.<br>
+<br>
+Fizički Ermitovi polinomi su definisani preko njihovog ortogonalnog odnosnog operatora sa težinskom funkcijom \(\exp(-x^2)\) na beskonačnoj intervalu. Ovi polinomi se često označavaju kao \(H_n(x)\), a njihova definicija može biti dati kroz naredbu derivacija ili operatornu notaciju.<br>
+<br>
+Fizički Ermitovi polinomi imaju važne svojstva, uključujući rekurentne relacije i ortogonalnost. Na primer, jedna od njihovih karakterističnih relacija je:<br>
+<br>
+\[<br>
+H_{n+1}'(x) = (2n + 1)H_n(x) + xH_n'(x)<br>
+\]<br>
+<br>
+Ovi polinomi su ključni u rešenju problema iz atomefizike i kvantne mehanike, posebno kada se obratljivo upotrebuje Schrödingerova jednačina za harmonijski oscilator.
+                </div>
+            </div>
+            
+            <div class="qa-card">
+                <div class="question">
+                    <span class="q-label">Q2.</span>
+                    Koja je definicija fizičkog Ermitovog polinoma?
+                    <span class="badge success">OK</span>
+                </div>
+                <div class="answer">
+                    Izvinjavam se, trenutno nemам dovoljno znanja da odgovorim na ovo pitanje. Definicija fizičkog Ermitovog polinoma nije uključena u dati tekst i ne mogu da je izvedem sa dostupnih informacija.
+                </div>
+            </div>
+            
+            <div class="qa-card">
+                <div class="question">
+                    <span class="q-label">Q3.</span>
+                    Koja je diferencijalna jednačina čije je rešenje fizički Ermitov polinom?
+                    <span class="badge success">OK</span>
+                </div>
+                <div class="answer">
+                    Diferencijalna jednačina čije je rešenje fizički Ermitov polinom \(\left( H_n(x) \right)\) je:<br>
+<br>
+\[<br>
+H_{n}^{''}(x) - xH_{n}'(x) + nH_{n}(x) = 0.<br>
+\]<br>
+<br>
+Ovo se može dobiti korišćenjem rekurentnih veza izmedu Ermitovih polinoma i njihovih izvoda, kao što je prikazano u dati tekst.
+                </div>
+            </div>
+            
+            <div class="qa-card">
+                <div class="question">
+                    <span class="q-label">Q4.</span>
+                    Koji je matematički izraz za fizički Ermitov polinom?
+                    <span class="badge success">OK</span>
+                </div>
+                <div class="answer">
+                    Fizički Ermitovi polinomi se obično označavaju sa \(H_n(x)\). Ovi polinomi su ortogonalni na neskončnom intervalu \((-∞, ∞)\) s težinskom funkcijom \(\exp(-x^2)\).
+                </div>
+            </div>
+            
+            <div class="qa-card">
+                <div class="question">
+                    <span class="q-label">Q5.</span>
+                    Koja je težinska funkcija za Ermitov polinom?
+                    <span class="badge success">OK</span>
+                </div>
+                <div class="answer">
+                    Težinsка функција за Ermitove polinome је \( e^{-x^2} \).
+                </div>
+            </div>
+            
+        </div>
+        
+        <div class="function-section" id="hermite2">
+            <h2>Probabilist&#x27;s Hermite Polynomial</h2>
+            <p class="func-type-code">hermite2</p>
+            
+            <div class="qa-card">
+                <div class="question">
+                    <span class="q-label">Q1.</span>
+                    Šta je probabilistički Ermitov polinom?
+                    <span class="badge success">OK</span>
+                </div>
+                <div class="answer">
+                    Probabilistički Ermitov polinom je ortogonalni polinom definisan sa Rodriguevim formулом:<br>
+<br>
+\[<br>
+L_{n}(x) = \frac{e^{x}}{n!} \frac{d^n}{dx^n}\left(e^{-x} x^n\right)<br>
+\]<br>
+<br>
+Ова функција решава Лагерову диференцијалну једначину:<br>
+<br>
+\[<br>
+x y'' + (1 - x) y' + n y = 0<br>
+\]<br>
+<br>
+Генератриса ових полинома дефинирана је као:<br>
+<br>
+\[<br>
+g(x,t) = e^{xt} \sum_{n=0}^{\infty} L_n(x) t^n<br>
+\]<br>
+<br>
+Имајући у виду ове особине, Лагерови полиноми се користе у разних областима математике и физике.
+                </div>
+            </div>
+            
+            <div class="qa-card">
+                <div class="question">
+                    <span class="q-label">Q2.</span>
+                    Koja je definicija probabilističkog Ermitovog polinoma?
+                    <span class="badge success">OK</span>
+                </div>
+                <div class="answer">
+                    Probabilistički Ermitov polinom definiše se formулa:<br>
+<br>
+\[<br>
+H_n(x) = (-1)^n e^{x^2} \frac{d^n}{dx^n} e^{-x^2}<br>
+\]<br>
+<br>
+Ovo je једноставна и точна дефиниција овог типа Ермитових полинома.
+                </div>
+            </div>
+            
+            <div class="qa-card">
+                <div class="question">
+                    <span class="q-label">Q3.</span>
+                    Koja je diferencijalna jednačina čije je rešenje probabilistički Ermitov polinom?
+                    <span class="badge success">OK</span>
+                </div>
+                <div class="answer">
+                    Diferencijalna jednačina čije je rešenje probabilistički Ermitov polinom \(\hat{H}_n(x)\) glasi:<br>
+<br>
+\[<br>
+(1 - x^2) \frac{d^2 y}{dx^2} - 2x \frac{dy}{dx} + n(n+1)y = 0<br>
+\]<br>
+<br>
+Ovo je Hermiteva diferencijalna jednačina drugog reda, a rešenje u ovom slučaju su probabilistički Ermitovi polinomi.
+                </div>
+            </div>
+            
+            <div class="qa-card">
+                <div class="question">
+                    <span class="q-label">Q4.</span>
+                    Koji je matematički izraz za probabilistički Ermitov polinom?
+                    <span class="badge success">OK</span>
+                </div>
+                <div class="answer">
+                    Probabilistički Ermitov polinom se definiše formula:<br>
+<br>
+\[<br>
+H_n(x) = (-1)^n e^{x^2} \frac{d^n}{dx^n} e^{-x^2}<br>
+\]<br>
+<br>
+Izraz iznad pokazuje kako se probabilistički Ermitov polinom dobija kroz n-putno диференцирање функције \(e^{-x^2}\) и множење са \((-1)^n\).
+                </div>
+            </div>
+            
+        </div>
+        
+        <div class="function-section" id="general">
+            <h2>General Questions</h2>
+            <p class="func-type-code">general</p>
+            
+            <div class="qa-card">
+                <div class="question">
+                    <span class="q-label">Q1.</span>
+                    Šta su ortogonalni polinomi?
+                    <span class="badge success">OK</span>
+                </div>
+                <div class="answer">
+                    Ortogonalni polinomi su specifične vrste polinoma koji ispunjuju posebnu ortogonalnost uslov u odnosu na neku težinsku funkciju. Ovaj uslov znači da skalarni produkt dva različita polinoma iz ovog skupa, množenih sa težinskom funkcijom, jednak je nuli. Matematički, ortogonalni polinomi \(P_n(x)\) ispunjavaju uslov:<br>
+<br>
+\[<br>
+\int_{a}^{b} P_m(x) P_n(x) p(x) \, dx = 0 \quad za \ m \neq n<br>
+\]<br>
+<br>
+gde je \(p(x)\) težinska funkcija i interval integracije \([a, b]\).<br>
+<br>
+Lежандрови polinomi, Чебишевљеви полиноми (prve i druge vrste), Лагерови и Ермитови polinomi su neki primjeri ortogonalnih polinoma. Ovi polinomi imaju važne primene u matematickoj analizi, numeričkoj matematici, teoriji verovatnoće i drugim područjima znanosti.<br>
+<br>
+Primjer ortogonalnosti Lежандрових polinoma je:<br>
+<br>
+\[<br>
+g(x,t) = \frac{1}{\sqrt{1 - 2xt + t^2}} = \sum_{n=0}^{\infty} P_n(x) t^n<br>
+\]<br>
+<br>
+Ovi polinomi imaju mnoge korisne svojstva, uključujući rekurentne relacije i određeni integrali.
+                </div>
+            </div>
+            
+            <div class="qa-card">
+                <div class="question">
+                    <span class="q-label">Q2.</span>
+                    Navedite neke ortogonalne polinome.
+                    <span class="badge success">OK</span>
+                </div>
+                <div class="answer">
+                    Neki ortogonalni polinomi su Legendreovi, Laguerrovi i Hermiteovi polinomi. <br>
+<br>
+Legendreovi polinomi \(P_n(x)\) su ortogonalni sa težinskom funkcijom \((1 - x^2)^{-\frac{1}{2}}\) na intervalu \([-1, 1]\).<br>
+<br>
+Laguerrovi polinomi \(L_n(x)\) su ortogonalni sa težinskom funkcijom \(e^{-x}\) na domenu realnih brojeva.<br>
+<br>
+Hermiteovi polinomi \(H_n(x)\), podijeljeni u fizicke i verovatnočne, su ortogonalni sa težinskom funkcijom \(\sqrt{2^n n!} e^{-x^2}\) na intervalu \((-\infty, \infty)\).
+                </div>
+            </div>
+            
+            <div class="qa-card">
+                <div class="question">
+                    <span class="q-label">Q3.</span>
+                    Kakva je veza između Beta i Gama funkcije?
+                    <span class="badge success">OK</span>
+                </div>
+                <div class="answer">
+                    Veza između beta i gama funkcije je definisana kroz следеći izraz:<br>
+<br>
+\[<br>
+B(v, \nu) = \frac{\Gamma(v) \cdot \Gamma(\nu)}{\Gamma(v + \nu)}<br>
+\]<br>
+<br>
+Ovaj odnos pokazuje kako se beta funkcija može izračunati koristeći gama funkciju.
+                </div>
+            </div>
+            
+            <div class="qa-card">
+                <div class="question">
+                    <span class="q-label">Q4.</span>
+                    Šta je težinska funkcija za ortogonalne polinome?
+                    <span class="badge success">OK</span>
+                </div>
+                <div class="answer">
+                    Težinsка funkcija za ortogonalne polinome je funkcija koja se koristi u definiciji скаларног производа полинома. Ova funkcija mora biti не负数且在整个区间内非零。За Лежандрове полиноме, тежинска функција је 1, што значи да се интеграли израчунавају без укључивања дополнитке функције. <br>
+<br>
+\[<br>
+\rho(x) = 1<br>
+\]<br>
+<br>
+За друге класичне ортогоналне полиноме, као што су Чебишевљеви и Лагерови полиноми, тежинске функције су:<br>
+<br>
+- За Чебишевљeve прве врсте:<br>
+\[<br>
+\rho(x) = \frac{1}{\sqrt{1 - x^2}}<br>
+\]<br>
+<br>
+- За Лагерове полиноме:<br>
+\[<br>
+\rho(x) = e^{-x}<br>
+\]
+                </div>
+            </div>
+            
+        </div>
+        
+
+    <footer>
+        Generated by evaluate_chatbot.py &mdash; Special Functions Calculator
+    </footer>
+</div>
+</body>
+</html>

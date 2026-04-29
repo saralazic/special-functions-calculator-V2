@@ -103,7 +103,8 @@ export class ChatbotComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.isLoading = true;
     this.shouldScrollToBottom = true;
 
-    this.chatService.sendMessage(text, this.selectedModel).subscribe({
+    const language = this.languageService.getSelectedLanguage();
+    this.chatService.sendMessage(text, this.selectedModel, language).subscribe({
       next: (response) => {
         this.messages.push({
           role: 'assistant',

@@ -1,0 +1,297 @@
+[
+  {
+    "function_type": "bessel1",
+    "question_number": 1,
+    "question": "What is Bessel function of the first kind?"
+  },
+  {
+    "function_type": "bessel1",
+    "question_number": 2,
+    "question": "What is the definition of the Bessel function of the first kind?"
+  },
+  {
+    "function_type": "bessel1",
+    "question_number": 3,
+    "question": "What is the practical use of the Bessel function of the first kind?"
+  },
+  {
+    "function_type": "bessel1",
+    "question_number": 4,
+    "question": "What is the differential equation for which the solution is the Bessel function of the first kind?"
+  },
+  {
+    "function_type": "bessel1",
+    "question_number": 5,
+    "question": "What is the mathematical expression for the Bessel function of the first kind?"
+  },
+  {
+    "function_type": "bessel1",
+    "question_number": 6,
+    "question": "What is Bessel's differential equation?"
+  },
+  {
+    "function_type": "gamma",
+    "question_number": 1,
+    "question": "What is the Gamma function?"
+  },
+  {
+    "function_type": "gamma",
+    "question_number": 2,
+    "question": "What is the definition of the Gamma function?"
+  },
+  {
+    "function_type": "gamma",
+    "question_number": 3,
+    "question": "What is the differential equation for which the solution is the Gamma function?"
+  },
+  {
+    "function_type": "gamma",
+    "question_number": 4,
+    "question": "What is the mathematical expression for the Gamma function?"
+  },
+  {
+    "function_type": "gamma",
+    "question_number": 5,
+    "question": "What is Euler's integral of the second kind?"
+  },
+  {
+    "function_type": "gamma",
+    "question_number": 6,
+    "question": "Give some formulas for approximation of the Gamma function."
+  },
+  {
+    "function_type": "beta",
+    "question_number": 1,
+    "question": "What is the Beta function?"
+  },
+  {
+    "function_type": "beta",
+    "question_number": 2,
+    "question": "What is the definition of the Beta function?"
+  },
+  {
+    "function_type": "beta",
+    "question_number": 3,
+    "question": "What is the differential equation for which the solution is the Beta function?"
+  },
+  {
+    "function_type": "beta",
+    "question_number": 4,
+    "question": "What is the mathematical expression for the Beta function?"
+  },
+  {
+    "function_type": "beta",
+    "question_number": 5,
+    "question": "What is Euler's integral of the first kind?"
+  },
+  {
+    "function_type": "laguerre",
+    "question_number": 1,
+    "question": "What is the Laguerre polynomial?"
+  },
+  {
+    "function_type": "laguerre",
+    "question_number": 2,
+    "question": "What is the definition of the Laguerre polynomial?"
+  },
+  {
+    "function_type": "laguerre",
+    "question_number": 3,
+    "question": "What is the differential equation for which the solution is the Laguerre polynomial?"
+  },
+  {
+    "function_type": "laguerre",
+    "question_number": 4,
+    "question": "What is the mathematical expression for the Laguerre polynomial?"
+  },
+  {
+    "function_type": "laguerre",
+    "question_number": 5,
+    "question": "What is Laguerre's differential equation?"
+  },
+  {
+    "function_type": "laguerre",
+    "question_number": 6,
+    "question": "Give first few Laguerre polynomials."
+  },
+  {
+    "function_type": "laguerre",
+    "question_number": 7,
+    "question": "What is the weight function for Laguerre polynomials?"
+  },
+  {
+    "function_type": "legendre",
+    "question_number": 1,
+    "question": "What is the Legendre polynomial?"
+  },
+  {
+    "function_type": "legendre",
+    "question_number": 2,
+    "question": "What is the definition of the Legendre polynomial?"
+  },
+  {
+    "function_type": "legendre",
+    "question_number": 3,
+    "question": "What is the differential equation for which the solution is the Legendre polynomial?"
+  },
+  {
+    "function_type": "legendre",
+    "question_number": 4,
+    "question": "What is the mathematical expression for the Legendre polynomial?"
+  },
+  {
+    "function_type": "legendre",
+    "question_number": 5,
+    "question": "What is Legendre's differential equation?"
+  },
+  {
+    "function_type": "legendre",
+    "question_number": 6,
+    "question": "What is the weight function for the Legendre polynomial?"
+  },
+  {
+    "function_type": "jacobi",
+    "question_number": 1,
+    "question": "What is the Jacobi polynomial?"
+  },
+  {
+    "function_type": "jacobi",
+    "question_number": 2,
+    "question": "What is the definition of the Jacobi polynomial?"
+  },
+  {
+    "function_type": "jacobi",
+    "question_number": 3,
+    "question": "What is the differential equation for which the solution is the Jacobi polynomial?"
+  },
+  {
+    "function_type": "jacobi",
+    "question_number": 4,
+    "question": "What is the mathematical expression for the Jacobi polynomial?"
+  },
+  {
+    "function_type": "jacobi",
+    "question_number": 5,
+    "question": "Which polynomials are a generalization of Legendre polynomials?"
+  },
+  {
+    "function_type": "jacobi",
+    "question_number": 6,
+    "question": "What is the weight function for Jacobi polynomials?"
+  },
+  {
+    "function_type": "chebyshev1",
+    "question_number": 1,
+    "question": "What is the Chebyshev polynomial of the first kind?"
+  },
+  {
+    "function_type": "chebyshev1",
+    "question_number": 2,
+    "question": "What is the definition of the Chebyshev polynomial of the first kind?"
+  },
+  {
+    "function_type": "chebyshev1",
+    "question_number": 3,
+    "question": "What is the differential equation for which the solution is the Chebyshev polynomial of the first kind?"
+  },
+  {
+    "function_type": "chebyshev1",
+    "question_number": 4,
+    "question": "What is the mathematical expression for the Chebyshev polynomial of the first kind?"
+  },
+  {
+    "function_type": "chebyshev1",
+    "question_number": 5,
+    "question": "What is Chebyshev's differential equation?"
+  },
+  {
+    "function_type": "chebyshev1",
+    "question_number": 6,
+    "question": "Give first few Chebyshev polynomials of the first kind."
+  },
+  {
+    "function_type": "chebyshev2",
+    "question_number": 1,
+    "question": "What is the Chebyshev polynomial of the second kind?"
+  },
+  {
+    "function_type": "chebyshev2",
+    "question_number": 2,
+    "question": "What is the definition of the Chebyshev polynomial of the second kind?"
+  },
+  {
+    "function_type": "chebyshev2",
+    "question_number": 3,
+    "question": "What is the differential equation for which the solution is the Chebyshev polynomial of the second kind?"
+  },
+  {
+    "function_type": "chebyshev2",
+    "question_number": 4,
+    "question": "What is the mathematical expression for the Chebyshev polynomial of the second kind?"
+  },
+  {
+    "function_type": "hermite1",
+    "question_number": 1,
+    "question": "What is the physicist's Hermite polynomial?"
+  },
+  {
+    "function_type": "hermite1",
+    "question_number": 2,
+    "question": "What is the definition of the physicist's Hermite polynomial?"
+  },
+  {
+    "function_type": "hermite1",
+    "question_number": 3,
+    "question": "What is the differential equation for which the solution is the physicist's Hermite polynomial?"
+  },
+  {
+    "function_type": "hermite1",
+    "question_number": 4,
+    "question": "What is the mathematical expression for the physicist's Hermite polynomial?"
+  },
+  {
+    "function_type": "hermite1",
+    "question_number": 5,
+    "question": "What is the weight function for Hermite's polynomial?"
+  },
+  {
+    "function_type": "hermite2",
+    "question_number": 1,
+    "question": "What is the probabilist's Hermite polynomial?"
+  },
+  {
+    "function_type": "hermite2",
+    "question_number": 2,
+    "question": "What is the definition of the probabilist's Hermite polynomial?"
+  },
+  {
+    "function_type": "hermite2",
+    "question_number": 3,
+    "question": "What is the differential equation for which the solution is the probabilist's Hermite polynomial?"
+  },
+  {
+    "function_type": "hermite2",
+    "question_number": 4,
+    "question": "What is the mathematical expression for the probabilist's Hermite polynomial?"
+  },
+  {
+    "function_type": "general",
+    "question_number": 1,
+    "question": "What are orthogonal polynomials?"
+  },
+  {
+    "function_type": "general",
+    "question_number": 2,
+    "question": "Name some orthogonal polynomials."
+  },
+  {
+    "function_type": "general",
+    "question_number": 3,
+    "question": "What is the relationship between the Beta and Gamma function?"
+  },
+  {
+    "function_type": "general",
+    "question_number": 4,
+    "question": "What is the weight function for orthogonal polynomials?"
+  }
+]

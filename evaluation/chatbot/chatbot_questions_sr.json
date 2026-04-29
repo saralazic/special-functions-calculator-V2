@@ -1,0 +1,297 @@
+[
+  {
+    "function_type": "bessel1",
+    "question_number": 1,
+    "question": "Šta je Beselova funkcija prve vrste?"
+  },
+  {
+    "function_type": "bessel1",
+    "question_number": 2,
+    "question": "Koja je definicija Beselove funkcije prve vrste?"
+  },
+  {
+    "function_type": "bessel1",
+    "question_number": 3,
+    "question": "Koja je praktična primena Beselove funkcije prve vrste?"
+  },
+  {
+    "function_type": "bessel1",
+    "question_number": 4,
+    "question": "Koja je diferencijalna jednačina čije je rešenje Beselova funkcija prve vrste?"
+  },
+  {
+    "function_type": "bessel1",
+    "question_number": 5,
+    "question": "Koji je matematički izraz za Beselovu funkciju prve vrste?"
+  },
+  {
+    "function_type": "bessel1",
+    "question_number": 6,
+    "question": "Šta je Beselova diferencijalna jednačina?"
+  },
+  {
+    "function_type": "gamma",
+    "question_number": 1,
+    "question": "Šta je Gama funkcija?"
+  },
+  {
+    "function_type": "gamma",
+    "question_number": 2,
+    "question": "Koja je definicija Gama funkcije?"
+  },
+  {
+    "function_type": "gamma",
+    "question_number": 3,
+    "question": "Koja je diferencijalna jednačina čije je rešenje Gama funkcija?"
+  },
+  {
+    "function_type": "gamma",
+    "question_number": 4,
+    "question": "Koji je matematički izraz za Gama funkciju?"
+  },
+  {
+    "function_type": "gamma",
+    "question_number": 5,
+    "question": "Šta je Ojlerov integral druge vrste?"
+  },
+  {
+    "function_type": "gamma",
+    "question_number": 6,
+    "question": "Navedite neke formule za aproksimaciju Gama funkcije."
+  },
+  {
+    "function_type": "beta",
+    "question_number": 1,
+    "question": "Šta je Beta funkcija?"
+  },
+  {
+    "function_type": "beta",
+    "question_number": 2,
+    "question": "Koja je definicija Beta funkcije?"
+  },
+  {
+    "function_type": "beta",
+    "question_number": 3,
+    "question": "Koja je diferencijalna jednačina čije je rešenje Beta funkcija?"
+  },
+  {
+    "function_type": "beta",
+    "question_number": 4,
+    "question": "Koji je matematički izraz za Beta funkciju?"
+  },
+  {
+    "function_type": "beta",
+    "question_number": 5,
+    "question": "Šta je Ojlerov integral prve vrste?"
+  },
+  {
+    "function_type": "laguerre",
+    "question_number": 1,
+    "question": "Šta je Lagerov polinom?"
+  },
+  {
+    "function_type": "laguerre",
+    "question_number": 2,
+    "question": "Koja je definicija Lagerovog polinoma?"
+  },
+  {
+    "function_type": "laguerre",
+    "question_number": 3,
+    "question": "Koja je diferencijalna jednačina čije je rešenje Lagerov polinom?"
+  },
+  {
+    "function_type": "laguerre",
+    "question_number": 4,
+    "question": "Koji je matematički izraz za Lagerov polinom?"
+  },
+  {
+    "function_type": "laguerre",
+    "question_number": 5,
+    "question": "Šta je Lagerova diferencijalna jednačina?"
+  },
+  {
+    "function_type": "laguerre",
+    "question_number": 6,
+    "question": "Navedite prvih nekoliko Lagerovih polinoma."
+  },
+  {
+    "function_type": "laguerre",
+    "question_number": 7,
+    "question": "Koja je težinska funkcija za Lagerove polinome?"
+  },
+  {
+    "function_type": "legendre",
+    "question_number": 1,
+    "question": "Šta je Ležandrov polinom?"
+  },
+  {
+    "function_type": "legendre",
+    "question_number": 2,
+    "question": "Koja je definicija Ležandrovog polinoma?"
+  },
+  {
+    "function_type": "legendre",
+    "question_number": 3,
+    "question": "Koja je diferencijalna jednačina čije je rešenje Ležandrov polinom?"
+  },
+  {
+    "function_type": "legendre",
+    "question_number": 4,
+    "question": "Koji je matematički izraz za Ležandrov polinom?"
+  },
+  {
+    "function_type": "legendre",
+    "question_number": 5,
+    "question": "Šta je Ležandrova diferencijalna jednačina?"
+  },
+  {
+    "function_type": "legendre",
+    "question_number": 6,
+    "question": "Koja je težinska funkcija za Ležandrov polinom?"
+  },
+  {
+    "function_type": "jacobi",
+    "question_number": 1,
+    "question": "Šta je Jakobijev polinom?"
+  },
+  {
+    "function_type": "jacobi",
+    "question_number": 2,
+    "question": "Koja je definicija Jakobijevog polinoma?"
+  },
+  {
+    "function_type": "jacobi",
+    "question_number": 3,
+    "question": "Koja je diferencijalna jednačina čije je rešenje Jakobijev polinom?"
+  },
+  {
+    "function_type": "jacobi",
+    "question_number": 4,
+    "question": "Koji je matematički izraz za Jakobijev polinom?"
+  },
+  {
+    "function_type": "jacobi",
+    "question_number": 5,
+    "question": "Koji polinomi su generalizacija Ležandrovih polinoma?"
+  },
+  {
+    "function_type": "jacobi",
+    "question_number": 6,
+    "question": "Koja je težinska funkcija za Jakobijeve polinome?"
+  },
+  {
+    "function_type": "chebyshev1",
+    "question_number": 1,
+    "question": "Šta je Čebiševljev polinom prve vrste?"
+  },
+  {
+    "function_type": "chebyshev1",
+    "question_number": 2,
+    "question": "Koja je definicija Čebiševljevog polinoma prve vrste?"
+  },
+  {
+    "function_type": "chebyshev1",
+    "question_number": 3,
+    "question": "Koja je diferencijalna jednačina čije je rešenje Čebiševljev polinom prve vrste?"
+  },
+  {
+    "function_type": "chebyshev1",
+    "question_number": 4,
+    "question": "Koji je matematički izraz za Čebiševljev polinom prve vrste?"
+  },
+  {
+    "function_type": "chebyshev1",
+    "question_number": 5,
+    "question": "Šta je Čebiševljeva diferencijalna jednačina?"
+  },
+  {
+    "function_type": "chebyshev1",
+    "question_number": 6,
+    "question": "Navedite prvih nekoliko Čebiševljevih polinoma prve vrste."
+  },
+  {
+    "function_type": "chebyshev2",
+    "question_number": 1,
+    "question": "Šta je Čebiševljev polinom druge vrste?"
+  },
+  {
+    "function_type": "chebyshev2",
+    "question_number": 2,
+    "question": "Koja je definicija Čebiševljevog polinoma druge vrste?"
+  },
+  {
+    "function_type": "chebyshev2",
+    "question_number": 3,
+    "question": "Koja je diferencijalna jednačina čije je rešenje Čebiševljev polinom druge vrste?"
+  },
+  {
+    "function_type": "chebyshev2",
+    "question_number": 4,
+    "question": "Koji je matematički izraz za Čebiševljev polinom druge vrste?"
+  },
+  {
+    "function_type": "hermite1",
+    "question_number": 1,
+    "question": "Šta je fizički Ermitov polinom?"
+  },
+  {
+    "function_type": "hermite1",
+    "question_number": 2,
+    "question": "Koja je definicija fizičkog Ermitovog polinoma?"
+  },
+  {
+    "function_type": "hermite1",
+    "question_number": 3,
+    "question": "Koja je diferencijalna jednačina čije je rešenje fizički Ermitov polinom?"
+  },
+  {
+    "function_type": "hermite1",
+    "question_number": 4,
+    "question": "Koji je matematički izraz za fizički Ermitov polinom?"
+  },
+  {
+    "function_type": "hermite1",
+    "question_number": 5,
+    "question": "Koja je težinska funkcija za Ermitov polinom?"
+  },
+  {
+    "function_type": "hermite2",
+    "question_number": 1,
+    "question": "Šta je probabilistički Ermitov polinom?"
+  },
+  {
+    "function_type": "hermite2",
+    "question_number": 2,
+    "question": "Koja je definicija probabilističkog Ermitovog polinoma?"
+  },
+  {
+    "function_type": "hermite2",
+    "question_number": 3,
+    "question": "Koja je diferencijalna jednačina čije je rešenje probabilistički Ermitov polinom?"
+  },
+  {
+    "function_type": "hermite2",
+    "question_number": 4,
+    "question": "Koji je matematički izraz za probabilistički Ermitov polinom?"
+  },
+  {
+    "function_type": "general",
+    "question_number": 1,
+    "question": "Šta su ortogonalni polinomi?"
+  },
+  {
+    "function_type": "general",
+    "question_number": 2,
+    "question": "Navedite neke ortogonalne polinome."
+  },
+  {
+    "function_type": "general",
+    "question_number": 3,
+    "question": "Kakva je veza između Beta i Gama funkcije?"
+  },
+  {
+    "function_type": "general",
+    "question_number": 4,
+    "question": "Šta je težinska funkcija za ortogonalne polinome?"
+  }
+]

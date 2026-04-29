@@ -1,0 +1,1712 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot Evaluation Report</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+        onload="renderMathInElement(document.body, {
+            delimiters: [
+                {left: '$$', right: '$$', display: true},
+                {left: '\\[', right: '\\]', display: true},
+                {left: '$', right: '$', display: false},
+                {left: '\\(', right: '\\)', display: false}
+            ],
+            throwOnError: false
+        });">
+    </script>
+    <style>
+        :root {
+            --bg: #0f1117;
+            --surface: #1a1b26;
+            --card: #1e1f2e;
+            --border: #2a2b3d;
+            --text: #e0e0e0;
+            --text-muted: #888;
+            --accent: #7c3aed;
+            --accent-light: #a78bfa;
+            --success: #22c55e;
+            --error: #ef4444;
+            --question-bg: #252640;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+            padding: 2rem;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        header {
+            text-align: center;
+            padding: 2rem 0 1.5rem;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 2rem;
+        }
+        header h1 {
+            font-size: 1.8rem;
+            color: var(--accent-light);
+            margin-bottom: 0.5rem;
+        }
+        .meta {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+        .meta span {
+            margin: 0 0.75rem;
+        }
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin: 1.5rem 0;
+        }
+        .stat {
+            background: var(--surface);
+            padding: 1rem 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+        }
+        .stat .number {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--accent-light);
+        }
+        .stat .label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .toc {
+            background: var(--surface);
+            border-radius: 10px;
+            padding: 1.5rem 2rem;
+            margin-bottom: 2rem;
+        }
+        .toc h3 {
+            color: var(--accent-light);
+            margin-bottom: 0.75rem;
+        }
+        .toc ol {
+            columns: 2;
+            column-gap: 2rem;
+            padding-left: 1.5rem;
+        }
+        .toc li {
+            margin-bottom: 0.3rem;
+        }
+        .toc a {
+            color: var(--text);
+            text-decoration: none;
+        }
+        .toc a:hover {
+            color: var(--accent-light);
+        }
+        .function-section {
+            margin-bottom: 3rem;
+        }
+        .function-section h2 {
+            font-size: 1.4rem;
+            color: var(--accent-light);
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+        .func-type-code {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+        }
+        .qa-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            margin-bottom: 1.25rem;
+            overflow: hidden;
+        }
+        .question {
+            background: var(--question-bg);
+            padding: 1rem 1.25rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .q-label {
+            color: var(--accent-light);
+            font-weight: 700;
+            min-width: 2rem;
+        }
+        .badge {
+            font-size: 0.7rem;
+            padding: 0.15rem 0.5rem;
+            border-radius: 4px;
+            font-weight: 600;
+            margin-left: auto;
+            text-transform: uppercase;
+        }
+        .badge.success {
+            background: rgba(34,197,94,0.15);
+            color: var(--success);
+        }
+        .badge.error {
+            background: rgba(239,68,68,0.15);
+            color: var(--error);
+        }
+        .answer {
+            padding: 1.25rem;
+            line-height: 1.8;
+        }
+        .answer .katex-display {
+            margin: 1rem 0;
+        }
+        footer {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            padding: 2rem 0;
+            border-top: 1px solid var(--border);
+        }
+        @media print {
+            body { background: #fff; color: #111; padding: 1rem; }
+            .qa-card { border: 1px solid #ccc; break-inside: avoid; }
+            .question { background: #f0f0f0; }
+            .function-section { break-before: page; }
+            :root {
+                --bg: #fff; --surface: #f9f9f9; --card: #fff;
+                --border: #ddd; --text: #111; --text-muted: #666;
+                --accent: #5b21b6; --accent-light: #6d28d9;
+                --question-bg: #f5f3ff;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <header>
+        <h1>Chatbot Evaluation Report</h1>
+        <div class="meta">
+            <span>2026-04-29 20:14:49</span>
+            <span>Model: <strong>qwen</strong></span>
+            <span>Selected language: <strong>en</strong></span>
+            <span>LLM Service: http://localhost:8000</span>
+        </div>
+    </header>
+
+    <div class="stats">
+        <div class="stat">
+            <div class="number">59</div>
+            <div class="label">Questions</div>
+        </div>
+        <div class="stat">
+            <div class="number">11</div>
+            <div class="label">Functions</div>
+        </div>
+        <div class="stat">
+            <div class="number">59</div>
+            <div class="label">Answered</div>
+        </div>
+        <div class="stat">
+            <div class="number">0</div>
+            <div class="label">Errors</div>
+        </div>
+    </div>
+
+    <div class="toc">
+        <h3>Table of Contents</h3>
+        <ol>
+            <li><a href="#bessel1">Bessel Function of the First Kind</a></li><li><a href="#gamma">Gamma Function</a></li><li><a href="#beta">Beta Function</a></li><li><a href="#laguerre">Laguerre Polynomial</a></li><li><a href="#legendre">Legendre Polynomial</a></li><li><a href="#jacobi">Jacobi Polynomial</a></li><li><a href="#chebyshev1">Chebyshev Polynomial of the First Kind</a></li><li><a href="#chebyshev2">Chebyshev Polynomial of the Second Kind</a></li><li><a href="#hermite1">Physicist&#x27;s Hermite Polynomial</a></li><li><a href="#hermite2">Probabilist&#x27;s Hermite Polynomial</a></li><li><a href="#general">General Questions</a></li>
+        </ol>
+    </div>
+
+    
+        <div class="function-section" id="bessel1">
+            <h2>Bessel Function of the First Kind</h2>
+            <p class="func-type-code">bessel1</p>
+            
+            <div class="qa-card">
+                <div class="question">
+                    <span class="q-label">Q1.</span>
+                    What is Bessel function of the first kind?
+                    <span class="badge success">OK</span>
+                </div>
+                <div class="answer">
+                    The Bessel function of the first kind, denoted as \( J_{\nu}(x) \), is a solution to Bessel's differential equation. It is one of the two linearly independent solutions to this equation, the other being the Neumann (or Bessel) function of the second kind, \( Y_{\nu}(x) \).<br>
+<br>
+The Bessel function of the first kind can be defined by the series expansion:<br>
+\[ J_{\nu}(x) = \sum_{m=0}^{\infty} \frac{(-1)^m}{m! \, \Gamma(m+\nu+1)} \left( \frac{x}{2} \right)^{2m+\nu}, \]<br>
+where \( \Gamma \) is the gamma function.<br>
+<br>
+Alternatively, it can be expressed as an integral:<br>
+\[ J_{\nu}(x) = \frac{1}{\pi} \int_0^{\pi} \cos(\nu \tau - x \sin \tau) \, d\tau - \frac{\sin(\nu \pi)}{\pi} \int_0^{\infty} e^{-x \sinh t - \nu t} \, dt. \]<br>
+<br>
+For integer orders \( n \), it can also be represented as:<br>
+\[ J_n(x) = \frac{1}{\pi} \int_0^{\pi} \cos(n \tau - x \sin \tau) \, d\tau. \]<br>
+<br>
+These functions are "regular" at the origin and adopt the value zero when their argument is zero for non-negative orders.
+                </div>
+            </div>
+            
+            <div class="qa-card">
+                <div class="question">
+                    <span class="q-label">Q2.</span>
+                    What is the definition of the Bessel function of the first kind?
+                    <span class="badge success">OK</span>
+                </div>
+                <div class="answer">
+                    The Bessel function of the first kind, denoted as \( J_{\nu}(x) \), is a solution to Bessel's differential equation. Specifically, for integer order \( n \), it can be defined by its series representation:<br>
+<br>
+\[ J_n(x) = \sum_{k=0}^{\infty} \frac{(-1)^k}{k! (k+n)!} \left( \frac{x}{2} \right)^{2k+n}. \]<br>
+<br>
+This function is often referred to as the "regular" Bessel function because it remains finite at \( x = 0 \). It plays a crucial role in various physical problems, particularly those involving cylindrical symmetry.
+                </div>
+            </div>
+            
+            <div class="qa-card">
+                <div class="question">
+                    <span class="q-label">Q3.</span>
+                    What is the practical use of the Bessel function of the first kind?
+                    <span class="badge success">OK</span>
+                </div>
+                <div class="answer">
+                    The Bessel functions of the first kind, \(J_{\nu}(x)\), have a wide range of practical applications due to their ability to describe oscillatory phenomena. Here are some common uses:<br>
+<br>
+1. **Mechanical Engineering**: They model the vibration modes of circular drums and cylindrical structures.<br>
+2. **Electrical Engineering**: Bessel functions appear in the analysis of electromagnetic waves, particularly in waveguides and antennas.<br>
+3. **Acoustics**: These functions describe sound propagation in cylindrical geometries.<br>
+4. **Quantum Mechanics**: In problems involving spherical symmetry, such as the radial part of the Schrödinger equation for a hydrogen atom.<br>
+5. **Heat Conduction**: They can be used to solve heat conduction problems in cylindrical coordinates.<br>
+6. **Optics**: Bessel functions are involved in the description of optical fibers and diffraction patterns.<br>
+<br>
+These functions are essential tools in various fields due to their unique properties, especially their ability to satisfy boundary conditions that arise in problems with cylindrical symmetry.
+                </div>
+            </div>
+            
+            <div class="qa-card">
+                <div class="question">
+                    <span class="q-label">Q4.</span>
+                    What is the differential equation for which the solution is the Bessel function of the first kind?
+                    <span class="badge success">OK</span>
+                </div>
+                <div class="answer">
+                    The Bessel function of the first kind, denoted as \( J_\nu(x) \), is a solution to Bessel's differential equation of order \(\nu\):<br>
+<br>
+\[<br>
+x^2 \frac{d^2 y}{dx^2} + x \frac{dy}{dx} + (x^2 - \nu^2)y = 0.<br>
+\]
+                </div>
+            </div>
+            
+            <div class="qa-card">
+                <div class="question">
+                    <span class="q-label">Q5.</span>
+                    What is the mathematical expression for the Bessel function of the first kind?
+                    <span class="badge success">OK</span>
+                </div>
+                <div class="answer">
+                    The Bessel function of the first kind, denoted as \(J_{n}(x)\), can be expressed in several ways. One common definition is given by its series expansion:<br>
+<br>
+\[<br>
+J_{n}(x) = \sum_{m=0}^{\infty} \frac{(-1)^m}{(m+n)! m!} \left(\frac{x}{2}\right)^{2m+n}<br>
+\]<br>
+<br>
+This series converges for all real values of \(x\) and integer \(n\). Additionally, it can also be represented through an integral:<br>
+<br>
+\[<br>
+J_{n}(x) = \frac{1}{\pi} \int_{0}^{\pi} \cos(n\tau - x \sin \tau) d\tau<br>
+\]<br>
+<br>
+For specific cases where \(n\) is a non-negative integer, this can be further simplified into integrals involving cosine and sine functions:<br>
+<br>
+\[<br>
+J_{n}(x) = \frac{2}{\pi} \int_{0}^{\frac{\pi}{2}} \cos(n\tau) \cos(x \sin \tau) d\tau \quad \text{(for even } n)<br>
+\]<br>
+<br>
+\[<br>
+J_{n}(x) = \frac{2}{\pi} \int_{0}^{\frac{\pi}{2}} \sin(n\tau) \cos(x \sin \tau) d\tau \quad \text{(for odd } n)<br>
+\]<br>
+<br>
+These expressions provide different ways to compute the Bessel function of the first kind for various applications.
+                </div>
+            </div>
+            
+            <div class="qa-card">
+                <div class="question">
+                    <span class="q-label">Q6.</span>
+                    What is Bessel&#x27;s differential equation?
+                    <span class="badge success">OK</span>
+                </div>
+                <div class="answer">
+                    Bessel's differential equation is given by:<br>
+<br>
+\[<br>
+x^2 \frac{d^2 y}{dx^2} + x \frac{dy}{dx} + (x^2 - \alpha^2)y = 0<br>
+\]<br>
+<br>
+This is a homogeneous linear differential equation of the second order.
+                </div>
+            </div>
+            
+        </div>
+        
+        <div class="function-section" id="gamma">
+            <h2>Gamma Function</h2>
+            <p class="func-type-code">gamma</p>
+            
+            <div class="qa-card">
+                <div class="question">
+                    <span class="q-label">Q1.</span>
+                    What is the Gamma function?
+                    <span class="badge success">OK</span>
+                </div>
+                <div class="answer">
+                    The gamma function \(\Gamma(x)\) is a generalization of the factorial function to real and complex numbers, except for non-positive integers. It is defined by the integral<br>
+<br>
+\[<br>
+\Gamma(x) = \int_{0}^{\infty} t^{x-1} e^{-t} dt<br>
+\]<br>
+<br>
+for \(x &gt; 0\). This definition can be extended to all complex numbers except the non-positive integers using analytic continuation.<br>
+<br>
+The gamma function has several important properties, including a recurrence relation:<br>
+<br>
+\[<br>
+\Gamma(x+1) = x \Gamma(x)<br>
+\]<br>
+<br>
+and for positive integers \(n\),<br>
+<br>
+\[<br>
+\Gamma(n+1) = n!<br>
+\]<br>
+<br>
+Additionally, it can be expressed in terms of an infinite product for complex numbers with a positive real part:<br>
+<br>
+\[<br>
+\Gamma(x+1) = \frac{e^{-\gamma x}}{x} \prod_{j=1}^{\infty} \left( 1 + \frac{x}{j} \right)^{-1} e^{x/j}<br>
+\]<br>
+<br>
+where \(\gamma\) is the Euler-Mascheroni constant.<br>
+<br>
+The gamma function also has representations involving logarithms and integrals, such as:<br>
+<br>
+\[<br>
+\ln(\Gamma(x+1)) = \int_{0}^{1} \left( \frac{t^x - 1}{t-1} - x \right) \frac{dt}{\ln t}<br>
+\]<br>
+<br>
+and it can be related to other special functions, like the beta function and the incomplete gamma function.<br>
+<br>
+For large values of \(x\), the gamma function can be approximated using asymptotic formulas. For example:<br>
+<br>
+\[<br>
+\Gamma(x+1) \approx \sqrt{2\pi x} \left( \frac{x}{e} \right)^x<br>
+\]<br>
+<br>
+with more precise forms given by series expansions or specific approximations like those of Lanczos, which provide better accuracy for a wider range of values.
+                </div>
+            </div>
+            
+            <div class="qa-card">
+                <div class="question">
+                    <span class="q-label">Q2.</span>
+                    What is the definition of the Gamma function?
+                    <span class="badge success">OK</span>
+                </div>
+                <div class="answer">
+                    The gamma function \(\Gamma(x)\) can be defined in several ways. One common definition, given by Euler's integral, is:<br>
+<br>
+\[<br>
+\Gamma(x) = \int_{0}^{\infty} t^{x-1} e^{-t} dt, \quad x &gt; 0.<br>
+\]<br>
+<br>
+Another useful representation involves the product form for positive integers and a more general form using the logarithm:<br>
+<br>
+\[<br>
+\Gamma(x+1) = \prod_{j=1}^{\infty} \frac{(j+1)^x}{(j+x) j^{x-1}},<br>
+\]<br>
+and<br>
+\[<br>
+\ln(\Gamma(x+1)) = \int_{0}^{1} \left( \frac{t^x - 1}{t - 1} - x \right) \frac{dt}{\ln t}.<br>
+\]<br>
+<br>
+These definitions capture the essence of the gamma function and its properties.
+                </div>
+            </div>
+            
+            <div class="qa-card">
+                <div class="question">
+                    <span class="q-label">Q3.</span>
+                    What is the differential equation for which the solution is the Gamma function?
+                    <span class="badge success">OK</span>
+                </div>
+                <div class="answer">
+                    I apologize, but I currently don't have sufficient knowledge to answer this question accurately. The provided information does not include a specific differential equation whose solution is the Gamma function. While it's known that the Gamma function satisfies certain integral representations and recurrence relations, a direct differential equation for the Gamma function is not explicitly mentioned in the given context.
+                </div>
+            </div>
+            
+            <div class="qa-card">
+                <div class="question">
+                    <span class="q-label">Q4.</span>
+                    What is the mathematical expression for the Gamma function?
+                    <span class="badge success">OK</span>
+                </div>
+                <div class="answer">
+                    The Gamma function, denoted by \(\Gamma(x)\), is commonly defined by the Euler integral:<br>
+<br>
+\[<br>
+\Gamma(x) = \int_{0}^{\infty} t^{x-1} e^{-t} \, dt.<br>
+\]<br>
+<br>
+For positive integer values of \(x\), the Gamma function is related to the factorial function as follows:<br>
+<br>
+\[<br>
+\Gamma(n+1) = n!,<br>
+\]<br>
+<br>
+where \(n\) is a non-negative integer. This relationship can be seen from the definition since for an integer \(n\):<br>
+<br>
+\[<br>
+\Gamma(n+1) = \int_{0}^{\infty} t^n e^{-t} \, dt.<br>
+\]<br>
+<br>
+Using integration by parts repeatedly, it can be shown that:<br>
+<br>
+\[<br>
+\Gamma(n+1) = n!.<br>
+\]
+                </div>
+            </div>
+            
+            <div class="qa-card">
+                <div class="question">
+                    <span class="q-label">Q5.</span>
+                    What is Euler&#x27;s integral of the second kind?
+                    <span class="badge success">OK</span>
+                </div>
+                <div class="answer">
+                    Euler's integral of the second kind, also known as the beta function, can be expressed by the following integral:<br>
+<br>
+\[<br>
+B(x, y) = \int_{0}^{1} t^{x-1}(1-t)^{y-1} \, dt,<br>
+\]<br>
+<br>
+where \(x\) and \(y\) are positive real numbers. This function is closely related to the gamma function through the relationship:<br>
+<br>
+\[<br>
+B(x, y) = \frac{\Gamma(x) \Gamma(y)}{\Gamma(x + y)},<br>
+\]<br>
+<br>
+where \(\Gamma\) denotes the gamma function.
+                </div>
+            </div>
+            
+            <div class="qa-card">
+                <div class="question">
+                    <span class="q-label">Q6.</span>
+                    Give some formulas for approximation of the Gamma function.
+                    <span class="badge success">OK</span>
+                </div>
+                <div class="answer">
+                    Certainly! Here are several formulas for approximating the Gamma function \(\Gamma(x + 1)\):<br>
+<br>
+1. **Stirling's Approximation** (leading term):<br>
+   \[<br>
+   \Gamma(x+1) \approx \sqrt{2\pi x} \left( \frac{x}{e} \right)^x<br>
+   \]<br>
+<br>
+2. **Mahmoud and Almuashi's Formulas**:<br>
+   - Formula (22):<br>
+     \[<br>
+     \Gamma(x + 1) \approx \sqrt{2\pi x} \left( \frac{x}{e} \right)^x \left( \frac{3(40x^2 + 3)}{120x - 1} \right)<br>
+     \]<br>
+   - Formula (23):<br>
+     \[<br>
+     \Gamma(x + 1) \approx \sqrt{2\pi x} \left( \frac{x}{e} \right)^x \left( x \sinh \frac{1}{x} \right)^{\frac{x}{2}} e^{\frac{7}{324x^3 (35x^2 + 33)}}<br>
+     \]<br>
+   - Formula (24):<br>
+     \[<br>
+     \Gamma(x + 1) \approx \sqrt{2\pi x} \left( \frac{x}{e} \right)^x \left( \frac{x^2 + \frac{7}{60}}{x^2 - \frac{1}{20}} \right)^{\frac{x}{2}} e^{\frac{461}{907200x^3 (x^2 + 33)}}<br>
+     \]<br>
+   - Formula (24) is noted to be the most precise among these.<br>
+<br>
+3. **Lanczos Approximation**:<br>
+   - Formula for \(\Gamma(x+1)\):<br>
+     \[<br>
+     \Gamma(x + 1) \approx \sqrt{2\pi x} \left( \frac{x}{e} \right)^x \left( 1 + \frac{1}{12x^2 - \frac{1}{10}} \right)^{\frac{x}{2}}<br>
+     \]<br>
+<br>
+4. **Ramanujan's Approximation**:<br>
+   \[<br>
+   \Gamma(x + 1) = \sqrt{\pi} \left( \frac{x}{e} \right)^x (8x^3 + 4x^2 + x + \frac{1}{30})^{\frac{1}{6}}<br>
+   \]<br>
+<br>
+5. **Windschitl's Approximation**:<br>
+   \[<br>
+   \Gamma(x + 1) \approx \sqrt{2\pi x} \left( \frac{x}{e} \right)^x \left( x \sinh \frac{1}{x} \right)^{\frac{x}{2}}<br>
+   \]<br>
+   This formula provides more than 8 accurate decimal places for \(x &gt; 8\).<br>
+<br>
+6. **Continued Fraction Approximations**:<br>
+   - Formula (21):<br>
+     \[<br>
+     v = \frac{\frac{1}{12}}{x + \frac{\frac{1}{30}}{x + \frac{\frac{53}{210}}{x + ...}}}<br>
+     \]<br>
+     and<br>
+     \[<br>
+     \Gamma(x + 1) \approx \sqrt{2\pi x} e^{-x} v^x<br>
+     \]<br>
+   - Another continued fraction:<br>
+     \[<br>
+     v = x + \frac{1}{12x - \frac{1}{10x + \frac{\frac{-2369}{252}}{x + \frac{\frac{2117009}{1193976}}{x + \frac{\frac{393032191511}{1324011300744}}{x + ...}}}}<br>
+     \]<br>
+<br>
+These approximations provide varying levels of precision and complexity, with the continued fraction methods generally offering higher accuracy for specific ranges of \(x\).
+                </div>
+            </div>
+            
+        </div>
+        
+        <div class="function-section" id="beta">
+            <h2>Beta Function</h2>
+            <p class="func-type-code">beta</p>
+            
+            <div class="qa-card">
+                <div class="question">
+                    <span class="q-label">Q1.</span>
+                    What is the Beta function?
+                    <span class="badge success">OK</span>
+                </div>
+                <div class="answer">
+                    The beta function, denoted as \( B(x, y) \), is a special function that can be expressed in terms of the gamma function. Specifically, for positive integers \( n \) and \( v \), the beta function reduces to an expression involving binomial coefficients:<br>
+<br>
+\[<br>
+B(n, v) = \frac{(n-1)! (v-1)!}{(n+v-1)!}<br>
+\]<br>
+<br>
+However, this is not true in general; it holds only for specific values of the arguments. More generally, the beta function can be defined as:<br>
+<br>
+\[<br>
+B(x, y) = \int_0^1 t^{x-1} (1-t)^{y-1} dt<br>
+\]<br>
+<br>
+or equivalently,<br>
+<br>
+\[<br>
+B(x, y) = \frac{\Gamma(x) \Gamma(y)}{\Gamma(x+y)}<br>
+\]<br>
+<br>
+where \( \Gamma(z) \) is the gamma function. The beta function is symmetric in its arguments:<br>
+<br>
+\[<br>
+B(x, y) = B(y, x)<br>
+\]<br>
+<br>
+It also satisfies several properties and relationships with other special functions, including connections to hypergeometric series and polynomial identities.
+                </div>
+            </div>
+            
+            <div class="qa-card">
+                <div class="question">
+                    <span class="q-label">Q2.</span>
+                    What is the definition of the Beta function?
+                    <span class="badge success">OK</span>
+                </div>
+                <div class="answer">
+                    The beta function \( B(x, y) \) can be defined in terms of the gamma function as follows:<br>
+<br>
+\[<br>
+B(x, y) = \frac{\Gamma(x) \Gamma(y)}{\Gamma(x + y)}<br>
+\]<br>
+<br>
+where \(\Gamma(z)\) is the gamma function. For positive integers \( n \), the beta function reduces to an expression involving a binomial coefficient:<br>
+<br>
+\[<br>
+B(n, v) = \binom{n + v - 1}{n} = \frac{(n + v - 1)!}{n! (v - 1)!}<br>
+\]<br>
+<br>
+However, this rule has exceptions. The beta function also satisfies certain integral representations and relationships with the gamma function, such as those involving complete beta functions:<br>
+<br>
+\[<br>
+B(x, y) = \int_0^1 t^{x-1} (1-t)^{y-1} dt<br>
+\]<br>
+<br>
+These definitions provide a comprehensive understanding of the beta function.
+                </div>
+            </div>
+            
+            <div class="qa-card">
+                <div class="question">
+                    <span class="q-label">Q3.</span>
+                    What is the differential equation for which the solution is the Beta function?
+                    <span class="badge success">OK</span>
+                </div>
+                <div class="answer">
+                    The given text does not provide a specific differential equation whose solution is the Beta function. The beta function, as defined in the provided context, is typically expressed using an integral or related to the gamma function, but no differential equation for it is directly stated.<br>
+<br>
+I apologize, but I currently don't have sufficient knowledge to answer this question accurately.
+                </div>
+            </div>
+            
+            <div class="qa-card">
+                <div class="question">
+                    <span class="q-label">Q4.</span>
+                    What is the mathematical expression for the Beta function?
+                    <span class="badge success">OK</span>
+                </div>
+                <div class="answer">
+                    The Beta function \( B(v, w) \) can be defined by the following integral:<br>
+<br>
+\[<br>
+B(v, w) = \int_{0}^{1} t^{v-1}(1-t)^{w-1} dt<br>
+\]<br>
+<br>
+This definition is valid for positive real numbers \( v \) and \( w \). It is related to the Gamma function through the relation:<br>
+<br>
+\[<br>
+B(v, w) = \frac{\Gamma(v) \cdot \Gamma(w)}{\Gamma(v + w)}<br>
+\]<br>
+<br>
+Additionally, there are several other representations of the Beta function as integrals or series. For instance, it can be expressed in terms of a double integral involving binomial coefficients for certain values:<br>
+<br>
+\[<br>
+B(p, q) = 2^{1 - 2p} \int_{0}^{1} (1 - s^2)^{p-1/2} s^{q-3/2} ds<br>
+\]<br>
+<br>
+This form is particularly useful when dealing with specific parameter values.
+                </div>
+            </div>
+            
+            <div class="qa-card">
+                <div class="question">
+                    <span class="q-label">Q5.</span>
+                    What is Euler&#x27;s integral of the first kind?
+                    <span class="badge success">OK</span>
+                </div>
+                <div class="answer">
+                    Euler's integral of the first kind, also known as the complete gamma function, is defined by the following integral:<br>
+<br>
+\[<br>
+\Gamma(v) = \int_0^\infty t^{v-1} e^{-t} \, dt<br>
+\]<br>
+<br>
+This integral converges for all complex numbers \( v \) with a positive real part. It plays a crucial role in various areas of mathematics and physics due to its wide applicability and numerous properties.
+                </div>
+            </div>
+            
+        </div>
+        
+        <div class="function-section" id="laguerre">
+            <h2>Laguerre Polynomial</h2>
+            <p class="func-type-code">laguerre</p>
+            
+            <div class="qa-card">
+                <div class="question">
+                    <span class="q-label">Q1.</span>
+                    What is the Laguerre polynomial?
+                    <span class="badge success">OK</span>
+                </div>
+                <div class="answer">
+                    The Laguerre polynomials, denoted as \(L_n(x)\), are a set of orthogonal polynomials defined on the interval \([0, \infty)\) with respect to the weight function \(e^{-x}\). They can be defined by the differential equation:<br>
+<br>
+\[<br>
+x \frac{d^2 L_n(x)}{dx^2} + (1 - x) \frac{dL_n(x)}{dx} + n L_n(x) = 0<br>
+\]<br>
+<br>
+or equivalently, using a simpler form derived from this:<br>
+<br>
+\[<br>
+x \frac{dL_n(x)}{dx} = n L_n(x) - n L_{n-1}(x)<br>
+\]<br>
+<br>
+These polynomials are also solutions to the Laguerre differential equation:<br>
+<br>
+\[<br>
+xy'' + (1 - x)y' + ny = 0<br>
+\]<br>
+<br>
+where \(n\) is a nonnegative integer. The first few Laguerre polynomials are simple and can be written as:<br>
+<br>
+- \(L_0(x) = 1\)<br>
+- \(L_1(x) = 1 - x\)<br>
+- \(L_2(x) = \frac{1}{2}(x^2 - 4x + 2)\)<br>
+<br>
+They have a contour integral representation given by:<br>
+<br>
+\[<br>
+L_n(x) = \frac{2}{2\pi i} \oint \frac{e^{-xz/(1-z)}}{(1-z)z^{n+1}} dz<br>
+\]<br>
+<br>
+These polynomials are important in various scientific fields, including quantum mechanics and optics.
+                </div>
+            </div>
+            
+            <div class="qa-card">
+                <div class="question">
+                    <span class="q-label">Q2.</span>
+                    What is the definition of the Laguerre polynomial?
+                    <span class="badge success">OK</span>
+                </div>
+                <div class="answer">
+                    The Laguerre polynomial \( L_n(x) \) can be defined in several ways. One common definition involves a differential equation:<br>
+<br>
+\[ x \frac{d^2L_n(x)}{dx^2} + (1 - x) \frac{dL_n(x)}{dx} + n L_n(x) = 0 \]<br>
+<br>
+Additionally, the Laguerre polynomial can be expressed using an integral representation:<br>
+<br>
+\[ L_n(x) = \frac{n!}{2\pi i} \oint \frac{e^{-xz/(1-z)}}{(1-z)z^{n+1}} dz \]<br>
+<br>
+Here, the contour integral is taken over a closed path that encircles the origin in the complex plane.
+                </div>
+            </div>
+            
+            <div class="qa-card">
+                <div class="question">
+                    <span class="q-label">Q3.</span>
+                    What is the differential equation for which the solution is the Laguerre polynomial?
+                    <span class="badge success">OK</span>
+                </div>
+                <div class="answer">
+                    The differential equation for which the solution is the Laguerre polynomial is given by:<br>
+<br>
+\[<br>
+y'' - xy' + ny = 0<br>
+\]
+                </div>
+            </div>
+            
+            <div class="qa-card">
+                <div class="question">
+                    <span class="q-label">Q4.</span>
+                    What is the mathematical expression for the Laguerre polynomial?
+                    <span class="badge success">OK</span>
+                </div>
+                <div class="answer">
+                    The Laguerre polynomial \(L_n(x)\) can be expressed in several ways. One common form of the Laguerre polynomial is given by the differential equation:<br>
+<br>
+\[<br>
+x \frac{d L_n(x)}{dx} = n L_n(x) - n L_{n-1}(x)<br>
+\]<br>
+<br>
+Another representation involves a contour integral, which is defined as:<br>
+<br>
+\[<br>
+L_n(x) = \frac{2}{2\pi i} \oint \frac{e^{-xz/(1-z)}}{(1-z)z^{n+1}} dz<br>
+\]
+                </div>
+            </div>
+            
+            <div class="qa-card">
+                <div class="question">
+                    <span class="q-label">Q5.</span>
+                    What is Laguerre&#x27;s differential equation?
+                    <span class="badge success">OK</span>
+                </div>
+                <div class="answer">
+                    The Laguerre polynomials satisfy the following differential equation:<br>
+<br>
+\[<br>
+x \frac{dL_n(x)}{dx} = n L_n(x) - (n+1) L_{n-1}(x)<br>
+\]<br>
+<br>
+This can be derived from the recurrence relation given in the context, but it is also a well-known differential equation for Laguerre polynomials. The general form of this differential equation is:<br>
+<br>
+\[<br>
+x \frac{dL_n(x)}{dx} + (1 - x) L_n'(x) + n L_n(x) = 0<br>
+\]<br>
+<br>
+However, the specific form provided in the question is more commonly used and directly relates to the properties of Laguerre polynomials.
+                </div>
+            </div>
+            
+            <div class="qa-card">
+                <div class="question">
+                    <span class="q-label">Q6.</span>
+                    Give first few Laguerre polynomials.
+                    <span class="badge success">OK</span>
+                </div>
+                <div class="answer">
+                    The first few Laguerre polynomials \(L_n(x)\) are as follows:<br>
+<br>
+1. For \(n=0\):<br>
+\[ L_0(x) = 1 \]<br>
+<br>
+2. For \(n=1\):<br>
+\[ L_1(x) = -x + 1 \]<br>
+<br>
+3. For \(n=2\):<br>
+\[ L_2(x) = \frac{1}{2}(x^2 - 4x + 2) \]<br>
+<br>
+These polynomials can be derived from the differential equation that defines them, or by using known recurrence relations. The general form of Laguerre polynomials satisfies the differential equation:<br>
+\[ x\frac{d^2L_n(x)}{dx^2} + (1 - x)\frac{dL_n(x)}{dx} + nL_n(x) = 0 \]<br>
+<br>
+The given information about contour integrals and other properties can be useful in deriving these polynomials, but for the first few terms, they are commonly tabulated as shown above.
+                </div>
+            </div>
+            
+            <div class="qa-card">
+                <div class="question">
+                    <span class="q-label">Q7.</span>
+                    What is the weight function for Laguerre polynomials?
+                    <span class="badge success">OK</span>
+                </div>
+                <div class="answer">
+                    The weight function for Laguerre polynomials is \( e^{-x} \). This means that when considering these polynomials as part of an orthogonal set, the weight function used in their definition is \( w(x) = e^{-x} \) over the interval from 0 to infinity.
+                </div>
+            </div>
+            
+        </div>
+        
+        <div class="function-section" id="legendre">
+            <h2>Legendre Polynomial</h2>
+            <p class="func-type-code">legendre</p>
+            
+            <div class="qa-card">
+                <div class="question">
+                    <span class="q-label">Q1.</span>
+                    What is the Legendre polynomial?
+                    <span class="badge success">OK</span>
+                </div>
+                <div class="answer">
+                    The Legendre polynomial \(P_n(x)\) of degree \(n\) is a solution to the Legendre differential equation:<br>
+<br>
+\[<br>
+(1 - x^2)y'' - 2xy' + n(n+1)y = 0.<br>
+\]<br>
+<br>
+These polynomials are orthogonal on the interval \([-1, 1]\) with respect to the weight function \(w(x) = 1\). They can be defined by the Rodrigues' formula:<br>
+<br>
+\[<br>
+P_n(x) = \frac{1}{2^n n!} \frac{d^n}{dx^n} (x^2 - 1)^n.<br>
+\]<br>
+<br>
+Additionally, they satisfy the recurrence relation:<br>
+<br>
+\[<br>
+(n+1)P_{n+1}(x) = (2n+1)xP_n(x) -nP_{n-1}(x).<br>
+\]<br>
+<br>
+The shifted Legendre polynomials are defined as \(P_n^*(x) = P_n(2x-1)\), which shift the domain from \([-1, 1]\) to \([0, 1]\).
+                </div>
+            </div>
+            
+            <div class="qa-card">
+                <div class="question">
+                    <span class="q-label">Q2.</span>
+                    What is the definition of the Legendre polynomial?
+                    <span class="badge success">OK</span>
+                </div>
+                <div class="answer">
+                    The Legendre polynomial \(P_n(x)\) can be defined by the differential equation it satisfies:<br>
+<br>
+\[ (1 - x^2)y'' - 2xy' + n(n+1)y = 0 \]<br>
+<br>
+or equivalently, for a specific form of the solution, as follows:<br>
+<br>
+\[ P_n(x) = \frac{1}{2^n n!} \frac{d^n}{dx^n} \left( (x^2 - 1)^n \right) \]<br>
+<br>
+This is known as Rodrigues' formula. Additionally, Legendre polynomials can be expressed using a contour integral:<br>
+<br>
+\[ P_n(x) = \frac{1}{\pi} \int_{-1}^{1} \frac{(1 - t^2)^{-\frac{1}{2}}}{(x - t)} (P_n(t))^2 dt \]<br>
+<br>
+However, the most common definition is through Rodrigues' formula.
+                </div>
+            </div>
+            
+            <div class="qa-card">
+                <div class="question">
+                    <span class="q-label">Q3.</span>
+                    What is the differential equation for which the solution is the Legendre polynomial?
+                    <span class="badge success">OK</span>
+                </div>
+                <div class="answer">
+                    The differential equation for which the solution is the Legendre polynomial is given by:<br>
+<br>
+\[<br>
+(1 - x^2) y'' - 2x y' + n(n+1)y = 0<br>
+\]<br>
+<br>
+This can be rewritten in a more standard form as:<br>
+<br>
+\[<br>
+xy'' + (1 - x)y' + \lambda y = 0<br>
+\]<br>
+<br>
+where \(\lambda = n(n+1)\).
+                </div>
+            </div>
+            
+            <div class="qa-card">
+                <div class="question">
+                    <span class="q-label">Q4.</span>
+                    What is the mathematical expression for the Legendre polynomial?
+                    <span class="badge success">OK</span>
+                </div>
+                <div class="answer">
+                    The Legendre polynomials, denoted as \(P_n(x)\), can be defined in several ways. One common definition involves a generating function:<br>
+<br>
+\[<br>
+g(x,t) = \frac{1}{\sqrt{1 - 2xt + t^2}} = \sum_{n=0}^\infty P_n(x) t^n<br>
+\]<br>
+<br>
+This generating function allows us to express any Legendre polynomial as a coefficient in the expansion of the left-hand side with respect to \(t\).<br>
+<br>
+Another way to define the Legendre polynomials is through Rodrigues' formula:<br>
+<br>
+\[<br>
+P_n(x) = \frac{1}{2^n n!} \frac{d^n}{dx^n} (x^2 - 1)^n<br>
+\]<br>
+<br>
+This formula provides a direct method for computing the \(n\)th Legendre polynomial by differentiating the expression \((x^2 - 1)^n\).<br>
+<br>
+Additionally, the Legendre polynomials satisfy a differential equation:<br>
+<br>
+\[<br>
+(1 - x^2)P_n''(x) - 2xP_n'(x) + n(n+1)P_n(x) = 0<br>
+\]<br>
+<br>
+This is known as Legendre's differential equation.
+                </div>
+            </div>
+            
+            <div class="qa-card">
+                <div class="question">
+                    <span class="q-label">Q5.</span>
+                    What is Legendre&#x27;s differential equation?
+                    <span class="badge success">OK</span>
+                </div>
+                <div class="answer">
+                    The Legendre differential equation can be expressed as:<br>
+<br>
+\[<br>
+(1 - x^2)P_n''(x) - 2xP_n'(x) + n(n+1)P_n(x) = 0<br>
+\]<br>
+<br>
+This is the fundamental differential equation that the Legendre polynomials \(P_n(x)\) satisfy. Here, \(P_n(x)\) denotes the Legendre polynomial of degree \(n\).
+                </div>
+            </div>
+            
+            <div class="qa-card">
+                <div class="question">
+                    <span class="q-label">Q6.</span>
+                    What is the weight function for the Legendre polynomial?
+                    <span class="badge success">OK</span>
+                </div>
+                <div class="answer">
+                    The weight function for the Legendre polynomials is unity. This means that the weight function \( w(x) = 1 \) for the interval \([-1, 1]\). Therefore, when we say that Legendre polynomials are orthogonal on the interval \([-1, 1]\) with respect to the weight function \( w(t) \), we mean:<br>
+<br>
+\[<br>
+w(t) = 1<br>
+\]
+                </div>
+            </div>
+            
+        </div>
+        
+        <div class="function-section" id="jacobi">
+            <h2>Jacobi Polynomial</h2>
+            <p class="func-type-code">jacobi</p>
+            
+            <div class="qa-card">
+                <div class="question">
+                    <span class="q-label">Q1.</span>
+                    What is the Jacobi polynomial?
+                    <span class="badge success">OK</span>
+                </div>
+                <div class="answer">
+                    The Jacobi polynomial, denoted as \(P_n^{(\alpha, \beta)}(x)\), where \(\alpha\) and \(\beta\) are real parameters greater than -1, is a family of orthogonal polynomials. These polynomials arise as solutions to the differential equation:<br>
+<br>
+\[<br>
+(1 - x^2) y'' + (\beta - \alpha - (\alpha + \beta + 2)x) y' + n(n + \alpha + \beta + 1) y = 0<br>
+\]<br>
+<br>
+This is known as a singular Sturm-Liouville equation. When \(\alpha = \beta = 0\), the Jacobi polynomial reduces to the Legendre polynomial, which are solutions of the Legendre differential equation.<br>
+<br>
+The orthogonality property of the Jacobi polynomials can be expressed by the integral:<br>
+<br>
+\[<br>
+\int_{-1}^{1} (1 - x)^\alpha (1 + x)^\beta P_m^{(\alpha, \beta)}(x) P_n^{(\alpha, \beta)}(x) dx = \frac{2^{\alpha+\beta+1}}{2n+\alpha+\beta+1} \frac{\Gamma(n+\alpha+1)\Gamma(n+\beta+1)}{(n!)^2\Gamma(n+\alpha+\beta+1)} \delta_{mn}<br>
+\]<br>
+<br>
+where \(\Gamma\) is the gamma function and \(\delta_{mn}\) is the Kronecker delta, which equals 1 if \(m = n\) and 0 otherwise.
+                </div>
+            </div>
+            
+            <div class="qa-card">
+                <div class="question">
+                    <span class="q-label">Q2.</span>
+                    What is the definition of the Jacobi polynomial?
+                    <span class="badge success">OK</span>
+                </div>
+                <div class="answer">
+                    The Jacobi polynomial \(P_n^{(\alpha, \beta)}(x)\) satisfies the differential equation:<br>
+<br>
+\[<br>
+(1 - x^2)y'' + (\beta - \alpha - (\alpha + \beta + 2)x)y' + n(n + \alpha + \beta + 1)y = 0<br>
+\]<br>
+<br>
+This can also be expressed as:<br>
+<br>
+\[<br>
+\frac{d}{dx}\left[(1 - x)^{\alpha + 1}(1 + x)^{\beta + 1}y'\right] + n(n + \alpha + \beta + 1)(1 - x)^\alpha(1 + x)^\beta y = 0<br>
+\]<br>
+<br>
+This differential equation is known as the singular Sturm-Liouville equation. When \(\alpha = \beta = 0\), it reduces to the differential equation for Legendre polynomials.<br>
+<br>
+By substituting \(y = \sum_{\nu=0}^{\infty} a_\nu (x - 1)^\nu\) into this differential equation, one can derive a recurrence relation that allows the construction of the Jacobi polynomial.
+                </div>
+            </div>
+            
+            <div class="qa-card">
+                <div class="question">
+                    <span class="q-label">Q3.</span>
+                    What is the differential equation for which the solution is the Jacobi polynomial?
+                    <span class="badge success">OK</span>
+                </div>
+                <div class="answer">
+                    The differential equation for which the solution is the Jacobi polynomial is given by:<br>
+<br>
+\[<br>
+(1 - x^2) y'' + (\beta - \alpha - (\alpha + \beta + 2)x) y' + n(n + \alpha + \beta + 1) y = 0.<br>
+\]<br>
+<br>
+This can also be written in an equivalent form as:<br>
+<br>
+\[<br>
+\frac{d}{dx} \left[ (1 - x)^{\alpha + 1} (1 + x)^{\beta + 1} y' \right] + n(n + \alpha + \beta + 1) (1 - x)^{\alpha} (1 + x)^{\beta} y = 0.<br>
+\]<br>
+<br>
+Both forms represent the singular Sturm-Liouville equation that defines the Jacobi polynomials, where \(\alpha\) and \(\beta\) are real parameters with \(\alpha &gt; -1\) and \(\beta &gt; -1\).
+                </div>
+            </div>
+            
+            <div class="qa-card">
+                <div class="question">
+                    <span class="q-label">Q4.</span>
+                    What is the mathematical expression for the Jacobi polynomial?
+                    <span class="badge success">OK</span>
+                </div>
+                <div class="answer">
+                    The Jacobi polynomial \(P_n^{(\alpha,\beta)}(x)\) can be defined in several ways. One of the definitions given is through a binomial expansion, which is expressed as:<br>
+<br>
+\[<br>
+P_n^{(\alpha,\beta)}(x) = \sum_{j=0}^n \binom{n+\alpha}{j} \binom{n+\beta+j-1}{n-j} \left(\frac{x-1}{2}\right)^{n-j}<br>
+\]<br>
+<br>
+This is given in the context as formula 23:3:3.
+                </div>
+            </div>
+            
+            <div class="qa-card">
+                <div class="question">
+                    <span class="q-label">Q5.</span>
+                    Which polynomials are a generalization of Legendre polynomials?
+                    <span class="badge success">OK</span>
+                </div>
+                <div class="answer">
+                    The Jacobi polynomials are a generalization of Legendre polynomials. Specifically, the Jacobi polynomials \(P_n^{(\alpha,\beta)}(x)\) generalize the Legendre polynomials \(P_n(x)\), which can be seen as a special case of Jacobi polynomials when \(\alpha = \beta = 0\). The recurrence relation and other properties of Jacobi polynomials reduce to those of Legendre polynomials in this specific case.
+                </div>
+            </div>
+            
+            <div class="qa-card">
+                <div class="question">
+                    <span class="q-label">Q6.</span>
+                    What is the weight function for Jacobi polynomials?
+                    <span class="badge success">OK</span>
+                </div>
+                <div class="answer">
+                    The weight function for Jacobi polynomials \(P_n^{(\alpha, \beta)}(x)\) is given by:<br>
+<br>
+\[<br>
+w(x) = (1 - x)^\alpha (1 + x)^\beta<br>
+\]<br>
+<br>
+where \(\alpha\) and \(\beta\) are parameters that define the specific type of Jacobi polynomial. This weight function is used in the context of orthogonality relations for these polynomials over the interval \([-1, 1]\).
+                </div>
+            </div>
+            
+        </div>
+        
+        <div class="function-section" id="chebyshev1">
+            <h2>Chebyshev Polynomial of the First Kind</h2>
+            <p class="func-type-code">chebyshev1</p>
+            
+            <div class="qa-card">
+                <div class="question">
+                    <span class="q-label">Q1.</span>
+                    What is the Chebyshev polynomial of the first kind?
+                    <span class="badge success">OK</span>
+                </div>
+                <div class="answer">
+                    The Chebyshev polynomials of the first kind, denoted as \(T_n(x)\), are a sequence of orthogonal polynomials defined on the interval \([-1, 1]\). They satisfy the following properties and recurrence relation:<br>
+<br>
+\[<br>
+T_0(x) = 1, \quad T_1(x) = x,<br>
+\]<br>
+<br>
+and for \(n \geq 1\),<br>
+<br>
+\[<br>
+T_{n+1}(x) = 2xT_n(x) - T_{n-1}(x).<br>
+\]<br>
+<br>
+These polynomials can also be defined using the trigonometric identity:<br>
+<br>
+\[<br>
+T_n(\cos \theta) = \cos(n \theta).<br>
+\]<br>
+<br>
+Additionally, they satisfy the differential equation:<br>
+<br>
+\[<br>
+(1 - x^2) \frac{d^2}{dx^2} T_n(x) - x \frac{d}{dx} T_n(x) + n^2 T_n(x) = 0.<br>
+\]<br>
+<br>
+The Chebyshev polynomials of the first kind are widely used in approximation theory and numerical analysis due to their properties, such as minimizing the maximum error in polynomial interpolation.
+                </div>
+            </div>
+            
+            <div class="qa-card">
+                <div class="question">
+                    <span class="q-label">Q2.</span>
+                    What is the definition of the Chebyshev polynomial of the first kind?
+                    <span class="badge success">OK</span>
+                </div>
+                <div class="answer">
+                    The definition of the Chebyshev polynomial of the first kind, \(T_n(x)\), can be given by the recurrence relation:<br>
+<br>
+\[<br>
+T_{n+1}(x) = 2x T_n(x) - T_{n-1}(x),<br>
+\]<br>
+<br>
+with initial conditions \(T_0(x) = 1\) and \(T_1(x) = x\).<br>
+<br>
+Additionally, these polynomials can be expressed in terms of trigonometric functions as:<br>
+<br>
+\[<br>
+T_n(\cos \theta) = \cos(n \theta).<br>
+\]
+                </div>
+            </div>
+            
+            <div class="qa-card">
+                <div class="question">
+                    <span class="q-label">Q3.</span>
+                    What is the differential equation for which the solution is the Chebyshev polynomial of the first kind?
+                    <span class="badge success">OK</span>
+                </div>
+                <div class="answer">
+                    The differential equation for which the solution is the Chebyshev polynomial of the first kind, \(T_n(x)\), can be given by<br>
+<br>
+\[<br>
+(1 - x^2) \frac{d^2 f}{dx^2} - x \frac{df}{dx} + n^2 f = 0.<br>
+\]<br>
+<br>
+This is a special case of the Sturm-Liouville form and can also be written as<br>
+<br>
+\[<br>
+(1 - x^2) y'' - xy' + n^2 y = 0,<br>
+\]<br>
+<br>
+where \(y = T_n(x)\).
+                </div>
+            </div>
+            
+            <div class="qa-card">
+                <div class="question">
+                    <span class="q-label">Q4.</span>
+                    What is the mathematical expression for the Chebyshev polynomial of the first kind?
+                    <span class="badge success">OK</span>
+                </div>
+                <div class="answer">
+                    The Chebyshev polynomial of the first kind, denoted as \(T_n(x)\), can be expressed in several ways. One common definition is given by:<br>
+<br>
+\[ T_n(x) = \cos(n \arccos x), \quad |x| \leq 1, n \in \mathbb{N}_0 \]<br>
+<br>
+This expression leverages the trigonometric identity involving the cosine function and the inverse cosine (arccos) function.<br>
+<br>
+Another definition uses a Rodrigues' formula:<br>
+<br>
+\[ T_n(x) = \frac{(-2)^n n!}{(2n)!} \sqrt{1 - x^2} \frac{d^n}{dx^n} (1 - x^2)^{n - 1/2} \]<br>
+<br>
+Additionally, \(T_n(x)\) can be represented as a hypergeometric function:<br>
+<br>
+\[ T_n(x) = {}_2F_1\left(-n, n; \frac{1}{2}; 1 - x^2\right) \]<br>
+<br>
+Or it can be expressed using a series expansion:<br>
+<br>
+\[ T_n(x) = \sum_{m=0}^{\lfloor n/2 \rfloor} (-1)^m \binom{n-m-1}{m} (2x)^{n-2m} \]<br>
+<br>
+These are just some of the ways to express Chebyshev polynomials of the first kind.
+                </div>
+            </div>
+            
+            <div class="qa-card">
+                <div class="question">
+                    <span class="q-label">Q5.</span>
+                    What is Chebyshev&#x27;s differential equation?
+                    <span class="badge success">OK</span>
+                </div>
+                <div class="answer">
+                    Chebyshev's differential equation can be expressed as:<br>
+<br>
+\[<br>
+(1 - x^2) \frac{d^2 f}{dx^2} - x \frac{df}{dx} + n^2 f = 0<br>
+\]<br>
+<br>
+This is a second-order linear homogeneous differential equation that the Chebyshev polynomials of the first kind \(T_n(x)\) and the Chebyshev polynomials of the second kind \(U_n(x)\) satisfy.
+                </div>
+            </div>
+            
+            <div class="qa-card">
+                <div class="question">
+                    <span class="q-label">Q6.</span>
+                    Give first few Chebyshev polynomials of the first kind.
+                    <span class="badge success">OK</span>
+                </div>
+                <div class="answer">
+                    The Chebyshev polynomials of the first kind, denoted as \(T_n(x)\), can be defined by their generating function:<br>
+<br>
+\[<br>
+f(t) = \frac{1 - tx}{\sqrt{(1 - 2tx + t^2)}}<br>
+\]<br>
+<br>
+or directly through a hypergeometric series representation:<br>
+<br>
+\[<br>
+T_n(x) = {}_2F_1\left(-n, n; \frac{1}{2}; x^2\right)<br>
+\]<br>
+<br>
+For the first few values of \(n\), we have:<br>
+<br>
+\[<br>
+T_0(x) = 1<br>
+\]<br>
+\[<br>
+T_1(x) = x<br>
+\]<br>
+\[<br>
+T_2(x) = 2x^2 - 1<br>
+\]<br>
+\[<br>
+T_3(x) = 4x^3 - 3x<br>
+\]<br>
+<br>
+These polynomials can also be generated using the recurrence relation:<br>
+<br>
+\[<br>
+T_{n+1}(x) = 2x T_n(x) - T_{n-1}(x)<br>
+\]
+                </div>
+            </div>
+            
+        </div>
+        
+        <div class="function-section" id="chebyshev2">
+            <h2>Chebyshev Polynomial of the Second Kind</h2>
+            <p class="func-type-code">chebyshev2</p>
+            
+            <div class="qa-card">
+                <div class="question">
+                    <span class="q-label">Q1.</span>
+                    What is the Chebyshev polynomial of the second kind?
+                    <span class="badge success">OK</span>
+                </div>
+                <div class="answer">
+                    The Chebyshev polynomials of the second kind, denoted as \(U_n(x)\), are related to the Chebyshev polynomials of the first kind, \(T_n(x)\), through specific formulas. One such formula is:<br>
+<br>
+\[<br>
+U_n(x) = \frac{\sin((n+1)\theta)}{\sin(\theta)}<br>
+\]<br>
+<br>
+where \(x = \cos(\theta)\). This relationship highlights that \(U_n(x)\) can be expressed in terms of trigonometric functions.<br>
+<br>
+Another way to define the Chebyshev polynomials of the second kind is through a recurrence relation:<br>
+<br>
+\[<br>
+U_0(x) = 1, \quad U_1(x) = 2x,<br>
+\]<br>
+<br>
+and for \(n \geq 1\),<br>
+<br>
+\[<br>
+U_{n+1}(x) = 2xU_n(x) - U_{n-1}(x).<br>
+\]<br>
+<br>
+Additionally, the Chebyshev polynomials of the second kind can be expressed in terms of the first kind as:<br>
+<br>
+\[<br>
+U_n(x) = \frac{T_{n+1}(x) + T_{n-1}(x)}{2}.<br>
+\]<br>
+<br>
+These definitions and relations are fundamental for understanding and working with \(U_n(x)\).
+                </div>
+            </div>
+            
+            <div class="qa-card">
+                <div class="question">
+                    <span class="q-label">Q2.</span>
+                    What is the definition of the Chebyshev polynomial of the second kind?
+                    <span class="badge success">OK</span>
+                </div>
+                <div class="answer">
+                    The definition of the Chebyshev polynomial of the second kind, \(U_n(x)\), can be given by the formula:<br>
+<br>
+\[<br>
+U_n(x) = \frac{\sin((n+1)\theta)}{\sin(\theta)}<br>
+\]<br>
+<br>
+where \(x = \cos(\theta)\). Alternatively, it can be expressed using a Rodrigues' formula as follows:<br>
+<br>
+\[<br>
+U_n(x) = \frac{1}{2^n} \frac{d^n}{dx^n} (x^2 - 1)^n<br>
+\]<br>
+<br>
+These definitions are commonly used in the literature and provide a way to compute the values of \(U_n(x)\).
+                </div>
+            </div>
+            
+            <div class="qa-card">
+                <div class="question">
+                    <span class="q-label">Q3.</span>
+                    What is the differential equation for which the solution is the Chebyshev polynomial of the second kind?
+                    <span class="badge success">OK</span>
+                </div>
+                <div class="answer">
+                    The differential equation for which the solution is the Chebyshev polynomial of the second kind \(U_n(x)\) is given by<br>
+<br>
+\[<br>
+(1 - x^2) f''(x) - x f'(x) + n(n + 1) f(x) = 0.<br>
+\]<br>
+<br>
+This can be written more compactly as<br>
+<br>
+\[<br>
+(1 - x^2) U_n''(x) - x U_n'(x) + n(n + 1) U_n(x) = 0.<br>
+\]
+                </div>
+            </div>
+            
+            <div class="qa-card">
+                <div class="question">
+                    <span class="q-label">Q4.</span>
+                    What is the mathematical expression for the Chebyshev polynomial of the second kind?
+                    <span class="badge success">OK</span>
+                </div>
+                <div class="answer">
+                    The Chebyshev polynomial of the second kind, denoted as \(U_n(x)\), can be expressed mathematically as:<br>
+<br>
+\[ U_{n}(x) = \frac{\sin((n + 1)x)}{\sin x} \]<br>
+<br>
+Alternatively, it can also be represented using Rodrigues' formula as:<br>
+<br>
+\[ U_{n}(x) = \frac{1}{2^n n!} \frac{d^n}{dx^n} \left[ (x^2 - 1)^n \right] \]<br>
+<br>
+Both expressions are valid and provide different perspectives on the definition of \(U_n(x)\).
+                </div>
+            </div>
+            
+        </div>
+        
+        <div class="function-section" id="hermite1">
+            <h2>Physicist&#x27;s Hermite Polynomial</h2>
+            <p class="func-type-code">hermite1</p>
+            
+            <div class="qa-card">
+                <div class="question">
+                    <span class="q-label">Q1.</span>
+                    What is the physicist&#x27;s Hermite polynomial?
+                    <span class="badge success">OK</span>
+                </div>
+                <div class="answer">
+                    The physicist's Hermite polynomial, often denoted as \(H_n(x)\), is a specific type of Hermite function. It arises in physics, particularly in solving the Schrödinger equation for a simple harmonic oscillator. These polynomials are orthogonal on the infinite interval \((-∞, ∞)\) with respect to the weight function \(e^{-x^2}\). They can be defined through their generating function or by repeated differentiation as shown:<br>
+<br>
+\[<br>
+H_n(x) = (-1)^n e^{x^2} \frac{d^n}{dx^n} e^{-x^2}<br>
+\]<br>
+<br>
+Additionally, they satisfy the differential equation:<br>
+<br>
+\[<br>
+\frac{d^2 f}{dx^2} + (2x - 2n)f = 0<br>
+\]<br>
+<br>
+for \(f(x) = H_n(x)\).
+                </div>
+            </div>
+            
+            <div class="qa-card">
+                <div class="question">
+                    <span class="q-label">Q2.</span>
+                    What is the definition of the physicist&#x27;s Hermite polynomial?
+                    <span class="badge success">OK</span>
+                </div>
+                <div class="answer">
+                    The physicist's Hermite polynomial, denoted as \(H_n(x)\), can be defined through its relationship with the standard Hermite function. Specifically, it is given by multiplying the square root of the weight function (which is \(\exp(-x^2)\)) by the Hermite polynomial itself:<br>
+<br>
+\[<br>
+H_n(x) = (-1)^n e^{x^2} \frac{d^n}{dx^n} \left( e^{-x^2} \right)<br>
+\]<br>
+<br>
+Alternatively, it can be defined using a differential equation. The physicist's Hermite polynomial satisfies the following second-order linear differential equation:<br>
+<br>
+\[<br>
+H_n''(x) - 2x H_n'(x) + 2n H_n(x) = 0<br>
+\]<br>
+<br>
+This definition and differential equation are fundamental in defining these polynomials, which play a crucial role in quantum mechanics, particularly in the context of the quantum harmonic oscillator.
+                </div>
+            </div>
+            
+            <div class="qa-card">
+                <div class="question">
+                    <span class="q-label">Q3.</span>
+                    What is the differential equation for which the solution is the physicist&#x27;s Hermite polynomial?
+                    <span class="badge success">OK</span>
+                </div>
+                <div class="answer">
+                    The differential equation for which the solution is the physicist's Hermite polynomial \(H_n(x)\) is given by:<br>
+<br>
+\[<br>
+H_{n}^{''}(x) - xH_{n}'(x) + nH_{n}(x) = 0.<br>
+\]<br>
+<br>
+This can be derived from the recurrence relation and properties of the Hermite polynomials, as shown in the context provided.
+                </div>
+            </div>
+            
+            <div class="qa-card">
+                <div class="question">
+                    <span class="q-label">Q4.</span>
+                    What is the mathematical expression for the physicist&#x27;s Hermite polynomial?
+                    <span class="badge success">OK</span>
+                </div>
+                <div class="answer">
+                    The physicist's Hermite polynomial, denoted as \(H_n(x)\), can be defined through its orthogonality property with respect to a weight function. Specifically, it satisfies an orthogonality relationship on the infinite interval \((- \infty, \infty)\) with the weight function \(e^{-x^2}\):<br>
+<br>
+\[<br>
+\int_{-\infty}^{\infty} H_m(x) H_n(x) e^{-x^2} dx = 2^n n! \sqrt{\pi} \delta_{mn}<br>
+\]<br>
+<br>
+where \(\delta_{mn}\) is the Kronecker delta, which equals 1 if \(m = n\) and 0 otherwise.<br>
+<br>
+Additionally, the Hermite polynomial can be defined using a differential equation. It satisfies the following second-order linear differential equation:<br>
+<br>
+\[<br>
+H_n''(x) - 2x H_n'(x) + 2n H_n(x) = 0<br>
+\]<br>
+<br>
+or equivalently,<br>
+<br>
+\[<br>
+\frac{d^2}{dx^2} H_n(x) - 2x \frac{d}{dx} H_n(x) + 2n H_n(x) = 0.<br>
+\]<br>
+<br>
+These polynomials are widely used in physics, particularly in the context of quantum mechanics, where they appear as solutions to the Schrödinger equation for a harmonic oscillator.
+                </div>
+            </div>
+            
+            <div class="qa-card">
+                <div class="question">
+                    <span class="q-label">Q5.</span>
+                    What is the weight function for Hermite&#x27;s polynomial?
+                    <span class="badge success">OK</span>
+                </div>
+                <div class="answer">
+                    The weight function for the Hermite polynomials, in the context of their orthogonality relation on the infinite interval \((- \infty, \infty)\), is given by \(e^{-x^2}\). This means that when considering the inner product of two Hermite polynomials \(H_m(x)\) and \(H_n(x)\) with respect to this weight function, the orthogonality condition takes the form:<br>
+<br>
+\[<br>
+\int_{-\infty}^{\infty} H_m(x) H_n(x) e^{-x^2} \, dx = 0 \quad \text{for} \quad m \neq n.<br>
+\]
+                </div>
+            </div>
+            
+        </div>
+        
+        <div class="function-section" id="hermite2">
+            <h2>Probabilist&#x27;s Hermite Polynomial</h2>
+            <p class="func-type-code">hermite2</p>
+            
+            <div class="qa-card">
+                <div class="question">
+                    <span class="q-label">Q1.</span>
+                    What is the probabilist&#x27;s Hermite polynomial?
+                    <span class="badge success">OK</span>
+                </div>
+                <div class="answer">
+                    The probabilist's Hermite polynomial, denoted as \(H_n(x)\), is given by:<br>
+<br>
+\[<br>
+H_n(x) = (-1)^n e^{x^2} \frac{d^n}{dx^n} e^{-x^2}.<br>
+\]<br>
+<br>
+This definition arises from Rodrigues' formula and indicates that the probabilist's Hermite polynomials are orthogonal with respect to the weight function \(e^{-x^2}\) over the entire real line, \((-\infty, \infty)\).
+                </div>
+            </div>
+            
+            <div class="qa-card">
+                <div class="question">
+                    <span class="q-label">Q2.</span>
+                    What is the definition of the probabilist&#x27;s Hermite polynomial?
+                    <span class="badge success">OK</span>
+                </div>
+                <div class="answer">
+                    The probabilist's Hermite polynomial \(H_n(x)\) can be defined as:<br>
+<br>
+\[<br>
+H_n(x) = (-1)^n e^{x^2/2} \frac{d^n}{dx^n} e^{-x^2/2}<br>
+\]<br>
+<br>
+This definition is derived from the physicist's Hermite polynomial, but with a different normalization and sign convention. Specifically, it involves an exponential weight function \(e^{-x^2}\) and uses the Rodrigues' formula approach to construct the polynomials.
+                </div>
+            </div>
+            
+            <div class="qa-card">
+                <div class="question">
+                    <span class="q-label">Q3.</span>
+                    What is the differential equation for which the solution is the probabilist&#x27;s Hermite polynomial?
+                    <span class="badge success">OK</span>
+                </div>
+                <div class="answer">
+                    The differential equation whose solutions are the probabilist's Hermite polynomials \(H_n(x)\) can be given by:<br>
+<br>
+\[<br>
+\frac{d^2 f}{dx^2} - 2x \frac{df}{dx} + 2n f = 0.<br>
+\]<br>
+<br>
+This is one of the two versions of Hermite's differential equation mentioned in the context, where it lacks the factor of 2 present in the physicist's version.
+                </div>
+            </div>
+            
+            <div class="qa-card">
+                <div class="question">
+                    <span class="q-label">Q4.</span>
+                    What is the mathematical expression for the probabilist&#x27;s Hermite polynomial?
+                    <span class="badge success">OK</span>
+                </div>
+                <div class="answer">
+                    The probabilist's Hermite polynomial, denoted as \(H_n(x)\), can be expressed using the following formula:<br>
+<br>
+\[<br>
+H_n(x) = (-1)^n e^{x^2} \frac{d^n}{dx^n} e^{-x^2}<br>
+\]<br>
+<br>
+This definition arises from the Rodrigues' formula for Hermite polynomials, adapted specifically for the probabilist's version.
+                </div>
+            </div>
+            
+        </div>
+        
+        <div class="function-section" id="general">
+            <h2>General Questions</h2>
+            <p class="func-type-code">general</p>
+            
+            <div class="qa-card">
+                <div class="question">
+                    <span class="q-label">Q1.</span>
+                    What are orthogonal polynomials?
+                    <span class="badge success">OK</span>
+                </div>
+                <div class="answer">
+                    Orthogonal polynomials are a set of polynomials that satisfy the property of orthogonality with respect to some weight function over a given interval. Specifically, for a sequence of polynomials \(P_n(x)\), they are considered orthogonal if:<br>
+<br>
+\[<br>
+\int_a^b P_m(x) P_n(x) w(x) \, dx = 0<br>
+\]<br>
+<br>
+for all \(m \neq n\), where \(w(x)\) is the weight function and \([a, b]\) is the interval over which orthogonality is defined. This means that the integral of the product of any two different polynomials from this sequence, weighted by \(w(x)\), is zero.<br>
+<br>
+For example, Legendre polynomials are orthogonal with respect to the weight function \(w(x) = 1\) over the interval \([-1, 1]\):<br>
+<br>
+\[<br>
+\int_{-1}^{1} P_m(x) P_n(x) \, dx = 0<br>
+\]<br>
+<br>
+for all \(m \neq n\).<br>
+<br>
+Similarly, Chebyshev polynomials of the first kind are orthogonal with respect to the weight function:<br>
+<br>
+\[<br>
+w(x) = \frac{1}{\sqrt{1 - x^2}}<br>
+\]<br>
+<br>
+over the interval \([-1, 1]\):<br>
+<br>
+\[<br>
+\int_{-1}^{1} T_m(x) T_n(x) \frac{1}{\sqrt{1 - x^2}} \, dx = 0<br>
+\]<br>
+<br>
+for all \(m \neq n\).<br>
+<br>
+These polynomials have wide applications in various fields such as numerical analysis, probability theory, and physics due to their orthogonality properties.
+                </div>
+            </div>
+            
+            <div class="qa-card">
+                <div class="question">
+                    <span class="q-label">Q2.</span>
+                    Name some orthogonal polynomials.
+                    <span class="badge success">OK</span>
+                </div>
+                <div class="answer">
+                    Some examples of orthogonal polynomials include Legendre polynomials, Chebyshev polynomials (both first and second kinds), Laguerre polynomials, Hermite polynomials, and Jacobi polynomials. These polynomials are solutions to specific types of differential equations and have applications in various fields such as mathematics, physics, and engineering.
+                </div>
+            </div>
+            
+            <div class="qa-card">
+                <div class="question">
+                    <span class="q-label">Q3.</span>
+                    What is the relationship between the Beta and Gamma function?
+                    <span class="badge success">OK</span>
+                </div>
+                <div class="answer">
+                    The relationship between the beta function \(B(v, w)\) and the gamma function \(\Gamma\) is given by the formula:<br>
+<br>
+\[<br>
+B(v, w) = \frac{\Gamma(v) \cdot \Gamma(w)}{\Gamma(v + w)}<br>
+\]<br>
+<br>
+This relationship can be derived from the definitions of both functions. The beta function is defined as an integral involving two variables \(v\) and \(w\):<br>
+<br>
+\[<br>
+B(v, w) = \int_0^1 t^{v-1} (1-t)^{w-1} dt<br>
+\]<br>
+<br>
+Using properties of the gamma function, this can be transformed into a ratio of gamma functions. Specifically, if we make a substitution in the integral for the beta function, such as \(t = x/(x+1)\), we can express it in terms of the gamma functions evaluated at \(v\) and \(w\).<br>
+<br>
+This relationship is fundamental because it connects the two special functions and allows us to use properties of one to derive information about the other. For example, knowing the behavior or values of the gamma function can help in understanding the beta function, and vice versa.
+                </div>
+            </div>
+            
+            <div class="qa-card">
+                <div class="question">
+                    <span class="q-label">Q4.</span>
+                    What is the weight function for orthogonal polynomials?
+                    <span class="badge success">OK</span>
+                </div>
+                <div class="answer">
+                    The weight function for orthogonal polynomials can vary depending on the specific type of polynomial. For example, Legendre polynomials are orthogonal with respect to the weight function \( w(x) = 1 \) over the interval \([-1, 1]\). More generally, a set of polynomials \( p_n(x) \) is said to be orthogonal on an interval \([a, b]\) with respect to a weight function \( w(x) \) if they satisfy the condition:<br>
+<br>
+\[<br>
+\int_{a}^{b} w(x) p_m(x) p_n(x) \, dx = 0 \quad \text{for all } m \neq n.<br>
+\]<br>
+<br>
+This means that the integral of the product of any two different polynomials from the set, weighted by \( w(x) \), over the interval \([a, b]\) is zero. The weight function must be nonnegative throughout the interval \([a, b]\).
+                </div>
+            </div>
+            
+        </div>
+        
+
+    <footer>
+        Generated by evaluate_chatbot.py &mdash; Special Functions Calculator
+    </footer>
+</div>
+</body>
+</html>
