@@ -40,6 +40,7 @@ FUNCTION_LABELS = {
     "chebyshev2": "Chebyshev Polynomial of the Second Kind",
     "hermite1": "Physicist's Hermite Polynomial",
     "hermite2": "Probabilist's Hermite Polynomial",
+    "general": "General Questions",
 }
 
 

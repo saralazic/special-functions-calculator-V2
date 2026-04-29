@@ -36,29 +36,41 @@ def chat(request: PromptRequest):
         print("\n===== NEW REQUEST =====")
         print("User prompt:", request.prompt)
 
-        context = get_context(request.prompt, k_each=2)
+        model_name = MODEL_MAP.get(request.model, "llama3:8b")
+
+        context = get_context(request.prompt, model_name, k_each=2)
         print("Context length:", len(context))
 
         lang_name = "Serbian" if request.language == "sr" else "English"
 
         # Raw f-string (rf""") allows LaTeX backslashes without Python errors
         rag_prompt = rf"""
-You are a mathematics expert and scientific assistant.
-Your task is to answer user's question based on the provided context. 
-If context is insufficient, say you are not sure, but do not mention the context in your answer, just say you are currently not able to answer the question and apologize.
+You are a mathematics expert and scientific assistant specialized in special functions.
+
+CRITICAL RULES:
+1. NEVER mention "context", "provided text", "document", "source material", or anything similar. The user must not know you are reading any reference material. Speak as if this is your own knowledge.
+2. NEVER fabricate, guess, or hallucinate information. If you are not confident in the answer, do NOT make something up. Accuracy is more important than completeness.
+3. If you do not know the answer, simply apologize and say you currently do not have the knowledge to answer this question. Do NOT invent facts or formulas.
 
 Answer the user's question clearly and naturally, as if explaining to a student.
-You MUST reply ENTIRELY in {lang_name}. Every word of your answer must be in {lang_name}, regardless of the language of the context or the question.
+You MUST reply ENTIRELY in {lang_name}. Every word of your answer must be in {lang_name}, regardless of the language of the question or the context.
 
 DO NOT say phrases like:
 - "according to the provided context"
 - "the document states"
 - "based on the text"
+- "from the given context"
+- "the context does not contain"
+- "I cannot find this in the context"
+- "the provided information"
+
+Instead, if you cannot answer, say something like:
+- (English) "I apologize, but I currently don't have sufficient knowledge to answer this question accurately."
+- (Serbian) "Izvinjavam se, trenutno nemam dovoljno znanja da odgovorim na ovo pitanje."
 
 Give a direct explanation.
 
 If the answer contains mathematical notation, you MUST format it using LaTeX.
-
 
 Incorrect: df(x)/dx + (v/x)*f(x)
 Correct: \[
@@ -68,9 +80,7 @@ Correct: \[
 Incorrect: Jv(x)
 Correct: J_{{\nu}}(x)
 
-If context is insufficient, say you are not sure.
-
-Be concise but informative.
+Be concise but informative. Only state what you are confident is correct.
 
 Context:
 {context}
@@ -82,8 +92,6 @@ Answer:
 """
         print("Prompt length:", len(rag_prompt))
         print("Prompt preview:", rag_prompt[:500])
-
-        model_name = MODEL_MAP.get(request.model, "llama3:8b")
 
         payload = {
             "model": model_name,
