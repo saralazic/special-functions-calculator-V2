@@ -1,0 +1,23 @@
+[
+    {
+        "function_type": "bessel1",
+        "variant": "first",
+        "sibling": null,
+        "reference": "bessel_j",
+        "points": [
+          {"n": 2, "x": "0.5"},
+          {"n": 3, "x": "0.3"},
+          {"n": 4, "x": "-0.2"}
+        ],
+        "differential_equations": [
+          "(x**2)*y'' + x*y' + (x**2-n**2)*y = 0"
+        ],
+        "weights": [],
+        "applications": [],
+        "text_statements": {
+          "variant": "First variant",
+          "notation": "J_n(x) or J_ν(x)",
+          "differential_equation": "Solution to Bessel's differential equation"
+        }
+      }
+]
