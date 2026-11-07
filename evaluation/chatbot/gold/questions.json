@@ -42,7 +42,7 @@
           "check": "matches_any_application"
         }
       ],
-      "partial_answer": ["variant", "notation"],
+      "partial_answer": [],
       "variant_required": true
     },
     {
@@ -56,7 +56,7 @@
           "check": "matches_any_equation"
         }
       ],
-      "partial_answer": ["variant", "notation"],
+      "partial_answer": [],
       "variant_required": true
     },
     {
@@ -70,7 +70,7 @@
           "check": "matches_reference"
         }
       ],
-      "partial_answer": ["variant", "notation"],
+      "partial_answer": [],
       "variant_required": true
     },
     {
@@ -84,7 +84,7 @@
           "check": "matches_any_equation"
         }
       ],
-      "partial_answer": ["variant", "notation"],
+      "partial_answer": [],
       "variant_required": false
     }
   ]

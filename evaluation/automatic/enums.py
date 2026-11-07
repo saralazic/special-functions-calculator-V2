@@ -78,6 +78,12 @@ class QuestionProperty(Enum):
     PARTIAL_ANSWER = "partial_answer"
     VARIANT_REQUIRED = "variant_required"
 
+class ChatbotQuestionProperty(Enum):
+    ID = "id"
+    FUNCTION_TYPE = "function_type"
+    QUESTION_NUMBER = "question_number"
+    QUESTION = "question"
+
 class RequirementProperty(Enum):
     OBJECT_TYPE = "object_type"
     STATEMENTS = "statements"
@@ -99,3 +105,26 @@ class Scoring(Enum):
     BINARY = "binary"
     RELAXED = "relaxed"
     REASON = "reason"
+
+class JudgeAnswerProperty(Enum):
+    SUBJECT = "subject"
+    CONTENT_TYPES = "content_types"
+    STATEMENT_KEYS = "statement_keys"
+    OBJECTS = "objects"
+    CLAIMS = "claims"
+    CONTENT_TYPE = "content_type"
+    TEXT = "text"
+
+class MetricsProperty(Enum):
+    ID = "id"
+    QUESTION = "question"
+    ANSWER = "answer"
+    CONTEXT = "context"
+    STATUS = "status"
+    ACCURACY_SCORE = "accuracy_score"
+    ACCURACY_REASON = "accuracy_reason"
+    RELEVANCE_SCORE = "relevance_score"
+    RELEVANCE_REASON = "relevance_reason"
+    FAITHFULLNESS_BINARY_SCORE = "faithfullness_binary_score"
+    FAITHFULLNESS_RELAXED_SCORE = "faithfullness_relaxed_score"
+    FAITHFULLNESS_REASON = "faithfullness_reason"

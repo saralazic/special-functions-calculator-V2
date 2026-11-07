@@ -13,10 +13,10 @@
           "(x**2)*y'' + x*y' + (x**2-n**2)*y = 0"
         ],
         "weights": [],
-        "applications": [],
+        "applications": ["Atomic physics", "Nuclear physics", "Radio physics", "Electrical engineering", "Fluid mechanics", "Hydrodynamics", "Metallurgy"],
         "text_statements": {
-          "variant": "First variant",
-          "notation": "J_n(x) or J_ν(x)",
+          "variant": "First kind",
+          "notation": "J_n(x) or J_ν(x) or J_α(x) or J_alpha(x)",
           "differential_equation": "Solution to Bessel's differential equation"
         }
       }

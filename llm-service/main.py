@@ -117,7 +117,7 @@ Answer:
 
         print("===== REQUEST SUCCESS =====\n")
 
-        return {"response": combined_text}
+        return {"response": combined_text, "context": context}
 
     except requests.exceptions.Timeout:
         print("ERROR: Ollama request timed out")
