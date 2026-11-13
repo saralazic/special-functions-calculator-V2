@@ -56,5 +56,5 @@ knowledge_base/faiss_index_latex/
 .DS_Store
 Thumbs.db
 
-# Local evaluation, kept in a separate private repository
+# Local evaluation
 /evaluation/
