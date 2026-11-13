@@ -55,3 +55,6 @@ knowledge_base/faiss_index_latex/
 # System files
 .DS_Store
 Thumbs.db
+
+# Local evaluation, kept in a separate private repository
+/evaluation/
