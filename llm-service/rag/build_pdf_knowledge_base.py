@@ -7,8 +7,10 @@ from langchain_community.document_loaders import PyPDFLoader
 PDF_PATHS = [
     "llm-service/rag/literature/An atlas of functions-192-232.pdf",
     "llm-service/rag/literature/An atlas of functions-431-444.pdf",
-    "llm-service/rag/literature/An atlas of functions-504-518.pdf",
-    "llm-service/rag/literature/Sara Lazic - master rad .pdf",
+    "llm-service/rag/literature/An atlas of functions-503-521.pdf",
+    "llm-service/rag/literature/Sara Lazic - master rad.pdf",
+    "llm-service/rag/literature/sjee.pdf",
+    "llm-service/rag/literature/spef-practical-application.pdf"
 ]
 
 DB_PATH = "knowledge_base/faiss_index"

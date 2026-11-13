@@ -30,11 +30,12 @@ export class ChatService {
 
   constructor(private http: HttpClient) {}
 
-  sendMessage(message: string, model: string): Observable<ChatResponse> {
+  sendMessage(message: string, model: string, language: string): Observable<ChatResponse> {
     return this.http
       .post<{ response?: string; error?: string }>(this.baseUrl, {
         prompt: message,
         model,
+        language,
       })
       .pipe(
         map((res) => ({
